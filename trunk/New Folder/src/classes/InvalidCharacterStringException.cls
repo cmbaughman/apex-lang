@@ -1,0 +1,1 @@
+global class InvalidCharacterStringException extends Exception {}
