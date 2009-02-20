@@ -23,6 +23,11 @@ global class TestCharacter {
     	}
     }    
     
+    private static void assertIsUpperCase(String aCharacter, Boolean expected){
+    	Boolean actual = Character.isUpperCase(aCharacter);
+    	System.assert(actual==expected, 'Character.isUpperCase(\'' + aCharacter + '\') returned ' + actual);
+    }
+    
     global static testmethod void testIsLowerCase(){
     	final String UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     	for(Integer i = 0; i < UPPER.length(); i++){
@@ -33,11 +38,6 @@ global class TestCharacter {
 	    	assertIsLowerCase(LOWER.substring(i,i+1), true);
     	}
     }    
-    
-    private static void assertIsUpperCase(String aCharacter, Boolean expected){
-    	Boolean actual = Character.isUpperCase(aCharacter);
-    	System.assert(actual==expected, 'Character.isUpperCase(\'' + aCharacter + '\') returned ' + actual);
-    }
     
     private static void assertIsLowerCase(String aCharacter, Boolean expected){
     	Boolean actual = Character.isLowerCase(aCharacter);
