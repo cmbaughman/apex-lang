@@ -1,12 +1,13 @@
-#Thu Jan 01 16:23:08 CST 2009
+#Fri Feb 20 14:20:20 CST 2009
 eclipse.preferences.version=1
-endpointApiVersion=14.0
+endpointApiVersion=15.0
 endpointEnvironment=Production/Developer Edition
 endpointServer=www.salesforce.com
 httpsProtocol=true
+ideVersion=15.0
 keependpoint=false
-metadataFormatVersion=14.0
+metadataFormatVersion=15.0
 namespacePrefix=apxlang
 packageName=unpackaged
 readTimeout=400
-username=admin@apexlang.openapex.org
+username=admin@apexlang3.openapex.org
