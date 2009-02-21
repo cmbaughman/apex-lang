@@ -668,6 +668,40 @@ global class StringUtils {
         return !isEmpty(str);
     }
 
+    global static String joinArray(Object[] objectArray) {
+		return joinArray(objectArray, null);
+    }
+    
+    global static String joinArray(Object[] objectArray, String separator) {
+        if (objectArray == null) {
+            return null;
+        }
+        return joinArray(objectArray, separator, 0, objectArray.size());
+    }
+
+    global static String joinArray(Object[] objectArray, String separator, Integer startIndex, Integer endIndex) {
+        if (objectArray == null) {
+            return null;
+        }
+        if (separator == null) {
+            separator = EMPTY;
+        }
+
+        String buf = '';
+        if(startIndex < 0){
+        	startIndex = 0;
+        }
+        for (Integer i = startIndex; i < endIndex && i < objectArray.size(); i++) {
+            if (i > startIndex) {
+                buf += separator;
+            }
+            if (objectArray[i] != null) {
+                buf += objectArray[i];
+            }
+        }
+        return buf;
+    }
+
     global static String joinStrings(Set<String> strings, String separator){
     	if(strings == null || strings.size() == 0){
     		return null;

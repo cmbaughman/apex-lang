@@ -5,6 +5,7 @@ global class Character {
 	global static final IntegerRange DIGIT_ASCII_RANGE = new IntegerRange(48,57);
 	
 	private static final Map<String,Integer> charToAscii = new Map<String,Integer>();
+	private static final Map<Integer,String> asciiToChar = new Map<Integer,String>();
 	
 	static{
 		charToAscii.put(null, 0);charToAscii.put('\t', 9);charToAscii.put('\n', 10);charToAscii.put('\f', 12);
@@ -32,6 +33,9 @@ global class Character {
 		charToAscii.put('s', 115);charToAscii.put('t', 116);charToAscii.put('u', 117);charToAscii.put('v', 118);
 		charToAscii.put('w', 119);charToAscii.put('x', 120);charToAscii.put('y', 121);charToAscii.put('z', 122);
 		charToAscii.put('{', 123);charToAscii.put('|', 124);charToAscii.put('}', 125);charToAscii.put('~', 126);
+		for(String key : charToAscii.keySet()){
+			asciiToChar.put(charToAscii.get(key), key);	
+		}
 	}	
 	
 	global static Integer toAscii(String character){
@@ -40,6 +44,16 @@ global class Character {
 			return charToAscii.get(character);
 		}
 		return -1; 
+	}
+	
+	global static String toChar(Integer ascii){
+		if(ascii <= 0 || ascii > 127){
+			return null;	
+		}
+		if(asciiToChar.containsKey(ascii)){
+			return asciiToChar.get(ascii);
+		}
+		return null; 
 	}
 	
 	global static Boolean isUpperCase(String character){ 
@@ -74,7 +88,8 @@ global class Character {
 	}
 	
     global static boolean isAscii(String character) {
-        return toAscii(character) < 128;
+    	Integer ascii = toAscii(character);
+        return ascii >= 0 && ascii < 128;
     }
     
     global static boolean isAsciiPrintable(String character) {
@@ -84,7 +99,7 @@ global class Character {
     
     global static boolean isAsciiControl(String character) {
     	Integer ascii = toAscii(character);
-        return ascii < 32 || ascii == 127;
+        return (ascii >= 0 && ascii < 32) || ascii == 127;
     }
     
     global static boolean isAsciiAlpha(String character) {
