@@ -724,6 +724,7 @@ private class TestStringUtils {
     			actual + '; expected: ' + expectedReturnValue);
     }
     
+    
     private static testmethod void testJoinStringsList(){
     	assertJoinStringsList(null, null, null);
     	assertJoinStringsList(new List<String>(), ':', null);
@@ -1349,19 +1350,174 @@ private class TestStringUtils {
     	returnValue += '}';
     	return returnValue; 
     }
-/*
-    private static String toString(String[] aStringArray){
-    	if(aStringArray == null){
-    		return '{}';	
-    	}
-    	String returnValue = '{';
-        for(Integer i = 0; i < aStringArray.size(); i++){
-	    	if(i!=0){ returnValue += ','; }
-	    	returnValue += '\'' + aStringArray[i] + '\'';
-        }
-    	returnValue += '}';
-    	return returnValue;
+    
+	private static testmethod void testJoinSetBlobSet(){ 
+		//global static String joinSet(Set<Blob> blobSet, String separator)
+		assertJoinSetBlobSet(null, '|', null);
+		assertJoinSetBlobSet(new Set<Blob>{}, '|', '');
+		Blob blob1 = generateRandomBlob();
+		Blob blob2 = generateRandomBlob();
+		assertJoinSetBlobSet(new Set<Blob>{blob1}, '|', '\'' + blob1.toString() + '\'');
+		assertJoinSetBlobSet(new Set<Blob>{blob1,blob2}, '|', '\'' + blob1.toString() + '\'|\'' + blob2.toString() + '\'');
+	}	
+
+	private static testmethod void testJoinSetBooleanSet(){ 
+		//global static String joinSet(Set<Boolean> booleanSet, String separator) 
+		assertJoinSetBooleanSet(null, '|', null);
+		assertJoinSetBooleanSet(new Set<Boolean>{}, '|', '');
+		assertJoinSetBooleanSet(new Set<Boolean>{true}, '|', 'true');
+		assertJoinSetBooleanSet(new Set<Boolean>{true, false}, '|', 'false|true');
+	}
+	
+	private static testmethod void testJoinSetDateSet(){ 
+		//global static String joinSet(Set<Date> dateSet, String separator) 
+		assertJoinSetDateSet(null, '|', null);
+		assertJoinSetDateSet(new Set<Date>{}, '|', '');
+		Date date1 = Date.newInstance(2009,1,1);
+		Date date2 = Date.newInstance(2009,1,2);
+		assertJoinSetDateSet(new Set<Date>{date1}, '|', ''+date1+'' );
+		assertJoinSetDateSet(new Set<Date>{date1,date2}, '|', ''+date1+'|'+date2+'' );
+	}
+	
+	private static testmethod void testJoinSetDatetimeSet(){ 
+		//global static String joinSet(Set<Datetime> datetimeSet, String separator) 
+		assertJoinSetDatetimeSet(null, '|', null);
+		assertJoinSetDatetimeSet(new Set<Datetime>{}, '|', '');
+		Datetime date1 = Datetime.newInstance(2009,1,1);
+		Datetime date2 = Datetime.newInstance(2009,1,2);
+		assertJoinSetDatetimeSet(new Set<Datetime>{date1}, '|', ''+date1+'' );
+		assertJoinSetDatetimeSet(new Set<Datetime>{date1,date2}, '|', ''+date1+'|'+date2+'' );
+	}
+	
+	private static testmethod void testJoinSetDecimalSet(){ 
+		//global static String joinSet(Set<Decimal> decimalSet, String separator) 
+		assertJoinSetDecimalSet(null, '|', null);
+		assertJoinSetDecimalSet(new Set<Decimal>{}, '|', '');
+		Decimal dec1 = 4.0;
+		Decimal dec2 = 5.0;
+		assertJoinSetDecimalSet(new Set<Decimal>{dec1}, '|', '' + dec1 + '');
+		assertJoinSetDecimalSet(new Set<Decimal>{dec1,dec2}, '|', '' + dec1 + '|' + dec2 + '');
+	}
+	
+	private static testmethod void testJoinSetDoubleSet(){ 
+		//global static String joinSet(Set<Double> doubleSet, String separator) 
+		assertJoinSetDoubleSet(null, '|', null);
+		assertJoinSetDoubleSet(new Set<Double>{}, '|', '');
+		Double doub1 = 4.0;
+		Double doub2 = 5.0;
+		assertJoinSetDoubleSet(new Set<Double>{doub1}, '|', '' + doub1 + '');
+		assertJoinSetDoubleSet(new Set<Double>{doub1,doub2}, '|', '' + doub1 + '|' + doub2 + '');
+	}
+	
+	private static testmethod void testJoinSetIDSet(){ 
+		//global static String joinSet(Set<ID> idSet, String separator) 
+		assertJoinSetIDSet(null, '|', null);
+		assertJoinSetIDSet(new Set<ID>{}, '|', '');
+		Account acct1 = new Account(name='acct1');
+		insert acct1;
+		Account acct2 = new Account(name='acct2');
+		insert acct2;
+		assertJoinSetIDSet(new Set<ID>{acct1.id}, '|', '' + acct1.id + '');
+		assertJoinSetIDSet(new Set<ID>{acct1.id,acct2.id}, '|', '' + acct1.id + '|' + acct2.id + '');
+	}
+	
+	private static testmethod void testJoinSetIntegerSet(){ 
+		//global static String joinSet(Set<Integer> integerSet, String separator) 
+		assertJoinSetIntegerSet(null, '|', null);
+		assertJoinSetIntegerSet(new Set<Integer>{}, '|', '');
+		Integer int1 = 4;
+		Integer int2 = 5;
+		assertJoinSetIntegerSet(new Set<Integer>{int1}, '|', '' + int1 + '' );
+		assertJoinSetIntegerSet(new Set<Integer>{int1,int2}, '|', '' + int1 + '|' + int2 + '' );
+	}
+	
+	private static testmethod void testJoinSetLongSet(){ 
+		//global static String joinSet(Set<Long> longSet, String separator) 
+		assertJoinSetLongSet(null, '|', null);
+		assertJoinSetLongSet(new Set<Long>{}, '|', '');
+		Long long1 = 4;
+		Long long2 = 5;
+		assertJoinSetLongSet(new Set<Long>{long1}, '|', '' + long1 + '');
+		assertJoinSetLongSet(new Set<Long>{long1,long2}, '|', '' + long1 + '|' + long2 + '');
+	}
+	
+	private static testmethod void testJoinSetTimeSet(){ 
+		//global static String joinSet(Set<Time> timeSet, String separator) 
+		assertJoinSetTimeSet(null, '|', null);
+		assertJoinSetTimeSet(new Set<Time>{}, '|', '');
+		Time time1 = Time.newInstance(18, 30, 2, 20);
+		Time time2 = Time.newInstance(18, 30, 2, 21);
+		assertJoinSetTimeSet(new Set<Time>{time1}, '|', '' + time1 + '' );
+		assertJoinSetTimeSet(new Set<Time>{time1,time2}, '|', '' + time1 + '|' + time2 + '' );
+	}
+	
+	private static testmethod void testJoinSetStringSet(){ 
+		//global static String joinSet(Set<String> stringSet, String separator) 
+		assertJoinSetStringSet(null, '|', null);
+		assertJoinSetStringSet(new Set<String>{}, '|', '');
+		String str1 = 'xyz';
+		String str2 = 'abc';
+		assertJoinSetStringSet(new Set<String>{str1}, '|', '' + str1 + '');
+		assertJoinSetStringSet(new Set<String>{str1,str2}, '|', '' + str1 + '|' + str2 + '');
+	}
+	
+	private static void assertJoinSetBlobSet(Set<Blob> blobSet, String separator, String expected){ System.assert(!((blobSet == null && expected != null) || (blobSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(blobSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(blobSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetBooleanSet(Set<Boolean> booleanSet, String separator, String expected){ System.assert(!((booleanSet == null && expected != null) || (booleanSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(booleanSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(booleanSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetDateSet(Set<Date> dateSet, String separator, String expected){ System.assert(!((dateSet == null && expected != null) || (dateSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(dateSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(dateSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetDatetimeSet(Set<Datetime> datetimeSet, String separator, String expected){ System.assert(!((datetimeSet == null && expected != null) || (datetimeSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(datetimeSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(datetimeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetDecimalSet(Set<Decimal> decimalSet, String separator, String expected){ System.assert(!((decimalSet == null && expected != null) || (decimalSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(decimalSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(decimalSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetDoubleSet(Set<Double> doubleSet, String separator, String expected){ System.assert(!((doubleSet == null && expected != null) || (doubleSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(doubleSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(doubleSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetIDSet(Set<ID> idSet, String separator, String expected){ System.assert(!((idSet == null && expected != null) || (idSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(idSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(idSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetIntegerSet(Set<Integer> integerSet, String separator, String expected){ System.assert(!((integerSet == null && expected != null) || (integerSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(integerSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(integerSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetLongSet(Set<Long> longSet, String separator, String expected){ System.assert(!((longSet == null && expected != null) || (longSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(longSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(longSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetTimeSet(Set<Time> timeSet, String separator, String expected){ System.assert(!((timeSet == null && expected != null) || (timeSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(timeSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(timeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+	private static void assertJoinSetStringSet(Set<String> stringSet, String separator, String expected){ System.assert(!((stringSet == null && expected != null) || (stringSet != null && expected == null)),	'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(stringSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(	(actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator)); 	if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' + 	SetUtils.toString(stringSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+
+	private static Blob generateRandomBlob(){
+		return EncodingUtil.base64Decode(''+System.currentTimeMillis()+Math.roundToLong(Math.random()*10000));	
+	}
+
+    private static testmethod void testReplaceChars(){
+    	//test: global static String replaceChars(String str, String searchChars, String replaceChars)
+		assertReplaceChars(null, null, null, null);
+		assertReplaceChars('', null, null, '');
+		assertReplaceChars('abc', null, null, 'abc');
+		assertReplaceChars('abc', '', null, 'abc');
+		assertReplaceChars('abc', 'b', null, 'ac');
+		assertReplaceChars('abc', 'b', '', 'ac');
+		assertReplaceChars('abcba', 'bc', 'yz', 'ayzya');
+		assertReplaceChars('abcba', 'bc', 'y', 'ayya');
+		assertReplaceChars('abcba', 'bc', 'yzx', 'ayzya');
+    }    
+    
+    private static void assertReplaceChars(String str, String searchChars, String replaceChars, String expected){
+    	String actual = StringUtils.replaceChars(str,searchChars,replaceChars);
+    	System.assert(actual==expected, 'StringUtils.replaceChars(\'' + str + '\',\'' 
+    		+ searchChars + '\',\'' + replaceChars + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-*/  
+    
+    private static testmethod void testJoinSet(){
+    	//test: global static String joinSet(Set<Object> objectSet, String separator){
+    	assertJoinSet(null, null, null);
+    	assertJoinSet(new Set<Object>(), ':', null);
+    	assertJoinSet(new Set<Object>{'a','b','c'}, ':', 'a:c:b');
+    	assertJoinSet(new Set<Object>{' ','b','c'}, ':', 'c:b');
+    	assertJoinSet(new Set<Object>{true,false}, '|', 'true|false');
+    }
+
+    private static void assertJoinSet(Set<Object> objectSet, String separator, String expected){
+    	String actual = StringUtils.joinSet(objectSet,separator);
+    	if(objectSet == null || objectSet.size() <= 0){
+        	System.assert(StringUtils.isBlank(expected), 
+        		'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) 
+        		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    		return;
+    	}
+    	Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
+    	Set<String> expectedAsSet = new Set<String>(StringUtils.split(expected,separator));
+    	System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
+    		'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) + '\') returned \'' + 
+    			actual + '\'; expected \'' + expected + '\'');
+    }
     
 }

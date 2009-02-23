@@ -723,6 +723,82 @@ global class StringUtils {
 		}	
 		return returnString;
     }
+
+	global static String joinSet(Set<Blob> blobSet, String separator){ 
+		return joinSet(SetUtils.blobToObject(blobSet),separator);
+	}
+
+	global static String joinSet(Set<Boolean> booleanSet, String separator){ 
+		return joinSet(SetUtils.booleanToObject(booleanSet),separator);
+	}
+
+	global static String joinSet(Set<Date> dateSet, String separator){ 
+		return joinSet(SetUtils.dateToObject(dateSet),separator);
+	}
+
+	global static String joinSet(Set<Datetime> datetimeSet, String separator){ 
+		return joinSet(SetUtils.datetimeToObject(datetimeSet),separator);
+	}
+
+	global static String joinSet(Set<Decimal> decimalSet, String separator){ 
+		return joinSet(SetUtils.decimalToObject(decimalSet),separator);
+	}
+
+	global static String joinSet(Set<Double> doubleSet, String separator){ 
+		return joinSet(SetUtils.doubleToObject(doubleSet),separator);
+	}
+
+	global static String joinSet(Set<ID> idSet, String separator){ 
+		return joinSet(SetUtils.idToObject(idSet),separator);
+	}
+
+	global static String joinSet(Set<Integer> integerSet, String separator){ 
+		return joinSet(SetUtils.integerToObject(integerSet),separator);
+	}
+
+	global static String joinSet(Set<Long> longSet, String separator){ 
+		return joinSet(SetUtils.longToObject(longSet),separator);
+	}
+
+	global static String joinSet(Set<Time> timeSet, String separator){ 
+		return joinSet(SetUtils.timeToObject(timeSet),separator);
+	}
+
+	global static String joinSet(Set<String> stringSet, String separator){ 
+		return joinSet(SetUtils.stringToObject(stringSet),separator);
+	}
+
+    global static String joinSet(Set<Object> objectSet, String separator){
+    	if(objectSet == null || objectSet.size() == 0){
+    		return null;
+    	}
+    	Boolean isFirst = true;
+    	String returnString = '';
+		for(Object anObject : objectSet){
+			if(StringUtils.isBlank(''+anObject)){
+				continue;
+			}
+			if(isFirst){
+				isFirst = false;
+			}else{
+				if(separator != null){
+					returnString += separator;
+				}
+			}
+			if(anObject instanceof Blob){ returnString += '' + ((Blob)anObject).toString() + '';
+			} else if(anObject instanceof Boolean){ returnString += ((Boolean)anObject);
+			} else if(anObject instanceof Date){ returnString += '' + ((Date)anObject) + '';
+			} else if(anObject instanceof Datetime){ returnString += '' + ((Datetime)anObject) + '';
+			} else if(anObject instanceof Integer){ returnString += ((Integer)anObject);
+			} else if(anObject instanceof Long){ returnString += ((Long)anObject);
+			} else if(anObject instanceof Decimal){ returnString += ((Decimal)anObject);
+			//} else if(anObject instanceof Double){ returnString += ((Double)anObject);
+			} else if(anObject instanceof String){ returnString += '' + ((String)anObject) + '';
+			//} else if(anObject instanceof ID){ returnString += '' + ((ID)anObject) + '';
+			} else if(anObject instanceof Time){ returnString += '' + ((Time)anObject) + '';}
+		}	
+		return returnString;
+    }
     
     global static String joinStrings(List<String> strings, String separator){
     	if(strings == null || strings.size() == 0){
@@ -776,6 +852,35 @@ global class StringUtils {
     	return str.toLowerCase();
     }
     
+    global static String replaceChars(String str, String searchChars, String replaceChars) {
+        if (isEmpty(str) || isEmpty(searchChars)) {
+            return str;
+        }
+        if (replaceChars == null) {
+            replaceChars = EMPTY;
+        }
+        Boolean modified = false;
+        Integer replaceCharsLength = replaceChars.length();
+        Integer strLength = str.length();
+        String buf = '';
+        for (Integer i = 0; i < strLength; i++) {
+            String ch = charAt(str,i);
+            Integer index = indexOf(searchChars,ch);
+            if (index >= 0) {
+                modified = true;
+                if (index < replaceCharsLength) {
+                    buf += charAt(replaceChars,index);
+                }
+            } else {
+                buf += ch;
+            }
+        }
+        if (modified) {
+            return buf;
+        }
+        return str;
+    }
+
     global static String rightPad(String str, Integer size) {
         return rightPad(str, size, ' ');
     }
