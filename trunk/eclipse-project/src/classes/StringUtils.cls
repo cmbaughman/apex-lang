@@ -498,7 +498,6 @@ global class StringUtils {
         }
         Integer strOffset = str.length() - suffix.length();
         String ending = str.substring(strOffset, str.length());
-        System.debug('ending = [' + ending + ']');
         if(ignoreCase){
             return suffix.equalsIgnoreCase(ending);
         }
@@ -811,6 +810,102 @@ global class StringUtils {
     	return joinStrings(setToJoin,separator);
     }
     
+    global static Integer lastIndexOf(String str, String searchStr) {
+        if (str == null || searchStr == null) {
+            return -1;
+        }
+        return str.lastIndexOf(searchStr);
+    }
+
+    global static Integer lastIndexOf(String str, String searchStr, Integer startPos) {
+        if (str == null || searchStr == null || startPos < 0) {
+            return -1;
+        }
+        return lastIndexOf(substring(str,0,startPos+1), searchStr);
+    }
+
+    global static Integer lastIndexOfAny(String str, String[] searchStrs) {
+        if ((str == null) || (searchStrs == null)) {
+            return -1;
+        }
+        Integer sz = searchStrs.size();
+        Integer ret = -1;
+        Integer tmp = 0;
+        for (Integer i = 0; i < sz; i++) {
+            String searchStr = searchStrs[i];
+            if (searchStr == null) {
+                continue;
+            }
+            tmp = str.lastIndexOf(searchStr);
+            if (tmp > ret) {
+                ret = tmp;
+            }
+        }
+        return ret;
+    }
+
+    global static String left(String str, Integer len) {
+        if (str == null) {
+            return null;
+        }
+        if (len < 0) {
+            return EMPTY;
+        }
+        if (str.length() <= len) {
+            return str;
+        }
+        return str.substring(0, len);
+    }
+
+    global static String mid(String str, Integer pos, Integer len) {
+        if (str == null) {
+            return null;
+        }
+        if (len < 0 || pos >= str.length()) {
+            return EMPTY;
+        }
+        if (pos < 0) {
+            pos = 0;
+        }
+        if (str.length() <= (pos + len)) {
+            return str.substring(pos);
+        }
+        return str.substring(pos, pos + len);
+    }
+
+    global static String overlay(String str, String overlay, Integer startIndex, Integer endIndex) {
+		//'', 'abc', 0, 0
+        if (str == null) {
+            return null;
+        }
+        if (overlay == null) {
+            overlay = EMPTY;
+        }
+        Integer len = str.length();
+        if (startIndex < 0) {
+            startIndex = 0;
+        }
+        if (startIndex > len) {
+            startIndex = len;
+        }
+        if (endIndex < 0) {
+            endIndex = 0;
+        }
+        if (endIndex > len) {
+            endIndex = len;
+        }
+        if (startIndex > endIndex) {
+            Integer temp = startIndex;
+            startIndex = endIndex;
+            endIndex = temp;
+        }
+        return new StringBuffer()
+            .append(substring(str, 0, startIndex))
+            .append(overlay)
+            .append(substring(str, endIndex))
+            .toStr();
+    }
+    
     global static String leftPad(String str, Integer size) {
         return leftPad(str, size, ' ');
     }
@@ -996,11 +1091,7 @@ global class StringUtils {
         } else if (separatorChars.length() == 1) {
             // Optimise 1 character case
             String sep = charAt(separatorChars,0);
-            System.debug('sep = [' + sep + ']');
-            System.debug('i   = [' + i + ']');
-            System.debug('len = [' + len + ']');
             while (i < len) {
-	            System.debug('charAt(str,i)   = [' + charAt(str,i) + ']');
                 if (charAt(str,i) == sep) {
                     if (match || preserveAllTokens) {
                         lastMatch = true;
@@ -1011,7 +1102,6 @@ global class StringUtils {
 			        	if(start == i){
 			                theList.add('');
 			        	} else {
-			        		System.debug('calling theList.add(\'' + str.substring(start, i) + '\')');
 				            theList.add(str.substring(start, i));
 			        	}
                         match = false;
@@ -1022,8 +1112,6 @@ global class StringUtils {
                 lastMatch = false;
                 match = true;
                 i++;
-	            System.debug('i   = [' + i + ']');
-	            System.debug('len = [' + len + ']');
             }
         } else {
             // standard case
@@ -1046,16 +1134,10 @@ global class StringUtils {
                 i++;
             }
         }
-        System.debug('match             = [' + match + ']');
-        System.debug('preserveAllTokens = [' + preserveAllTokens + ']');
-        System.debug('lastMatch         = [' + lastMatch + ']');
-        System.debug('start             = [' + start + ']');
-        System.debug('i                 = [' + i + ']');
         if (match || (preserveAllTokens && lastMatch)) {
         	if(start == i){
                 theList.add('');
         	} else {
-        		System.debug('calling theList.add(\'' + str.substring(start, i) + '\')');
 	            theList.add(str.substring(start, i));
         	}
         }
@@ -1139,6 +1221,62 @@ global class StringUtils {
         return substrings;
     }    
     
+    global static String substring(String str, Integer startIndex) {
+        if (str == null) {
+            return null;
+        }
+        // handle negatives, which means last n characters
+        if (startIndex < 0) {
+            startIndex = str.length() + startIndex; // remember startIndex is negative
+        }
+        if (startIndex < 0) {
+            startIndex = 0;
+        }
+        if (startIndex >= str.length()) {
+            return EMPTY;
+        }
+        return str.substring(startIndex);
+    }
+
+    global static String substring(String str, Integer startIndex, Integer endIndex) {
+		System.debug('substring(\''+str+'\', '+startIndex+', '+endIndex+')');
+    	//'', -1, -1
+        if (str == null) {
+            return null;
+        }
+        // handle negatives
+        if (endIndex < 0) {
+            endIndex = str.length() + endIndex; // remember endIndex is negative
+        }
+        if (startIndex < 0) {
+            startIndex = str.length() + startIndex; // remember startIndex is negative
+        }
+		System.debug('startIndex = ['+ startIndex + ']');
+		System.debug('endIndex = ['+ endIndex + ']');
+
+        // check length next
+        if (endIndex > str.length()) {
+            endIndex = str.length();
+        }
+		System.debug('endIndex = ['+ endIndex + ']');
+
+        // if startIndex is greater than endIndex, return ""
+        if (startIndex >= endIndex) {
+            return EMPTY;
+        }
+
+        if (startIndex < 0) {
+            startIndex = 0;
+        }
+		System.debug('startIndex = ['+ startIndex + ']');
+        if (endIndex < 0) {
+            endIndex = 0;
+        }
+		System.debug('endIndex = ['+ endIndex + ']');
+
+        return str.substring(startIndex, endIndex);
+    }
+        
     global static String trim(String str){
     	if(str == null){
     		return null;

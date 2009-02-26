@@ -90,6 +90,62 @@ private class TestStringUtils {
     		+ searchChars + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
     
+     private static testmethod void testLastIndexOfAny(){
+    	//test: global static Integer lastIndexOfAny(String str, String[] searchStrs) {
+		assertLastIndexOfAny(null, null, -1);
+		assertLastIndexOfAny('', null, -1);
+		assertLastIndexOfAny(null, new String[]{}, -1);
+		assertLastIndexOfAny(null, new String[]{null}, -1);
+		assertLastIndexOfAny('', new String[]{null}, -1);
+		assertLastIndexOfAny('zzabyycdxx', new String[]{'ab','cd'}, 6);
+		assertLastIndexOfAny('zzabyycdxx', new String[]{'cd','ab'}, 6);
+		assertLastIndexOfAny('zzabyycdxx', new String[]{'mn','op'}, -1);
+		assertLastIndexOfAny('zzabyycdxx', new String[]{'mn','op'}, -1);
+		assertLastIndexOfAny('zzabyycdxx', new String[]{'mn',''}, 10);
+    }
+    
+    private static void assertLastIndexOfAny(String str, String[] searchStrs, Integer expected){
+    	Integer actual = StringUtils.lastIndexOfAny(str,searchStrs);
+    	System.assert(actual==expected, 'StringUtils.lastIndexOfAny(\'' + str + '\',' 
+    		+ toString(searchStrs) + ') returned ' + actual + '; expected ' + expected);
+    }
+    
+	private static testmethod void testLastIndexOfTwoArgs(){
+		//test: global static Integer lastIndexOf(String str, String searchStr) {
+		assertLastIndexOfTwoArgs(null, '', -1);
+		assertLastIndexOfTwoArgs('', null, -1);
+		assertLastIndexOfTwoArgs('', '', 0);
+		assertLastIndexOfTwoArgs('aabaabaa', 'a', 7);
+		assertLastIndexOfTwoArgs('aabaabaa', 'b', 5);
+		assertLastIndexOfTwoArgs('aabaabaa', 'ab', 4);
+		assertLastIndexOfTwoArgs('aabaabaa', '', 8);
+    }    
+    
+    private static void assertLastIndexOfTwoArgs(String str, String searchStr, Integer expected){
+    	Integer actual = StringUtils.lastIndexOf(str,searchStr);
+    	System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\'' 
+    		+ searchStr + '\') returned ' + actual + '; expected ' + expected);
+    }
+    
+    private static testmethod void testLastIndexOfThreeArgs(){
+    	//test: global static Integer lastIndexOf(String str, String searchStr, Integer startPos) {
+		assertLastIndexOfThreeArgs(null, null, -1, -1);
+		assertLastIndexOfThreeArgs('', null, -1, -1);
+		assertLastIndexOfThreeArgs('aabaabaa', 'a', 8, 7);
+		assertLastIndexOfThreeArgs('aabaabaa', 'b', 8, 5);
+		assertLastIndexOfThreeArgs('aabaabaa', 'ab', 8, 4);
+		assertLastIndexOfThreeArgs('aabaabaa', 'b', 9, 5);
+		assertLastIndexOfThreeArgs('aabaabaa', 'b', -1, -1);
+		assertLastIndexOfThreeArgs('aabaabaa', 'a', 0, 0);
+		assertLastIndexOfThreeArgs('aabaabaa', 'b', 0, -1);
+    }
+    
+    private static void assertLastIndexOfThreeArgs(String str, String searchStr, Integer startPos, Integer expected){
+    	Integer actual = StringUtils.lastIndexOf(str,searchStr,startPos);
+    	System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\'' 
+    		+ searchStr + '\',' + startPos + ') returned ' + actual + '; expected ' + expected);
+    }
+    
     private static testmethod void testIndexOfAnyStringArray(){
 		//test: global static Integer indexOfAny(String str, String[] searchStrs) {
 		assertIndexOfAnyStringArray(null, null, -1);
@@ -1518,6 +1574,47 @@ private class TestStringUtils {
     	System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
     		'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) + '\') returned \'' + 
     			actual + '\'; expected \'' + expected + '\'');
+    }
+
+    private static testmethod void testSubstringTwoArgs(){
+    	//test: global static String substring(String str, Integer startIndex) {
+		assertSubstringTwoArgs(null, -1, null);
+		assertSubstringTwoArgs('', -2, '');
+		assertSubstringTwoArgs('', -1, '');
+		assertSubstringTwoArgs('', 0, '');
+		assertSubstringTwoArgs('', 1, '');
+		assertSubstringTwoArgs('abc', 0, 'abc');
+		assertSubstringTwoArgs('abc', 2, 'c');
+		assertSubstringTwoArgs('abc', 4, '');
+		assertSubstringTwoArgs('abc', -2, 'bc');
+		assertSubstringTwoArgs('abc', -4, 'abc');
+    }
+
+    private static void assertSubstringTwoArgs(String str, Integer startIndex, String expected){
+    	String actual = StringUtils.substring(str, startIndex);
+    	System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\',' 
+    		+ startIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }
+    
+    private static testmethod void testSubstringThreeArgs(){
+    	//test: global static String substring(String str, Integer startIndex, Integer endIndex) {
+		assertSubstringThreeArgs(null, -1, -1, null);
+		assertSubstringThreeArgs('', -1, -1, '');
+		assertSubstringThreeArgs('abc', 0, 2, 'ab');
+		assertSubstringThreeArgs('abc', 2, 0, '');
+		assertSubstringThreeArgs('abc', 2, 4, 'c');
+		assertSubstringThreeArgs('abc', 4, 6, '');
+		assertSubstringThreeArgs('abc', 2, 2, '');
+		assertSubstringThreeArgs('abc', -2, -1, 'b');
+		assertSubstringThreeArgs('abc', -4, 2, 'ab');
+		assertSubstringThreeArgs('abc', -5, -4, '');
+    	
+    }
+    
+    private static void assertSubstringThreeArgs(String str, Integer startIndex, Integer endIndex, String expected){
+    	String actual = StringUtils.substring(str, startIndex, endIndex);
+    	System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\',' 
+    		+ startIndex + ',' + endIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
     
 }
