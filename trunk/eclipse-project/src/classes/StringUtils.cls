@@ -42,7 +42,7 @@ global class StringUtils {
             return '...' + abbreviate(str.substring(offset), maxWidth - 3);
         }
         return '...' + str.substring(str.length() - (maxWidth - 3));
-    }
+    } 
 
     global static String capitalize(String str) {
     	if(isBlank(str)){
@@ -947,6 +947,215 @@ global class StringUtils {
     	return str.toLowerCase();
     }
     
+    global static String remove(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        return replace(str, remove, EMPTY, -1);
+    }
+
+    global static String removeStart(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        if (str.startsWith(remove)){
+            return str.substring(remove.length());
+        }
+        return str;
+    }
+
+    global static String removeStartIgnoreCase(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        if (startsWithIgnoreCase(str, remove)) {
+            return str.substring(remove.length());
+        }
+        return str;
+    }
+    
+    global static String removeEnd(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        if (str.endsWith(remove)) {
+            return str.substring(0, str.length() - remove.length());
+        }
+        return str;
+    }
+
+    global static String removeEndIgnoreCase(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        if (endsWithIgnoreCase(str, remove)) {
+            return str.substring(0, str.length() - remove.length());
+        }
+        return str;
+    }
+
+
+    global static String replace(String text, String searchString, String replacement) {
+        return replace(text, searchString, replacement, -1);
+    }
+
+    global static String replace(String text, String searchString, String replacement, Integer max) {
+    	//'aba', 'a', '', -1
+        if (isEmpty(text) || isEmpty(searchString) || replacement == null || max == 0) {
+            return text;
+        }
+        Integer startIndex = 0;
+        Integer endIndex = indexOf(text, searchString, startIndex);
+        if (endIndex == -1) {
+            return text;
+        }
+        Integer replLength = searchString.length();
+        Integer increase = replacement.length() - replLength;
+        increase = (increase < 0 ? 0 : increase);
+        increase *= (max < 0 ? 16 : (max > 64 ? 64 : max));
+        StringBuffer buf = new StringBuffer(); 
+        while (endIndex != -1) {
+            buf.append(substring(text, startIndex, endIndex)).append(replacement);
+            startIndex = endIndex + replLength;
+            if (--max == 0) {
+                break;
+            }
+            endIndex = indexOf(text, searchString, startIndex);
+        }
+        buf.append(substring(text, startIndex));
+        return buf.toStr();
+    }
+
+    global static String replaceEach(String text, String[] searchList, String[] replacementList) {
+        return replaceEach(text, searchList, replacementList, false, 0);
+    } 
+
+    global static String replaceEachRepeatedly(String text, String[] searchList, String[] replacementList,
+    	Boolean repeat) {
+        return replaceEach(text, searchList, replacementList, repeat, 
+        	(searchList == null ? 0 : searchList.size()));
+    }
+    
+ 
+    global static String replaceEach(
+    	String text, 
+    	String[] searchList, 
+    	String[] replacementList, 
+		boolean repeat, 
+		Integer timeToLive){
+	
+        // mchyzer Performance note: This creates very few new objects (one major goal)
+        // let me know if there are performance requests, we can create a harness to measure
+
+        if (text == null || text.length() == 0 || searchList == null || 
+            searchList.size() == 0 || replacementList == null || replacementList.size() == 0){
+            return text;
+        }
+
+        // if recursing, this shouldnt be less than 0
+        if (timeToLive < 0) {
+            throw new IllegalStateException('TimeToLive of ' + timeToLive + ' is less than 0: ' + text);
+        } 
+
+        Integer searchLength = searchList.size();
+        Integer replacementLength = replacementList.size();
+
+        // make sure lengths are ok, these need to be equal
+        if (searchLength != replacementLength) {
+            throw new IllegalArgumentException('Search and Replace array lengths don\'t match: '
+                + searchLength
+                + ' vs '
+                + replacementLength);
+        }
+
+        // keep track of which still have matches
+        boolean[] noMoreMatchesForReplIndex = new boolean[searchLength];
+        for(Integer i = 0; i < noMoreMatchesForReplIndex.size(); i++){
+        	noMoreMatchesForReplIndex[i] = false;
+        }
+
+        // index on index that the match was found
+        Integer textIndex = -1;
+        Integer replaceIndex = -1;
+        Integer tempIndex = -1;
+
+        // index of replace array that will replace the search string found
+        // NOTE: logic duplicated below START
+        for (Integer i = 0; i < searchLength; i++) {
+            if (noMoreMatchesForReplIndex[i] || searchList[i] == null || 
+                searchList[i].length() == 0 || replacementList[i] == null) 
+            {
+                continue;
+            }
+            tempIndex = indexOf(text,searchList[i]);
+
+            // see if we need to keep searching for this
+            if (tempIndex == -1) {
+                noMoreMatchesForReplIndex[i] = true;
+            } else {
+                if (textIndex == -1 || tempIndex < textIndex) {
+                    textIndex = tempIndex;
+                    replaceIndex = i;
+                }
+            }
+        }
+        // NOTE: logic mostly below END
+
+        // no search strings found, we are done
+        if (textIndex == -1) {
+            return text;
+        }
+
+        Integer start = 0;
+
+        StringBuffer buf = new StringBuffer();
+
+        while (textIndex != -1) {
+
+            for (Integer i = start; i < textIndex; i++) {
+                buf.append(charAt(text,i));
+            }
+            buf.append(replacementList[replaceIndex]);
+
+            start = textIndex + searchList[replaceIndex].length();
+
+            textIndex = -1;
+            replaceIndex = -1;
+            tempIndex = -1;
+            // find the next earliest match
+            // NOTE: logic mostly duplicated above START
+            for (Integer i = 0; i < searchLength; i++) {
+                if (noMoreMatchesForReplIndex[i] || searchList[i] == null || 
+                    searchList[i].length() == 0 || replacementList[i] == null){
+                    continue;
+                }
+                tempIndex = indexOf(text, searchList[i], start);
+
+                // see if we need to keep searching for this
+                if (tempIndex == -1) {
+                    noMoreMatchesForReplIndex[i] = true;
+                } else {
+                    if (textIndex == -1 || tempIndex < textIndex) {
+                        textIndex = tempIndex;
+                        replaceIndex = i;
+                    }
+                }
+            }
+            // NOTE: logic duplicated above END
+
+        }
+        Integer textLength = text.length();
+        for (Integer i = start; i < textLength; i++) {
+            buf.append(charAt(text,i));
+        }
+        String result = buf.toStr();
+        if (!repeat) {
+            return result;
+        }
+
+        return replaceEach(result, searchList, replacementList, repeat, timeToLive - 1);
+    }
+    
     global static String replaceChars(String str, String searchChars, String replaceChars) {
         if (isEmpty(str) || isEmpty(searchChars)) {
             return str;
@@ -1025,6 +1234,47 @@ global class StringUtils {
         return buffer;
     }
     
+    global static boolean startsWithIgnoreCase(String str, String prefix) {
+        return startsWith(str, prefix, true);
+    }
+
+    global static boolean startsWith(String str, String prefix) {
+        return startsWith(str, prefix, false);
+    }
+
+    private static boolean startsWith(String str, String prefix, boolean ignoreCase) {
+        if (str == null || prefix == null) {
+            return (str == null && prefix == null);
+        }
+        if (prefix.length() > str.length()) {
+            return false;
+        }
+        return regionMatches(str, ignoreCase, 0, prefix, 0, prefix.length());
+    }  
+    
+    global static boolean regionMatches(String str, Integer toffset, String other, Integer ooffset, Integer len){
+		return regionMatches(str,false,toffset,other,ooffset,len);
+	}
+	
+    global static boolean regionMatchesIgnoreCase(String str, Integer toffset, String other, Integer ooffset, Integer len){
+		return regionMatches(str,true,toffset,other,ooffset,len);
+	}
+
+    global static boolean regionMatches(String str, boolean ignoreCase,
+		Integer toffset, String other, Integer ooffset, Integer len){
+		
+		System.debug('regionMatches(\'' + str + '\',' + ignoreCase + ',' + toffset + ',\'' 
+    		+ other + '\',' + ooffset + ',' + len + ')');
+        str = substring(str,toffset,toffset+len);
+        other = substring(other,ooffset,ooffset+len);
+		System.debug('str = ' + str);
+		System.debug('other = ' + other);
+		if(ignoreCase){
+			return equalsIgnoreCase(str, other);			
+		}
+		return equals(str, other);
+                             	
+	}
     global static String[] split(String str) {
         return split(str, null, -1);
     }
@@ -1260,7 +1510,7 @@ global class StringUtils {
         }
 		System.debug('endIndex = ['+ endIndex + ']');
 
-        // if startIndex is greater than endIndex, return ""
+        // if startIndex is greater than endIndex, return ''
         if (startIndex >= endIndex) {
             return EMPTY;
         }

@@ -242,5 +242,92 @@ private class TestCharacter {
 		Boolean actual = Character.isAsciiAlphanumeric(charactr); 
     	System.assert(actual==expected, 'Character.isAsciiAlphanumeric(\'' + charactr + '\') returned ' + actual);
 	}
+
+	private static testmethod void testIsDigit(){
+		//test: global static Boolean isDigit(String character){ 
+    	for(Integer i = 0; i < CHARS_ASCII_UPPER.length(); i++){
+			assertIsAsciiDigit(StringUtils.charAt(CHARS_ASCII_UPPER,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_LOWER.length(); i++){
+			assertIsAsciiDigit(StringUtils.charAt(CHARS_ASCII_LOWER,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_DIGITS.length(); i++){
+			assertIsAsciiDigit(StringUtils.charAt(CHARS_ASCII_DIGITS,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
+			assertIsAsciiDigit(StringUtils.charAt(CHARS_NON_ASCII,i), false);		
+    	}
+	}     
+
+	private static void assertIsAsciiDigit(String charactr, Boolean expected){
+		Boolean actual = Character.isDigit(charactr); 
+    	System.assert(actual==expected, 'Character.isDigit(\'' + charactr + '\') returned ' + actual);
+	}
+
+	private static testmethod void testIsLetter(){
+		//test: global static Boolean isLetter(String character){ 
+    	for(Integer i = 0; i < CHARS_ASCII_UPPER.length(); i++){
+			assertIsLetter(StringUtils.charAt(CHARS_ASCII_UPPER,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_LOWER.length(); i++){
+			assertIsLetter(StringUtils.charAt(CHARS_ASCII_LOWER,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_DIGITS.length(); i++){
+			assertIsLetter(StringUtils.charAt(CHARS_ASCII_DIGITS,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
+			assertIsLetter(StringUtils.charAt(CHARS_NON_ASCII,i), false);		
+    	}
+	}     
+
+	private static void assertIsLetter(String charactr, Boolean expected){
+		Boolean actual = Character.isLetter(charactr); 
+    	System.assert(actual==expected, 'Character.isLetter(\'' + charactr + '\') returned ' + actual);
+	}
+
+	private static testmethod void testIsLetterOrDigit(){
+		//test: global static Boolean isLetterOrDigit(String character){
+    	for(Integer i = 0; i < CHARS_ASCII_UPPER.length(); i++){
+			assertIsLetterOrDigit(StringUtils.charAt(CHARS_ASCII_UPPER,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_LOWER.length(); i++){
+			assertIsLetterOrDigit(StringUtils.charAt(CHARS_ASCII_LOWER,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_DIGITS.length(); i++){
+			assertIsLetterOrDigit(StringUtils.charAt(CHARS_ASCII_DIGITS,i), true);		
+    	}
+    	for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
+			assertIsLetterOrDigit(StringUtils.charAt(CHARS_NON_ASCII,i), false);		
+    	}
+	}     
+	
+	private static void assertIsLetterOrDigit(String charactr, Boolean expected){
+		Boolean actual = Character.isLetterOrDigit(charactr); 
+    	System.assert(actual==expected, 'Character.isLetterOrDigit(\'' + charactr + '\') returned ' + actual);
+	}
+
+	private static testmethod void testIsWhitespace(){
+		//test: global static Boolean isWhitespace(String character){
+    	for(Integer i = 0; i < CHARS_ASCII_UPPER.length(); i++){
+			assertIsWhitespace(StringUtils.charAt(CHARS_ASCII_UPPER,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_LOWER.length(); i++){
+			assertIsWhitespace(StringUtils.charAt(CHARS_ASCII_LOWER,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_DIGITS.length(); i++){
+			assertIsWhitespace(StringUtils.charAt(CHARS_ASCII_DIGITS,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
+			assertIsWhitespace(StringUtils.charAt(CHARS_NON_ASCII,i), false);		
+    	}
+    	for(Integer i = 0; i < CHARS_ASCII_CONTROL.length(); i++){
+			assertIsWhitespace(StringUtils.charAt(CHARS_ASCII_CONTROL,i), true);		
+    	}
+	}     
+	
+	private static void assertIsWhitespace(String charactr, Boolean expected){
+		Boolean actual = Character.isWhitespace(charactr); 
+    	System.assert(actual==expected, 'Character.isWhitespace(\'' + charactr + '\') returned ' + actual);
+	}
 			
 }
