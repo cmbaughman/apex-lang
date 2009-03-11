@@ -994,9 +994,61 @@ global class StringUtils {
         return str;
     }
 
+	global static String repeat(String str, Integer repeat) {
+        if (str == null) {
+            return null;
+        }
+        if (repeat <= 0) {
+            return EMPTY;
+        }
+        Integer inputLength = str.length();
+        if (repeat == 1 || inputLength == 0) {
+            return str;
+        }
+        if (inputLength == 1 && repeat <= PAD_LIMIT) {
+            return padding(repeat, charAt(str,0));
+        }
+
+        String buf = '';
+        for (Integer i = 0; i < repeat; i++) {
+            buf += str;
+        }
+        return buf;
+/*        Integer outputLength = inputLength * repeat;
+        if(inputLength == 1){
+            String ch = charAt(str,0);
+            String output1 = '';
+            for (Integer i = repeat - 1; i >= 0; i--) {
+                output1 += ch;
+            }
+            return output1;
+        } else if(inputLength == 2){
+            String ch0 = charAt(str,0);
+            String ch1 = charAt(str,1);
+            String output2 = '';
+            for (Integer i = repeat * 2 - 2; i >= 0; i=i-2) {
+                output2 += ch0;
+                output2 += ch1;
+            }
+            return output2;
+        } else {
+        }*/
+    }
+
+    private static String padding(Integer repeat, String padChar){
+        String buf = '';
+        for (Integer i = 0; i < repeat; i++) {
+            buf += padChar;
+        }
+        return buf;
+    }
 
     global static String replace(String text, String searchString, String replacement) {
         return replace(text, searchString, replacement, -1);
+    }
+
+    global static String replaceOnce(String text, String searchString, String replacement) {
+        return replace(text, searchString, replacement, 1);
     }
 
     global static String replace(String text, String searchString, String replacement, Integer max) {
@@ -1183,6 +1235,41 @@ global class StringUtils {
             return buf;
         }
         return str;
+    }
+
+   global static String reverse(String str) {
+        if (str == null) {
+            return null;
+        }
+        String returnString = '';
+        for(Integer i = (str.length()-1); i >= 0; i--){
+        	returnString += charAt(str,i);
+        }
+        return returnString;
+    }
+
+    global static String reverseDelimited(String str, String separatorChar) {
+        if (str == null) {
+            return null;
+        }
+        if(separatorChar == null){
+        	separatorChar = ' ';	
+        }
+        Character.validateChar(separatorChar);
+        return joinArray(ArrayUtils.reverse(split(str,separatorChar)),separatorChar);
+    }
+    
+    global static String right(String str, Integer len) {
+        if (str == null) {
+            return null;
+        }
+        if (len <= 0) {
+            return EMPTY;
+        }
+        if (str.length() <= len) {
+            return str;
+        }
+        return str.substring(str.length() - len);
     }
 
     global static String rightPad(String str, Integer size) {
@@ -1471,6 +1558,125 @@ global class StringUtils {
         return substrings;
     }    
     
+    global static String[] splitByCharacterType(String str) {
+        return splitByCharacterType(str, false);
+    }
+
+    global static String[] splitByCharacterTypeCamelCase(String str) {
+        return splitByCharacterType(str, true);
+    }
+
+    private static String[] splitByCharacterType(String str, boolean camelCase) {
+        if (str == null) {
+            return null;
+        }
+        if (str.length() == 0) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        List<String> aList = new List<String>();
+        Integer tokenStart = 0;
+        Integer currentType = Character.getType(charAt(str,tokenStart));
+        for (Integer pos = tokenStart + 1; pos < str.length(); pos++) {
+            Integer theType = Character.getType(charAt(str,pos));
+            if (theType == currentType) {
+                continue;
+            } 
+            if (camelCase && theType == Character.LOWERCASE_LETTER && currentType == Character.UPPERCASE_LETTER) {
+                Integer newTokenStart = pos - 1;
+                if (newTokenStart != tokenStart) {
+                    aList.add(substring(str,tokenStart, newTokenStart));
+                    tokenStart = newTokenStart;
+                }
+            } else {
+                aList.add(substring(str, tokenStart, pos));
+                tokenStart = pos;
+            }
+            currentType = theType;
+        }
+        aList.add(substring(str, tokenStart, str.length()));
+        return aList;
+    }
+
+    global static String strip(String str) {
+        return strip(str, null);
+    }
+    
+    global static String stripToNull(String str) {
+        if (str == null) {
+            return null;
+        }
+        str = strip(str, null);
+        return str.length() == 0 ? null : str;
+    }
+
+    global static String stripToEmpty(String str) {
+        return str == null ? EMPTY : strip(str, null);
+    }
+
+    global static String strip(String str, String stripChars) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        str = stripStart(str, stripChars);
+        return stripEnd(str, stripChars);
+    }
+
+    global static String stripStart(String str, String stripChars) {
+        Integer strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return str;
+        }
+        Integer start = 0;
+        if (stripChars == null) {
+            while ((start != strLen) && Character.isWhitespace(charAt(str,start))) {
+                start++;
+            }
+        } else if (stripChars.length() == 0) {
+            return str;
+        } else {
+            while ((start != strLen) && (stripChars.indexOf(charAt(str,start)) != -1)) {
+                start++;
+            }
+        }
+        return substring(str,start);
+    }
+
+    global static String stripEnd(String str, String stripChars) {
+        Integer endIndex;
+        if (str == null || (endIndex = str.length()) == 0) {
+            return str;
+        }
+
+        if (stripChars == null) {
+            while ((endIndex != 0) && Character.isWhitespace(charAt(str,endIndex - 1))) {
+                endIndex--;
+            }
+        } else if (stripChars.length() == 0) {
+            return str;
+        } else {
+            while ((endIndex != 0) && (stripChars.indexOf(charAt(str,endIndex - 1)) != -1)) {
+                endIndex--;
+            }
+        }
+        return substring(str, 0, endIndex);
+    }
+
+    global static String[] stripAll(String[] strs) {
+        return stripAll(strs, null);
+    }
+
+    global static String[] stripAll(String[] strs, String stripChars) {
+        Integer strsLen;
+        if (strs == null || (strsLen = strs.size()) == 0) {
+            return strs;
+        }
+        String[] newArr = new String[strsLen];
+        for (Integer i = 0; i < strsLen; i++) {
+            newArr[i] = strip(strs[i], stripChars);
+        }
+        return newArr;
+    }
+    
     global static String substring(String str, Integer startIndex) {
         if (str == null) {
             return null;
@@ -1489,8 +1695,6 @@ global class StringUtils {
     }
 
     global static String substring(String str, Integer startIndex, Integer endIndex) {
-		System.debug('substring(\''+str+'\', '+startIndex+', '+endIndex+')');
-    	//'', -1, -1
         if (str == null) {
             return null;
         }
@@ -1501,14 +1705,11 @@ global class StringUtils {
         if (startIndex < 0) {
             startIndex = str.length() + startIndex; // remember startIndex is negative
         }
-		System.debug('startIndex = ['+ startIndex + ']');
-		System.debug('endIndex = ['+ endIndex + ']');
 
         // check length next
         if (endIndex > str.length()) {
             endIndex = str.length();
         }
-		System.debug('endIndex = ['+ endIndex + ']');
 
         // if startIndex is greater than endIndex, return ''
         if (startIndex >= endIndex) {
@@ -1518,14 +1719,114 @@ global class StringUtils {
         if (startIndex < 0) {
             startIndex = 0;
         }
-		System.debug('startIndex = ['+ startIndex + ']');
         if (endIndex < 0) {
             endIndex = 0;
         }
-		System.debug('endIndex = ['+ endIndex + ']');
-
         return str.substring(startIndex, endIndex);
     }
+    
+    global static String substringBefore(String str, String separator) {
+        if (isEmpty(str) || separator == null) {
+            return str;
+        }
+        if (separator.length() == 0) {
+            return EMPTY;
+        }
+        Integer pos = str.indexOf(separator);
+        if (pos == -1) {
+            return str;
+        }
+        return substring(str, 0, pos);
+    }
+    
+    global static String substringAfter(String str, String separator) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        if (separator == null) {
+            return EMPTY;
+        }
+        Integer pos = str.indexOf(separator);
+        if (pos == -1) {
+            return EMPTY;
+        }
+        return substring(str, pos + separator.length());
+    }
+
+    global static String substringBeforeLast(String str, String separator) {
+        if (isEmpty(str) || isEmpty(separator)) {
+            return str;
+        }
+        Integer pos = str.lastIndexOf(separator);
+        if (pos == -1) {
+            return str;
+        }
+        return substring(str, 0, pos);
+    }
+
+    global static String substringAfterLast(String str, String separator) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        if (isEmpty(separator)) {
+            return EMPTY;
+        }
+        Integer pos = str.lastIndexOf(separator);
+        if (pos == -1 || pos == (str.length() - separator.length())) {
+            return EMPTY;
+        }
+        return substring(str, pos + separator.length());
+    }
+
+    global static String substringBetween(String str, String tag) {
+        return substringBetween(str, tag, tag);
+    }
+
+    global static String substringBetween(String str, String open, String close) {
+        if (str == null || open == null || close == null) {
+            return null;
+        }
+        Integer start = str.indexOf(open);
+        if (start != -1) {
+            Integer endIndex = str.indexOf(close, start + open.length());
+            if (endIndex != -1) {
+                return substring(str, start + open.length(), endIndex);
+            }
+        }
+        return null;
+    }
+
+    global static String[] substringsBetween(String str, String open, String close) {
+        if (str == null || isEmpty(open) || isEmpty(close)) {
+            return null;
+        }
+        Integer strLen = str.length();
+        if (strLen == 0) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        Integer closeLen = close.length();
+        Integer openLen = open.length();
+        List<String> returnList = new List<String>();
+        Integer pos = 0;
+        while (pos < (strLen - closeLen)) {
+            Integer start = str.indexOf(open, pos);
+            if (start < 0) {
+                break;
+            }
+            start += openLen;
+            Integer endIndex = str.indexOf(close, start);
+            if (endIndex < 0) {
+                break;
+            }
+            returnList.add(substring(str, start, endIndex));
+            pos = endIndex + closeLen;
+        }
+        if (returnList.isEmpty()) {
+            return null;
+        } 
+        return returnList;
+    }
+    
         
     global static String trim(String str){
     	if(str == null){
@@ -1533,6 +1834,15 @@ global class StringUtils {
     	}
     	return str.trim();
     }
+    
+    global static String trimToNull(String str) {
+        String ts = trim(str);
+        return isEmpty(ts) ? null : ts;
+    }
+
+    global static String trimToEmpty(String str) {
+        return str == null ? EMPTY : str.trim();
+    }    
 	
     global static String uncapitalize(String str) {
     	if(isBlank(str)){

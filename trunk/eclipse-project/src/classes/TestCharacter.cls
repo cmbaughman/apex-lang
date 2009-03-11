@@ -11,7 +11,7 @@ private class TestCharacter {
 	private static String CHARS_ASCII_NON_PRINTABLE = CHARS_ASCII_CONTROL + CHARS_NON_ASCII;
 
     private static testmethod void testValidateChar(){
-    	final String[] badCharStrings = new String[]{null,'','AB'};
+    	final String[] badCharStrings = new String[]{'','AB'};
     	for(String badCharString : badCharStrings){
     		try{
     			Character.validateChar(badCharString);
@@ -329,5 +329,118 @@ private class TestCharacter {
 		Boolean actual = Character.isWhitespace(charactr); 
     	System.assert(actual==expected, 'Character.isWhitespace(\'' + charactr + '\') returned ' + actual);
 	}
+			
+	private static testmethod void testGetType(){
+		//test: global static Integer getType(String character){
+		assertGetType('¿', Character.UNASSIGNED); 
+		assertGetType(Character.toChar(0), Character.CONTROL); 
+		assertGetType(Character.toChar(9), Character.CONTROL); 
+		assertGetType(Character.toChar(10), Character.CONTROL); 
+		assertGetType(Character.toChar(12), Character.CONTROL); 
+		assertGetType(Character.toChar(13), Character.CONTROL); 
+		assertGetType(Character.toChar(32), Character.SPACE_SEPARATOR); 
+		assertGetType(Character.toChar(33), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(34), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(35), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(36), Character.CURRENCY_SYMBOL); 
+		assertGetType(Character.toChar(37), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(38), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(39), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(40), Character.START_PUNCTUATION); 
+		assertGetType(Character.toChar(41), Character.END_PUNCTUATION); 
+		assertGetType(Character.toChar(42), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(43), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(44), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(45), Character.DASH_PUNCTUATION); 
+		assertGetType(Character.toChar(46), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(47), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(48), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(49), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(50), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(51), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(52), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(53), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(54), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(55), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(56), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(57), Character.DECIMAL_DIGIT_NUMBER); 
+		assertGetType(Character.toChar(58), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(59), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(60), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(61), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(62), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(63), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(64), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(65), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(66), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(67), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(68), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(69), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(70), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(71), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(72), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(73), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(74), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(75), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(76), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(77), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(78), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(79), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(80), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(81), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(82), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(83), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(84), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(85), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(86), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(87), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(88), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(89), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(90), Character.UPPERCASE_LETTER); 
+		assertGetType(Character.toChar(91), Character.START_PUNCTUATION); 
+		assertGetType(Character.toChar(92), Character.OTHER_PUNCTUATION); 
+		assertGetType(Character.toChar(93), Character.END_PUNCTUATION); 
+		assertGetType(Character.toChar(94), Character.MODIFIER_SYMBOL); 
+		assertGetType(Character.toChar(95), Character.CONNECTOR_PUNCTUATION); 
+		assertGetType(Character.toChar(96), Character.MODIFIER_SYMBOL); 
+		assertGetType(Character.toChar(97), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(98), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(99), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(100), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(101), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(102), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(103), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(104), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(105), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(106), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(107), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(108), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(109), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(110), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(111), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(112), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(113), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(114), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(115), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(116), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(117), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(118), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(119), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(120), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(121), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(122), Character.LOWERCASE_LETTER ); 
+		assertGetType(Character.toChar(123), Character.START_PUNCTUATION); 
+		assertGetType(Character.toChar(124), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(125), Character.END_PUNCTUATION); 
+		assertGetType(Character.toChar(126), Character.MATH_SYMBOL); 
+		assertGetType(Character.toChar(127), Character.CONTROL); 
+	}     
+	
+	private static void assertGetType(String charactr, Integer expected){
+		Integer actual = Character.getType(charactr); 
+    	System.assert(actual==expected, 'Character.getType(\'' + charactr + '\') returned ' + actual
+    		+ ', expected ' + expected);
+	}
+			
 			
 }
