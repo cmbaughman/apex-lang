@@ -10,7 +10,7 @@ private class TestStringUtils {
 		assertAbbreviateTwoArgs('abcdefg', 	4, 	'a...', 	false);
 		assertAbbreviateTwoArgs('abcdefg', 	3, 	null, 		true);
     }    
-    
+     
     private static void assertAbbreviateTwoArgs(String str, Integer maxWidth, 
     	String expected, Boolean excepExpected){
 
@@ -107,7 +107,7 @@ private class TestStringUtils {
     private static void assertLastIndexOfAny(String str, String[] searchStrs, Integer expected){
     	Integer actual = StringUtils.lastIndexOfAny(str,searchStrs);
     	System.assert(actual==expected, 'StringUtils.lastIndexOfAny(\'' + str + '\',' 
-    		+ toString(searchStrs) + ') returned ' + actual + '; expected ' + expected);
+    		+ ArrayUtils.toString(searchStrs) + ') returned ' + actual + '; expected ' + expected);
     }
     
 	private static testmethod void testLastIndexOfTwoArgs(){
@@ -163,7 +163,7 @@ private class TestStringUtils {
     private static void assertIndexOfAnyStringArray(String str, String[] searchStrs, Integer expected){
     	Integer actual = StringUtils.indexOfAny(str,searchStrs);
     	System.assert(actual==expected, 'StringUtils.indexOfAny(\'' + str + '\',' 
-    		+ toString(searchStrs) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    		+ ArrayUtils.toString(searchStrs) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
     private static testmethod void testCenterTwoArgs(){
@@ -881,11 +881,11 @@ private class TestStringUtils {
     private static void assertSplitOneArg(String str, String[] expected){
         String[] actual = StringUtils.split(str);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
     
@@ -901,11 +901,11 @@ private class TestStringUtils {
     private static void assertSplitOneArgPreserveAllTokens(String str, String[] expected){
         String[] actual = StringUtils.splitPreserveAllTokens(str);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -944,11 +944,11 @@ private class TestStringUtils {
     private static void assertSplitTwoArgs(String str, String separator, String[] expected){
         String[] actual = StringUtils.split(str,separator);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -964,11 +964,11 @@ private class TestStringUtils {
     private static void assertSplitThreeArgs(String str, String separator, Integer max, String[] expected){
         String[] actual = StringUtils.split(str,separator,max);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.split(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         }
     }
     
@@ -985,11 +985,11 @@ private class TestStringUtils {
     private static void assertSplitByWholeSeparatorTwoArg(String str, String separator, String[] expected){
         String[] actual = StringUtils.splitByWholeSeparator(str,separator);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
     
@@ -1012,11 +1012,11 @@ private class TestStringUtils {
     private static void assertSplitPreserveAllTokensTwoArg(String str, String separator, String[] expected){
         String[] actual = StringUtils.splitPreserveAllTokens(str,separator);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -1039,11 +1039,11 @@ private class TestStringUtils {
 
         String[] actual = StringUtils.splitPreserveAllTokens(str,separatorChars,max);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separatorChars + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separatorChars + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separatorChars + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitPreserveAllTokens(\'' + str + '\',\'' + separatorChars + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -1066,11 +1066,11 @@ private class TestStringUtils {
 
         String[] actual = StringUtils.splitByWholeSeparator(str,separator,max);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -1089,11 +1089,11 @@ private class TestStringUtils {
 
         String[] actual = StringUtils.splitByWholeSeparatorPreserveAllTokens(str,separator);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -1117,11 +1117,11 @@ private class TestStringUtils {
 
         String[] actual = StringUtils.splitByWholeSeparatorPreserveAllTokens(str,separator,max);
         if(actual == null){
-        	System.assert(expected == null, 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected == null, 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         	return;
         }
         for(Integer i = 0; i < actual.size(); i++){
-        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + toString(actual));
+        	System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparatorPreserveAllTokens(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         }
     }
 
@@ -1218,7 +1218,7 @@ private class TestStringUtils {
     
     private static void assertGetCommonPrefix(String[] strs, String expected){
     	String actual = StringUtils.getCommonPrefix(strs);
-    	System.assert(actual==expected, 'StringUtils.getCommonPrefix(' + toString(strs) 
+    	System.assert(actual==expected, 'StringUtils.getCommonPrefix(' + ArrayUtils.toString(strs) 
     		+ ') returned \'' + actual + '\', expected \'' + expected + '\'');
     }
 
@@ -1245,7 +1245,7 @@ private class TestStringUtils {
     
     private static void assertIndexOfDifferenceArrayInput(String[] strs, Integer expected){
     	Integer actual = StringUtils.indexOfDifference(strs);
-    	System.assert(actual==expected, 'StringUtils.indexOfDifference(' + toString(strs) 
+    	System.assert(actual==expected, 'StringUtils.indexOfDifference(' + ArrayUtils.toString(strs) 
     		+ ') returned ' + actual + '; expected ' + expected);
     }
 
@@ -1348,7 +1348,7 @@ private class TestStringUtils {
 	
     private static void assertJoinArrayOneArg(Object[] objectArray, String expected){
     	String actual = StringUtils.joinArray(objectArray);
-    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + toString(objectArray) + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + ArrayUtils.toString(objectArray) + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
 	private static testmethod void testJoinArrayTwoArgs(){
@@ -1363,7 +1363,7 @@ private class TestStringUtils {
 	
     private static void assertJoinArrayTwoArgs(Object[] objectArray, String separator, String expected){
     	String actual = StringUtils.joinArray(objectArray,separator);
-    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + toString(objectArray) + '\',\''
+    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + ArrayUtils.toString(objectArray) + '\',\''
     		+ separator + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -1390,24 +1390,11 @@ private class TestStringUtils {
 
     private static void assertJoinArrayFourArgs(Object[] objectArray, String separator, Integer startIndex, Integer endIndex, String expected){
     	String actual = StringUtils.joinArray(objectArray,separator,startIndex,endIndex);
-    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + toString(objectArray) + '\',\''
+    	System.assert(actual==expected, 'StringUtils.joinArray(\'' + ArrayUtils.toString(objectArray) + '\',\''
     		+ separator + '\',' + startIndex + ',' + endIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
-    private static String toString(Object[] objectArray){
-    	if(objectArray == null){
-    		return '{}';	
-    	}
-    	String returnValue = '{';
-        for(Integer i = 0; i < objectArray.size(); i++){
-	    	if(i!=0){ returnValue += ','; }
-	    	returnValue += '\'' + objectArray[i] + '\'';
-        }
-    	returnValue += '}';
-    	return returnValue; 
-    }
-    
-	private static testmethod void testJoinSetBlobSet(){ 
+ 	private static testmethod void testJoinSetBlobSet(){ 
 		//global static String joinSet(Set<Blob> blobSet, String separator)
 		assertJoinSetBlobSet(null, '|', null);
 		assertJoinSetBlobSet(new Set<Blob>{}, '|', '');

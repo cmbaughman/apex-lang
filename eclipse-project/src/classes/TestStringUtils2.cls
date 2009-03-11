@@ -19,6 +19,23 @@ private class TestStringUtils2 {
     		+ len + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
+	private static testmethod void testRepeat(){
+		//test: global static String repeat(String str, Integer repeat) 
+		assertRepeat(null, 2, null);
+		assertRepeat('', 0, '');
+		assertRepeat('', 2, '');
+		assertRepeat('a', 3, 'aaa');
+		assertRepeat('ab', 2, 'abab');
+		assertRepeat('a', -2, '');
+    }
+    
+    private static void assertRepeat(String str, Integer repeat, String expected){
+    	String actual = StringUtils.repeat(str,repeat);
+    	System.assert(actual==expected, 'StringUtils.repeat(\'' + str + '\',\'' 
+    		+ repeat + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }
+
+
 	private static testmethod void testMid(){
 		//test: global static String mid(String str, Integer pos, Integer len) {
 		assertMid(null, 0, 0, null);
@@ -260,7 +277,7 @@ private class TestStringUtils2 {
 	private static void assertReplaceEachThreeArgs(String text, String[] searchList, String[] replacementList, String expected){
     	String actual = StringUtils.replaceEach(text,searchList,replacementList);
     	System.assert(actual==expected, 'StringUtils.replaceEach(\'' + text + '\',' 
-    		+ toString(searchList) + ',' + toString(replacementList) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    		+ ArrayUtils.toString(searchList) + ',' + ArrayUtils.toString(replacementList) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
 	}
 
 	private static testmethod void testReplaceEachRepeatedly(){
@@ -282,7 +299,7 @@ private class TestStringUtils2 {
 	private static void assertReplaceEachRepeatedly(String text, String[] searchList, String[] replacementList, Boolean repeat, String expected){
     	String actual = StringUtils.replaceEachRepeatedly(text,searchList,replacementList,repeat);
     	System.assert(actual==expected, 'StringUtils.replaceEachRepeatedly(\'' + text + '\',' 
-    		+ toString(searchList) + ',' + toString(replacementList) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    		+ ArrayUtils.toString(searchList) + ',' + ArrayUtils.toString(replacementList) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
 	} 
  
 	private static testmethod void testReplaceEachFiveArgExceptions(){
@@ -335,18 +352,387 @@ private class TestStringUtils2 {
     		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
-    private static String toString(Object[] objectArray){
-    	if(objectArray == null){
-    		return '{}';	
-    	}
-    	String returnValue = '{';
-        for(Integer i = 0; i < objectArray.size(); i++){
-	    	if(i!=0){ returnValue += ','; }
-	    	returnValue += '\'' + objectArray[i] + '\'';
-        }
-    	returnValue += '}';
-    	return returnValue; 
+    private static testmethod void testReplaceOnce(){
+    	//test: global static String replaceOnce(String text, String searchString, String replacement)
+		assertReplaceOnce(null, null, null, null);
+		assertReplaceOnce('', null, null, '');
+		assertReplaceOnce('any', null, null, 'any');
+		assertReplaceOnce('any', null, null, 'any');
+		assertReplaceOnce('any', '', null, 'any');
+		assertReplaceOnce('aba', 'a', null, 'aba');
+		assertReplaceOnce('aba', 'a', '', 'ba');
+		assertReplaceOnce('aba', 'a', 'z', 'zba');
+    }
+
+    private static void assertReplaceOnce(String text, String searchString, String replacement, String expected) {
+    	String actual = StringUtils.replaceOnce(text, searchString, replacement);
+    	System.assert(actual==expected, 'StringUtils.replaceOnce(\'' + text + '\',\'' + searchString 
+    		+ '\',\'' + replacement + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
     
+    private static testmethod void testReverse(){
+    	//test: global static String reverse(String str)
+		assertReverse(null, null);
+		assertReverse('', '');
+		assertReverse('bat', 'tab');
+    }
 
+    private static void assertReverse(String str, String expected) {
+    	String actual = StringUtils.reverse(str); 
+    	System.assert(actual==expected, 'StringUtils.reverse(\'' + str 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }
+    
+    private static testmethod void testReverseDelimited(){
+    	//test: global static String reverseDelimited(String str, String separatorChar) 
+		assertReverseDelimited(null, null, null);
+		assertReverseDelimited('', null, '');
+		assertReverseDelimited('a.b.c', 'x', 'a.b.c');
+		assertReverseDelimited('a.b.c', '.', 'c.b.a');
+    }
+
+    private static void assertReverseDelimited(String str, String separatorChar, String expected) {
+    	String actual = StringUtils.reverseDelimited(str, separatorChar);
+    	System.assert(actual==expected, 'StringUtils.reverseDelimited(\'' + str + '\',\'' + separatorChar 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }
+    
+    private static testmethod void testRight(){
+    	//test: global static String right(String str, Integer len) 
+		assertRight(null, 0, null);
+		assertRight('abcdefg', -1, '');
+		assertRight('', -1, '');
+		assertRight('abc', 0, '');
+		assertRight('abc', 2, 'bc');
+		assertRight('abc', 4, 'abc');
+    }
+
+    private static void assertRight(String str, Integer len, String expected) {
+    	String actual = StringUtils.right(str, len);
+    	System.assert(actual==expected, 'StringUtils.right(\'' + str + '\',' + len 
+    		+ ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }
+    
+    private static testmethod void testSplitByCharacterTypeCamelCase(){
+    	//test: global static String[] splitByCharacterTypeCamelCase(String str)
+		assertSplitByCharacterTypeCamelCase(null, 			null);
+		assertSplitByCharacterTypeCamelCase('', 			new String[]{});
+		assertSplitByCharacterTypeCamelCase('ab de fg', 	new String[]{'ab', ' ', 'de', ' ', 'fg'});
+		assertSplitByCharacterTypeCamelCase('ab   de fg', 	new String[]{'ab', '   ', 'de', ' ', 'fg'});
+		assertSplitByCharacterTypeCamelCase('ab:cd:ef', 	new String[]{'ab', ':', 'cd', ':', 'ef'});
+		assertSplitByCharacterTypeCamelCase('number5', 		new String[]{'number', '5'});
+		assertSplitByCharacterTypeCamelCase('fooBar', 		new String[]{'foo', 'Bar'});
+		assertSplitByCharacterTypeCamelCase('foo200Bar', 	new String[]{'foo', '200', 'Bar'});
+		assertSplitByCharacterTypeCamelCase('ASFRules', 	new String[]{'ASF', 'Rules'});
+    }
+
+    private static void assertSplitByCharacterTypeCamelCase(String str, Object[] expected) {
+    	ArrayUtils.AssertArraysAreEqual(expected,StringUtils.splitByCharacterTypeCamelCase(str));
+    }
+    
+    private static testmethod void testSplitByCharacterType(){
+    	//test:  global static String[] splitByCharacterType(String str)
+		assertSplitByCharacterType(null, 			null);
+		assertSplitByCharacterType('', 				new String[]{});
+		assertSplitByCharacterType('ab de fg', 		new String[]{'ab', ' ', 'de', ' ', 'fg'});
+		assertSplitByCharacterType('ab   de fg', 	new String[]{'ab', '   ', 'de', ' ', 'fg'});
+		assertSplitByCharacterType('ab:cd:ef', 		new String[]{'ab', ':', 'cd', ':', 'ef'});
+		assertSplitByCharacterType('number5', 		new String[]{'number', '5'});
+		assertSplitByCharacterType('fooBar', 		new String[]{'foo', 'B', 'ar'});
+		assertSplitByCharacterType('foo200Bar', 	new String[]{'foo', '200', 'B', 'ar'});
+		assertSplitByCharacterType('ASFRules', 		new String[]{'ASFR', 'ules'});
+    }
+
+    private static void assertSplitByCharacterType(String str, Object[] expected) {
+    	ArrayUtils.AssertArraysAreEqual(expected,StringUtils.splitByCharacterType(str));
+    }
+     
+    private static testmethod void testTrimToEmpty(){
+    	//test: global static String trimToEmpty(String str) {
+		assertTrimToEmpty(null, '');
+		assertTrimToEmpty('', '');
+		assertTrimToEmpty('     ', '');
+		assertTrimToEmpty('abc', 'abc');
+		assertTrimToEmpty('    abc    ', 'abc');
+    }
+
+    private static void assertTrimToEmpty(String str, String expected) {
+    	String actual = StringUtils.trimToEmpty(str);
+    	System.assert(actual==expected, 'StringUtils.trimToEmpty(\'' + str + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }
+
+    private static testmethod void testTrimToNull(){
+    	//test:  global static String trimToNull(String str) {
+		assertTrimToNull(null, null);
+		assertTrimToNull('', null);
+		assertTrimToNull('     ', null);
+		assertTrimToNull('abc', 'abc');
+		assertTrimToNull('    abc    ', 'abc');
+    }
+
+    private static void assertTrimToNull(String str, String expected) {
+    	String actual = StringUtils.trimToNull(str);
+    	System.assert(actual==expected, 'StringUtils.trimToNull(\'' + str + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }    
+    
+    private static testmethod void testStripOneArg(){
+    	//test: global static String strip(String str)
+		assertStripOneArg(null, null);
+		assertStripOneArg('', '');
+		assertStripOneArg('   ', '');
+		assertStripOneArg('abc', 'abc');
+		assertStripOneArg('  abc', 'abc');
+		assertStripOneArg('abc  ', 'abc');
+		assertStripOneArg(' abc ', 'abc');
+		assertStripOneArg(' ab c ', 'ab c');
+    }
+
+    private static void assertStripOneArg(String str, String expected) {
+    	String actual = StringUtils.strip(str);
+    	System.assert(actual==expected, 'StringUtils.strip(\'' + str + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }    
+    
+    private static testmethod void testStripToNull(){
+    	//test: global static String stripToNull(String str) {
+		assertStripToNull(null,null);
+		assertStripToNull('',null);
+		assertStripToNull('   ',null);
+		assertStripToNull('abc','abc');
+		assertStripToNull('  abc','abc');
+		assertStripToNull('abc  ','abc');
+		assertStripToNull(' abc ','abc');
+		assertStripToNull(' ab c ','ab c');
+    }
+
+    private static void assertStripToNull(String str, String expected) {
+    	String actual = StringUtils.stripToNull(str);
+    	System.assert(actual==expected, 'StringUtils.stripToNull(\'' + str + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }    
+    
+    private static testmethod void testStripToEmpty(){
+    	//test: global static String stripToEmpty(String str) {
+		assertStripToEmpty(null, '');
+		assertStripToEmpty('', '');
+		assertStripToEmpty('   ', '');
+		assertStripToEmpty('abc', 'abc');
+		assertStripToEmpty('  abc', 'abc');
+		assertStripToEmpty('abc  ', 'abc');
+		assertStripToEmpty(' abc ', 'abc');
+		assertStripToEmpty(' ab c ', 'ab c');
+    }
+
+    private static void assertStripToEmpty(String str, String expected) {
+    	String actual = StringUtils.stripToEmpty(str);
+    	System.assert(actual==expected, 'StringUtils.stripToEmpty(\'' + str + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }    
+
+    private static testmethod void testStripTwoArgs(){
+    	//test: global static String strip(String str, String stripChars)
+		assertStripTwoArgs(null, null, null);
+		assertStripTwoArgs('', null, '');
+		assertStripTwoArgs('abc', null, 'abc');
+		assertStripTwoArgs('  abc', null, 'abc');
+		assertStripTwoArgs('abc  ', null, 'abc');
+		assertStripTwoArgs(' abc ', null, 'abc');
+		assertStripTwoArgs('  abcyx', 'xyz', '  abc');
+    }
+
+    private static void assertStripTwoArgs(String str, String stripChars, String expected) {
+    	String actual = StringUtils.strip(str,stripChars);
+    	System.assert(actual==expected, 'StringUtils.strip(\'' + str + '\',\'' + stripChars + '\') returned \'' 
+    		+ actual + '\'; expected \'' + expected + '\'');
+    }   
+
+    private static testmethod void testStripStart(){
+    	//test:  global static String stripStart(String str, String stripChars)
+		assertStripStart(null, null, null);
+		assertStripStart('', null, '');
+		assertStripStart('abc', '', 'abc');
+		assertStripStart('abc', null, 'abc');
+		assertStripStart('  abc', null, 'abc');
+		assertStripStart('abc  ', null, 'abc  ');
+		assertStripStart(' abc ', null, 'abc ');
+		assertStripStart('yxabc  ', 'xyz', 'abc  ');
+    }
+
+    private static void assertStripStart(String str, String stripChars, String expected) {
+    	String actual = StringUtils.stripStart(str,stripChars);
+    	System.assert(actual==expected, 'StringUtils.stripStart(\'' + str + '\',\'' + stripChars 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }              
+
+    private static testmethod void testStripEnd(){
+    	//test: global static String stripEnd(String str, String stripChars)
+		assertStripEnd(null, null, null);
+		assertStripEnd('', null, '');
+		assertStripEnd('abc', '', 'abc');
+		assertStripEnd('abc', null, 'abc');
+		assertStripEnd('  abc', null, '  abc');
+		assertStripEnd('abc  ', null, 'abc');
+		assertStripEnd(' abc ', null, ' abc');
+		assertStripEnd('  abcyx', 'xyz', '  abc');
+    }
+
+    private static void assertStripEnd(String str, String stripChars, String expected) {
+    	String actual = StringUtils.stripEnd(str,stripChars);
+    	System.assert(actual==expected, 'StringUtils.stripEnd(\'' + str + '\', \'' + stripChars 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testStripAllOneArg(){
+    	//test: global static String[] stripAll(String[] strs)
+		assertStripAllOneArg(null, null);
+		assertStripAllOneArg(new String[]{}, new String[]{});
+		assertStripAllOneArg(new String[]{'abc', '  abc'}, new String[]{'abc', 'abc'});
+		assertStripAllOneArg(new String[]{'abc  ', null}, new String[]{'abc', null});
+    }
+
+    private static void assertStripAllOneArg(String[] strs, String[] expected) {
+    	ArrayUtils.assertArraysAreEqual(expected,StringUtils.stripAll(strs));
+    } 
+     
+    private static testmethod void testStripAllTwoArgs(){
+    	//test: global static String[] stripAll(String[] strs, String stripChars)
+		assertStripAllTwoArgs(null, null, null);
+		assertStripAllTwoArgs(new String[]{}, null, new String[]{});
+		assertStripAllTwoArgs(new String[]{'abc', '  abc'}, null, new String[]{'abc', 'abc'});
+		assertStripAllTwoArgs(new String[]{'abc  ', null}, null, new String[]{'abc', null});
+		assertStripAllTwoArgs(new String[]{'abc  ', null}, 'yz', new String[]{'abc  ', null});
+		assertStripAllTwoArgs(new String[]{'yabcz', null}, 'yz', new String[]{'abc', null});
+    }
+
+    private static void assertStripAllTwoArgs(String[] strs, String stripChars, String[] expected) {
+    	ArrayUtils.assertArraysAreEqual(expected,StringUtils.stripAll(strs,stripChars));
+    }
+    
+    private static testmethod void testSubstringBefore(){
+		//test: global static String substringBefore(String str, String separator)
+		assertSubstringBefore(null, null, null);
+		assertSubstringBefore('', null, '');
+		assertSubstringBefore('abc', 'a', '');
+		assertSubstringBefore('abcba', 'b', 'a');
+		assertSubstringBefore('abc', 'c', 'ab');
+		assertSubstringBefore('abc', 'd', 'abc');
+		assertSubstringBefore('abc', '', '');
+		assertSubstringBefore('abc', null, 'abc');
+    }
+
+    private static void assertSubstringBefore(String str, String separator, String expected) {
+    	String actual = StringUtils.substringBefore(str,separator);
+    	System.assert(actual==expected, 'StringUtils.substringBefore(\'' + str + '\', \'' + separator 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringAfter(){
+		//test: global static String substringAfter(String str, String separator)
+		assertSubstringAfter(null, null, null);
+		assertSubstringAfter('', null, '');
+		assertSubstringAfter('asdf', null, '');
+		assertSubstringAfter(null, null, null);
+		assertSubstringAfter('abc', 'a', 'bc');
+		assertSubstringAfter('abcba', 'b', 'cba');
+		assertSubstringAfter('abc', 'c', '');
+		assertSubstringAfter('abc', 'd', '');
+		assertSubstringAfter('abc', '', 'abc');
+    }
+
+    private static void assertSubstringAfter(String str, String separator, String expected) {
+    	String actual = StringUtils.substringAfter(str,separator);
+    	System.assert(actual==expected, 'StringUtils.substringAfter(\'' + str + '\', \'' + separator 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringBeforeLast(){
+		//test: global static String substringBeforeLast(String str, String separator)
+		assertSubstringBeforeLast(null, null, null);
+		assertSubstringBeforeLast('', null, '');
+		assertSubstringBeforeLast('abcba', 'b', 'abc');
+		assertSubstringBeforeLast('abc', 'c', 'ab');
+		assertSubstringBeforeLast('a', 'a', '');
+		assertSubstringBeforeLast('a', 'z', 'a');
+		assertSubstringBeforeLast('a', null, 'a');
+		assertSubstringBeforeLast('a', '', 'a');
+    }
+
+    private static void assertSubstringBeforeLast(String str, String separator, String expected) {
+    	String actual = StringUtils.substringBeforeLast(str,separator);
+    	System.assert(actual==expected, 'StringUtils.substringBeforeLast(\'' + str + '\', \'' + separator 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringAfterLast(){
+		//test: global static String substringAfterLast(String str, String separator)
+		assertSubstringAfterLast(null, null, null);
+		assertSubstringAfterLast('', null, '');
+		assertSubstringAfterLast('adsfa', null, '');
+		assertSubstringAfterLast(null, '', null);
+		assertSubstringAfterLast('abc', 'a', 'bc');
+		assertSubstringAfterLast('abcba', 'b', 'a');
+		assertSubstringAfterLast('abc', 'c', '');
+		assertSubstringAfterLast('a', 'a', '');
+		assertSubstringAfterLast('a', 'z', '');
+    }
+
+    private static void assertSubstringAfterLast(String str, String separator, String expected) {
+    	String actual = StringUtils.substringAfterLast(str,separator);
+    	System.assert(actual==expected, 'StringUtils.substringAfterLast(\'' + str + '\', \'' + separator 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringBetweenTwoArgs(){
+		//test: global static String substringBetween(String str, String tag)
+		assertSubstringBetweenTwoArgs(null, null, null);
+		assertSubstringBetweenTwoArgs('', '', '');
+		assertSubstringBetweenTwoArgs('', 'tag', null);
+		assertSubstringBetweenTwoArgs('tagabctag', null, null);
+		assertSubstringBetweenTwoArgs('tagabctag', '', '');
+		assertSubstringBetweenTwoArgs('tagabctag', 'tag', 'abc');
+    }
+
+    private static void assertSubstringBetweenTwoArgs(String str, String tag, String expected) {
+    	String actual = StringUtils.substringBetween(str,tag);
+    	System.assert(actual==expected, 'StringUtils.substringBetween(\'' + str + '\', \'' + tag 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringBetweenThreeArgs(){
+		//test: global static String substringBetween(String str, String open, String close)
+		assertSubstringBetweenThreeArgs('wx[b]yz', '[', ']', 'b');
+		assertSubstringBetweenThreeArgs(null, null, null, null);
+		assertSubstringBetweenThreeArgs(null, null, null, null);
+		assertSubstringBetweenThreeArgs(null, null, null, null);
+		assertSubstringBetweenThreeArgs('', '', '', '');
+		assertSubstringBetweenThreeArgs('', '', ']', null);
+		assertSubstringBetweenThreeArgs('', '[', ']', null);
+		assertSubstringBetweenThreeArgs('yabcz', '', '', '');
+		assertSubstringBetweenThreeArgs('yabcz', 'y', 'z', 'abc');
+		assertSubstringBetweenThreeArgs('yabczyabcz', 'y', 'z', 'abc');
+    }
+
+    private static void assertSubstringBetweenThreeArgs(String str, String open, String close, String expected) {
+    	String actual = StringUtils.substringBetween(str,open,close);
+    	System.assert(actual==expected, 'StringUtils.substringBetween(\'' + str + '\',\'' + open + '\', \'' + close 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
+    private static testmethod void testSubstringsBetween(){
+		//test: global static String[] substringsBetween(String str, String open, String close)
+		assertSubstringsBetween('[a][b][c]', '[', ']', new String[]{'a','b','c'});
+		assertSubstringsBetween(null, null, null, null);
+		assertSubstringsBetween('asdf', '[', ']', null);
+		assertSubstringsBetween('a[df', '[', ']', null);
+		assertSubstringsBetween('', '[', ']', new String[]{});
+    }
+
+    private static void assertSubstringsBetween(String str, String open, String close, String[] expected) {
+    	ArrayUtils.assertArraysAreEqual(expected, StringUtils.substringsBetween(str,open,close));
+    }  
+
+
+     
 }
