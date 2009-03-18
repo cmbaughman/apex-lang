@@ -45,5 +45,65 @@ global class BooleanUtils {
 		else
 			return !bool;
 	}
+	
+	global static Boolean toBoolanDefaultIfNull(Boolean bool, Boolean defaultVal)
+	{
+		if(bool==null)
+			return defaultVal;
+		else
+			return bool;
+	}
+	
+	global static Boolean toBoolean(Integer value)
+	{
+		if(value==null)
+			return false;
+		else
+		{
+			if(value==0)
+				return false;
+			else
+				return true;
+		}
+	}
+	
+	
+	/************************************/
+	//Converts an int to a boolean specifying 
+	//the conversion values.
+	//    Parameters:
+    //    value - the Integer to convert, may be null
+    //    trueValue - the value to match for true, may be null
+    //    falseValue - the value to match for false, may be null 
+    //Returns:
+    //    true or false 
+    //Throws:
+    //    java.lang.IllegalArgumentException - if no match
+	/************************************/
+	global static Boolean toBoolean(Integer value,
+							Integer trueValue,
+							Integer falseValue)
+	{
+		if(value==trueValue)
+			return true;
+		else if(value==falseValue)
+			return false;
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	
+	global static Boolean toInteger(Boolean bool)
+	{
+		if(bool==null)
+			throw new IllegalArgumentException();
+		else
+		{
+			if(bool)
+				return true;
+			else
+				return false;
+		}
+	}
 
 }
