@@ -27,7 +27,7 @@ global class BooleanUtils {
 		if(bool==null)
 			return true;
 		else
-			return bool;
+			return !bool;
 	}
 	
 	global static Boolean isTrue(Boolean bool)
@@ -46,7 +46,7 @@ global class BooleanUtils {
 			return !bool;
 	}
 	
-	global static Boolean toBoolanDefaultIfNull(Boolean bool, Boolean defaultVal)
+	global static Boolean toBooleanDefaultIfNull(Boolean bool, Boolean defaultVal)
 	{
 		if(bool==null)
 			return defaultVal;
@@ -93,16 +93,16 @@ global class BooleanUtils {
 	}
 	
 	
-	global static Boolean toInteger(Boolean bool)
+	global static Integer toInteger(Boolean bool)
 	{
 		if(bool==null)
 			throw new IllegalArgumentException();
 		else
 		{
 			if(bool)
-				return true;
+				return 1;
 			else
-				return false;
+				return 0;
 		}
 	}
 	
