@@ -105,5 +105,47 @@ global class BooleanUtils {
 				return false;
 		}
 	}
+	
+	
+	global static String toStringYesNo(Boolean bool,
+								  	   String trueString,
+								  	   String falseString)
+	{
+		if(bool==null)
+			return null;
+		else
+		{
+			if(bool)
+				return 'yes';
+			else
+				return 'no';
+		}
+	}
+	
+	global static String toString(Boolean bool,
+								  String trueString,
+								  String falseString)
+	{
+		if(bool)
+			return trueString;
+		else
+			return falseString;
+	}
+	
+	global static Boolean xor(Boolean[] boolArray)
+	{
+		if(boolArray==null || boolArray.size()==0)
+			throw new IllegalArgumentException();
+		else
+		{
+			Boolean firstItem=boolArray[0];
+			for(Boolean bool:boolArray)
+			{
+				if(bool!=firstItem)
+					return false;
+			}
+			return true;
+		}	
+	} 
 
 }
