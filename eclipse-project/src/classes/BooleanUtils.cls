@@ -81,8 +81,8 @@ global class BooleanUtils {
     //    java.lang.IllegalArgumentException - if no match
 	/************************************/
 	global static Boolean toBoolean(Integer value,
-							Integer trueValue,
-							Integer falseValue)
+									Integer trueValue,
+									Integer falseValue)
 	{
 		if(value==trueValue)
 			return true;
@@ -107,9 +107,7 @@ global class BooleanUtils {
 	}
 	
 	
-	global static String toStringYesNo(Boolean bool,
-								  	   String trueString,
-								  	   String falseString)
+	global static String toStringYesNo(Boolean bool)
 	{
 		if(bool==null)
 			return null;
@@ -126,10 +124,15 @@ global class BooleanUtils {
 								  String trueString,
 								  String falseString)
 	{
-		if(bool)
-			return trueString;
+		if(bool==null)
+			return null;		
 		else
-			return falseString;
+		{
+			if(bool)
+				return trueString;
+			else
+				return falseString;
+		}
 	}
 	
 	global static Boolean xor(Boolean[] boolArray)
