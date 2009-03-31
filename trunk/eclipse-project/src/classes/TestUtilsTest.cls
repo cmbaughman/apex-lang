@@ -1,3 +1,14 @@
+/* ============================================================
+ * This code is part of the "apex-lang" open source project avaiable at:
+ * 
+ *      http://code.google.com/p/apex-lang/
+ *
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * copy of the License at:
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * ============================================================
+ */
 @IsTest
 private class TestUtilsTest {
 
@@ -55,5 +66,44 @@ private class TestUtilsTest {
 		//test: global static void assertNoFatalMessagesExist(){ assertNoMessagesAtLevelExist(ApexPages.Severity.FATAL); }
 		TestUtils.assertNoFatalMessagesExist();
 	}
+	
+	private static testmethod void testGetObjectAcct(){
+		Map<String,String> values = new Map<String,String>();
+		values.put('name','Account xyz');
+		List<SObject> records = TestUtils.getObject(new Account(), 2, values);
+		System.assertEquals(2,records.size());
+		for(SObject record : records){
+			System.assertEquals('Account xyz',record.get('name'));
+		}
+	}
+	
+	private static testmethod void testGetObjectDoInsert(){
+		//test doInsert == false
+		List<SObject> records = TestUtils.getObject(new Account(), 2);
+		System.assertEquals(2,records.size());
+		for(SObject record : records){
+			System.assertEquals(null,record.get('id'));
+		}
+
+		//test doInsert == true
+		Map<String,String> values = new Map<String,String>();
+		values.put('name','Account xyz');
+		records = TestUtils.getObject(new Account(), 2, values, true);
+		Set<Id> idSet = new Set<Id>();
+		for(SObject record : records){
+			System.assertEquals('Account xyz',record.get('name'));
+			idSet.add((Id)record.get('id'));
+		}
+		records = [select id from Account where id in :idSet];
+		System.assertEquals(2,records.size());
+	}
+	
+	private static testmethod void testGetObjectBadInput(){
+		System.assert(TestUtils.getObject(null, -1, null, true).isEmpty());
+		System.assert(TestUtils.getObject(null, 2, null, true).isEmpty());
+		System.assert(TestUtils.getObject(new Account(), -1, null, true).isEmpty());
+		System.assert(TestUtils.getObject(new Account(), 0, null, true).isEmpty());
+	}
+	
 
 }

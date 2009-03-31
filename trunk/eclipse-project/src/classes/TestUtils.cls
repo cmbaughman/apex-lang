@@ -1,3 +1,14 @@
+/* ============================================================
+ * This code is part of the "apex-lang" open source project avaiable at:
+ * 
+ *      http://code.google.com/p/apex-lang/
+ *
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * copy of the License at:
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * ============================================================
+ */
 global class TestUtils {
 
 	global static void assertConfirmMessagesExist(){ assertMessagesAtLevelExist(ApexPages.Severity.CONFIRM,true); }
@@ -21,6 +32,40 @@ global class TestUtils {
 		final ApexPages.Message[] messages = PageUtils.getMessagesAtLevel(level,includeHigher);
 		System.assert(messages == null || messages.size() <= 0,PageUtils.messagesToString(messages));
 	} 
+	
+	
+	global static List<SObject> getObject(SObject prototype, Integer count){
+		return getObject(prototype,count,null,false);
+	}
+	
+	global static List<SObject> getObject(SObject prototype, Integer count, Map<String,String> mString){
+		return getObject(prototype,count,mString,false);
+	}
+	
+	global static List<SObject> getObject(SObject prototype, Integer count, Map<String,String> mString, Boolean doInsert){
+		final Integer MAX_COUNT = 100;
+		List<SObject> objects = Database.query('select Id from Account where Id = \'0015000000Mrr40\' LIMIT 0'); // use dummy Id to ensure no return
+		if(prototype == null || count <= 0){
+			return objects;
+		}
+		Schema.sObjectType prototypeToken = prototype.getSObjectType();
+		for(Integer i = 0; i < count && i < MAX_COUNT; i++){
+			objects.add((SObject)prototypeToken.newSObject());
+		}
+
+		if(mString != null && !mString.isEmpty()){
+			for(SObject anObject : objects){
+				for(String key : mString.keySet()){
+					anObject.put(key,mString.get(key));
+				}			
+			}
+		}
+		if(doInsert){
+			insert objects;
+		}	
+		return objects;
+	} 
+	
 	
 
 }
