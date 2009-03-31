@@ -44,8 +44,20 @@ global class TestUtils {
 	
 	global static List<SObject> getObject(SObject prototype, Integer count, Map<String,String> mString, Boolean doInsert){
 		final Integer MAX_COUNT = 100;
-		List<SObject> objects = Database.query('select Id from Account where Id = \'0015000000Mrr40\' LIMIT 0'); // use dummy Id to ensure no return
-		if(prototype == null || count <= 0){
+		if(prototype == null){
+			return null;
+		}
+		//the following will for sure work; however, it requires a describe
+		//String objectName = prototype.getSObjectType().getDescribe().getName();
+		
+		//the following will work using observed string representations of SObjects
+		String objectName = StringUtils.split(''+prototype,':')[0];
+		
+		List<SObject> objects = Database.query(
+			'select Id from ' 
+			+ objectName 
+			+ ' where Id = \'0015000000Mrr40\' LIMIT 0'); // use dummy Id to ensure no return
+		if(count <= 0){
 			return objects;
 		}
 		Schema.sObjectType prototypeToken = prototype.getSObjectType();

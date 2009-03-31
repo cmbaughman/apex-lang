@@ -73,7 +73,19 @@ private class TestUtilsTest {
 		List<SObject> records = TestUtils.getObject(new Account(), 2, values);
 		System.assertEquals(2,records.size());
 		for(SObject record : records){
+			System.debug(record);
 			System.assertEquals('Account xyz',record.get('name'));
+		}
+	}
+	
+	private static testmethod void testGetObjectContact(){
+		Map<String,String> values = new Map<String,String>();
+		values.put('LastName','Account xyz');
+		List<SObject> records = TestUtils.getObject(new Contact(), 2, values);
+		System.assertEquals(2,records.size());
+		for(SObject record : records){
+			System.debug(record);
+			System.assertEquals('Account xyz',record.get('LastName'));
 		}
 	}
 	
@@ -99,8 +111,8 @@ private class TestUtilsTest {
 	}
 	
 	private static testmethod void testGetObjectBadInput(){
-		System.assert(TestUtils.getObject(null, -1, null, true).isEmpty());
-		System.assert(TestUtils.getObject(null, 2, null, true).isEmpty());
+		System.assertEquals(null,TestUtils.getObject(null, -1, null, true));
+		System.assertEquals(null,TestUtils.getObject(null, 2, null, true));
 		System.assert(TestUtils.getObject(new Account(), -1, null, true).isEmpty());
 		System.assert(TestUtils.getObject(new Account(), 0, null, true).isEmpty());
 	}
