@@ -1,3 +1,14 @@
+/* ============================================================
+ * This code is part of the "apex-lang" open source project avaiable at:
+ * 
+ *      http://code.google.com/p/apex-lang/
+ *
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * copy of the License at:
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * ============================================================
+ */
 /**
  * Port of the StringUtils class from Java to Apex.  This
  * class is part of the Apache Commons Lang project available
