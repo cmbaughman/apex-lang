@@ -252,6 +252,12 @@ private class TestRandomStringUtils {
     }
 
 
-
+    private static testmethod void testRandomUUID(){
+    	String actual = RandomStringUtils.randomUUID();
+    	System.assertNotEquals(null,actual);
+    	System.assertEquals(36,actual.length());
+    	System.assert(StringUtils.containsOnly(actual,'01234567890abcdef-'), 
+    		'The following UUID contains invalid characters: ' + actual);
+    }
 
 }
