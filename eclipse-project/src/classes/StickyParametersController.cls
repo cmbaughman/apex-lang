@@ -8,15 +8,12 @@ public abstract class StickyParametersController {
 		if(this.stickyParams == null){
 			this.stickyParams = new String[]{};
 		}
-		System.debug('### params to make sticky: ' + StringUtils.joinArray(stickyParams));
 		Map<String,String> params = ApexPages.currentPage().getParameters();
-		System.debug('### real params          : ' + MapUtils.toString(params));
 		if(!this.stickyParams.isEmpty() && params != null){
 			for(String stickyParam : stickyParams){
 				savedParams.put(stickyParam,params.get(stickyParam));
 			}
 		}
-		System.debug('### saved params         : ' + MapUtils.toString(savedParams));
 	}
 
 	public PageReference standardRedirect(PageReference newPage){
@@ -24,24 +21,22 @@ public abstract class StickyParametersController {
 	}	
 	
 	public PageReference standardRedirect(PageReference newPage, Map<String,String> params){
-		System.debug('### standardRedirect(' + (newPage == null ? 'null' : '\'' + newPage.getUrl() + '\'')
-			+ ',' + MapUtils.toString(params) + '): invoked');
 		if(newPage == null){
 			return null;
 		}
 		if(params == null || params.isEmpty()){
 			params = savedParams;
 		} else {
-			params = params.clone();
-			for(String key : savedParams.keySet()){
-				params.put(key,savedParams.get(key));
+			Map<String,String> params2 = savedParams.clone();
+			for(String key : params.keySet()){
+				params2.put(key,params.get(key));
 			}
+			params = params2;
 		}
 		
 		if(params == null || params.isEmpty()){
 			return PageUtils.redirect(newPage.getUrl());
 		}
-		System.debug('### params spliced: ' + MapUtils.toString(params) );
 		Map<String,String> urlEncodedParams = new Map<String,String>();
 		String value = null;
 		for(String key : params.keySet()){
@@ -50,17 +45,11 @@ public abstract class StickyParametersController {
 				continue;
 			}
 			urlEncodedParams.put(key,EncodingUtil.urlEncode(value, 'UTF-8'));
-			//urlEncodedParams.put(key,value);
 		}
-		System.debug('### urlEncodedParams: ' + MapUtils.toString(urlEncodedParams) );
 		if(urlEncodedParams.isEmpty()){
 			return PageUtils.redirect(newPage.getUrl());
 		}
-		System.debug('###   url: ' + newPage.getUrl() + '?' + MapUtils.joinMap(urlEncodedParams,'=','&') );
-		PageReference returnPage = PageUtils.redirect(newPage.getUrl() + '?' + MapUtils.joinMap(urlEncodedParams,'=','&'));
-		System.debug('### p url: ' + returnPage );
-		System.debug('### p url: ' + returnPage.getUrl() );
-		return returnPage;
+		return PageUtils.redirect(newPage.getUrl() + '?' + MapUtils.joinMap(urlEncodedParams,'=','&'));
 	}
 	
 
