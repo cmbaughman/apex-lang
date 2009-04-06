@@ -74,6 +74,21 @@ private class TestStickyParametersController {
     	PageReference thePage = controller.standardRedirect(new PageReference('http://google.com'));
     	assertValidPageReference(thePage, 'http://google.com?abc=http%25253A%25252F%25252Fgoogle.com%25253Fa%25253Db');
     }
+    
+    private static testmethod void testOverrideParams(){
+    	//test with param key with doesn't match sticky key(s)
+    	Map<String,String> params = ApexPages.currentPage().getParameters();
+    	params.put('abc','123');
+    	params.put('efg','456');
+    	params.put('hij','789');
+    	ConcreteStickyParametersController controller = new ConcreteStickyParametersController(new String[]{'abc','efg','hij'});
+    	Map<String,String> extraParams = new Map<String,String>();
+    	extraParams.put('efg','111');
+    	extraParams.put('bbb','222');
+    	extraParams.put('ccc','333');
+    	PageReference thePage = controller.standardRedirect(new PageReference('http://google.com'),extraParams);
+    	assertValidPageReference(thePage, 'http://google.com?abc=123&efg=111&hij=789&bbb=222&ccc=333');
+	}
 
     private static void assertValidPageReference(PageReference thePage, String expectedUrl){
     	System.assertNotEquals(null, thePage);
@@ -89,5 +104,6 @@ private class TestStickyParametersController {
 		System.assert( MapUtils.equals(expectedParams,actualParams), 
 			'Parameters not equal: ' + MapUtils.toString(expectedParams) + ', ' + MapUtils.toString(actualParams));
     }
+
 	
 }
