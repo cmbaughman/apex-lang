@@ -21,5 +21,36 @@ private class TestArrayUtils {
 		ArrayUtils.assertArraysAreEqual(new String[]{'a', 'b', 'c'},ArrayUtils.reverse(new String[]{'c','b','a'}));
     }
 
+	private static testmethod void testIsEmpty(){
+    	//test: global static Boolean isEmpty(Object[] objectArray){
+    	String[] aNull = null;
+    	Account[] aNull2 = null;
+		System.assertEquals(true,	ArrayUtils.isEmpty(aNull)); 
+		System.assertEquals(true,	ArrayUtils.isEmpty(new String[]{})); 
+		System.assertEquals(false,	ArrayUtils.isEmpty(new String[]{'a'})); 
+		System.assertEquals(false,	ArrayUtils.isEmpty(new String[]{'a','b'})); 
+		System.assertEquals(true,	ArrayUtils.isEmpty(new Integer[]{})); 
+		System.assertEquals(false,	ArrayUtils.isEmpty(new Integer[]{1})); 
+		System.assertEquals(false,	ArrayUtils.isEmpty(new Integer[]{1,2})); 
+		System.assertEquals(true,	ArrayUtils.isEmpty(aNull2)); 
+		System.assertEquals(true,	ArrayUtils.isEmpty(new Account[]{}));  
+		System.assertEquals(false,	ArrayUtils.isEmpty(new Account[]{new Account(name='test')}));  
+		System.assertEquals(true,	ArrayUtils.isEmpty(new Contact[]{}));  
+		System.assertEquals(false,	ArrayUtils.isEmpty(new Contact[]{new Contact(lastname='test')}));  
+    }
+    
+	private static testmethod void testPluck(){
+		//test: global static Object[] pluck(SObject[] objectArray, String fieldName)
+		assertPluck(null,'name',new Object[]{});
+		assertPluck(new Account[]{new Account(name='abc123'),new Account(name='xyz456')},null,new Object[]{});
+		assertPluck(new Account[]{new Account(name='abc123'),new Account(name='xyz456')},'name',
+			new String[]{'abc123','xyz456'});
+	}    
+	
+	private static void assertPluck(SObject[] objectArray, String fieldName, Object[] expected){
+		Object[] actual = ArrayUtils.pluck(objectArray, fieldName);
+		ArrayUtils.assertArraysAreEqual(expected, actual);	
+	}
+
     
 }
