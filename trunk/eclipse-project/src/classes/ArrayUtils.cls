@@ -30,9 +30,34 @@ global class ArrayUtils {
         return anArray;
     }
     
+    global static Boolean isEmpty(Object[] objectArray){
+    	if(objectArray == null){
+    		return true;
+    	}
+    	return objectArray.size() == 0;
+    }
+	
+    global static Boolean isEmpty(SObject[] objectArray){
+    	if(objectArray == null){
+    		return true;
+    	}
+    	return objectArray.size() == 0;
+    }
+	
+   	global static Object[] pluck(SObject[] objectArray, String fieldName){
+    	if(isEmpty(objectArray) || StringUtils.isBlank(fieldName)){
+    		return new Object[]{};
+    	}
+    	Object[] plucked = new Object[objectArray.size()];
+    	for(Integer i = 0; i < objectArray.size(); i++){
+    		plucked[i] = objectArray[i].get(fieldName);
+    	}
+    	return plucked;
+    }
+	
     global static String toString(Object[] objectArray){
     	if(objectArray == null){
-    		return '{}';	
+    		return 'null';	
     	}
     	String returnValue = '{';
         for(Integer i = 0; i < objectArray.size(); i++){
