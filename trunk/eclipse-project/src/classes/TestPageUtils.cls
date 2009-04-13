@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class PageUtilsTest {
+private class TestPageUtils {
  
 	private static testmethod void testAddConfirm(){
 		//test: global static void addConfirm(String message){
@@ -58,7 +58,14 @@ private class PageUtilsTest {
 	private static testmethod void testParam(){
 		//test: global static String param(String param){
 		ApexPages.currentPage().getParameters().put('test1','value1');
-		System.assertEquals(PageUtils.param('test1'),'value1');
+		System.assertEquals('value1',PageUtils.param('test1'));
+	}
+	
+	private static testmethod void testParamTwoArgs(){
+		//test: global static String param(String param){
+		System.assertEquals(null,ApexPages.currentPage().getParameters().get('test1'));
+		System.assertEquals('value1',PageUtils.param('test1','value1'));
+		System.assertEquals('value1',ApexPages.currentPage().getParameters().get('test1'));
 	}
 	
 	private static testmethod void testGetErrorMessages(){

@@ -18,7 +18,20 @@ global class PageUtils {
     }
 	
 	global static String param(String param){
+		return get(param);
+	}
+	
+	global static String param(String param, String value){
+		return put(param,value);
+	}
+	
+	global static String get(String param){
 		return ApexPages.currentPage().getParameters().get(param);
+	}
+	
+	global static String put(String param, String value){
+		ApexPages.currentPage().getParameters().put(param,value);
+		return value;
 	}
 	
 	global static void addConfirm(String message){
