@@ -35,5 +35,6 @@ private class TestSObjectUtils {
 		}
 		System.assertEquals(null,SObjectUtils.toString(new Account(name='Acme')));
 	}
+	
 		
 }
