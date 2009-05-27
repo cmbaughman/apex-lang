@@ -12,18 +12,22 @@
 global class SObjectUtils {
 
 	global static Boolean isAnyFieldBlank(SObject obj, String[] fields){
+		return ArrayUtils.isNotEmpty(getBlankFields(obj,fields));
+	}
+	
+	global static String[] getBlankFields(SObject obj, String[] fields){
 		if(obj == null || ArrayUtils.isEmpty(fields)){
-			return false;
+			return new String[]{};
 		}
-		Boolean anyFieldBlank = false;
+		List<String> blankFields = new List<String>();
 		Object value = null;
 		for(String field : fields){
 			value = obj.get(field);
 			if(value == null || (value instanceof String && StringUtils.isBlank((String)value))){
-				anyFieldBlank = true;
+				blankFields.add(field);
 			}
 		}
-		return anyFieldBlank;
+		return blankFields;
 	}
 	
 	global static String toString(SObject obj){
