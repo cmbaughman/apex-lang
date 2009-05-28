@@ -118,28 +118,27 @@ private class TestArrayUtils {
 	}
 
 	
-	private static testmethod void testSortCustomObject(){
-		List<IComparableTestClass> listToSort = new IComparableTestClass[]
-													{new IComparableTestClass(5),
-													 new IComparableTestClass(4),
-													 new IComparableTestClass(6),
-													 new IComparableTestClass(8),
-													 new IComparableTestClass(1),
-													 new IComparableTestClass(3)};
-													
-		ArrayUtils.sortx(listToSort);
-		System.assertNotEquals(null, listToSort);
-		System.assertEquals(6, listToSort.size());
-		System.assertEquals(1, listToSort[0].attribute);
-		System.assertEquals(3, listToSort[1].attribute);
-		System.assertEquals(4, listToSort[2].attribute);
-				
-		
-	}  
 	
-	private static testmethod void testSortStandardObject(){
+	private static testmethod void testQSortSObjects(){
+		List<Account> listToSort = new Account[]{new Account(name='test9'),
+												 new Account(name='test5'),
+												 new Account(name='test3'),
+												 new Account(name='test7'),
+												 new Account(name='test8'),
+												 new Account(name='test1'),
+												 new Account(name='test2')};
+													
+		ArrayUtils.qsort(listToSort, new SObjectSortByNameComparator());
+		System.assertNotEquals(null, listToSort);
+		System.assertEquals(7, listToSort.size());
+		System.assertEquals('test1', listToSort[0].Name);
+		System.assertEquals('test2', listToSort[1].Name);
+		System.assertEquals('test3', listToSort[2].Name); 
+		
+	}
+	private static testmethod void testQSortForceDotComPrimitives(){
 		List<Double> listToSort = new Double[]{4,1.22,-5.4,1.22,3.2};
-		ArrayUtils.sortx(listToSort, new PrimitiveComparator());
+		ArrayUtils.qsort(listToSort);
 		System.assertNotEquals(null, listToSort);
 		System.assertEquals(5, listToSort.size());
 
@@ -149,7 +148,7 @@ private class TestArrayUtils {
 		System.assertEquals(3.2, 	listToSort[3]);
 		System.assertEquals(4, 		listToSort[4]);
 
-		ArrayUtils.sortx(listToSort, new PrimitiveComparator(), false);
+		ArrayUtils.qsort(listToSort, false);
 		System.assertNotEquals(null, listToSort);
 		System.assertEquals(5, listToSort.size());
 
@@ -160,21 +159,30 @@ private class TestArrayUtils {
 		System.assertEquals(-5.4, 	listToSort[4]);
 	}  
 	
-	private static testmethod void testSortSObject(){
-		List<Account> listToSort = new Account[]{new Account(name='test9'),
-												 new Account(name='test5'),
-												 new Account(name='test3'),
-												 new Account(name='test7'),
-												 new Account(name='test8'),
-												 new Account(name='test1'),
-												 new Account(name='test2')};
-													
-		ArrayUtils.sortx(listToSort, new SObjectComparatorTestClass());
-		System.assertNotEquals(null, listToSort);
-		System.assertEquals(7, listToSort.size());
-		System.assertEquals('test1', listToSort[0].Name);
-		System.assertEquals('test2', listToSort[1].Name);
-		System.assertEquals('test3', listToSort[2].Name); 
+	private static testmethod void testQSortCustomClasses(){
+		DecimalRange r1 = new DecimalRange(-10,10);
+		DecimalRange r2 = new DecimalRange(1,2);
+		DecimalRange r3 = new DecimalRange(1.3,10);
+		DecimalRange r4 = new DecimalRange(1.5,1.7);
+		DecimalRange r5 = new DecimalRange(10,10);
+		DecimalRange r6 = new DecimalRange(12,15);
+		List<DecimalRange> listToSort = new DecimalRange[]{r4,r5,r1,r2,r3,r6};
 		
-	}    
+		ArrayUtils.qsort(listToSort,new DecimalRangeComparator());
+		System.assertNotEquals(null, listToSort);
+		System.assertEquals(6, listToSort.size());
+		System.assertEquals(r1.min(), listToSort.get(0).min());
+		System.assertEquals(r2.min(), listToSort.get(1).min());
+		System.assertEquals(r3.min(), listToSort.get(2).min());
+	}  
+
+	private static testmethod void testToString(){
+		List<IObject> aList = null;
+		ArrayUtils.toString(aList);
+		aList = new DecimalRange[]{};
+		ArrayUtils.toString(aList);
+		aList = new DecimalRange[]{new DecimalRange(12,15),new DecimalRange(12,15)};
+		ArrayUtils.toString(aList);
+	}
+	    
 }

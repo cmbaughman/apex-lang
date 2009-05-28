@@ -9,15 +9,15 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-public class DoubleRange {
+global class DoubleRange {
 
 	private Double min;
 	private Double max;
 	
-	public DoubleRange(Double number1){
+	global DoubleRange(Double number1){
 		min = max = number1;
 	} 
-	public DoubleRange(Double number1, Double number2){
+	global DoubleRange(Double number1, Double number2){
 		if(number1 < number2){
 			min = number1;
 			max = number2;	
@@ -27,11 +27,11 @@ public class DoubleRange {
 		}
 	}
 	
-	public Double max(){ return max; }
-	public Double min(){ return min;}
-	public String toAString(){ return '[' + min + ',' + max + ']'; }
-	public Boolean contains(Double value){ return min <= value && value <= max; }
-	public Boolean contains(DoubleRange value){ return min <= value.min() && value.max() <= max; }
-	public Boolean overlaps(DoubleRange value){ return min <= value.max() && value.min() <= max; }
+	global Double max(){ return max; }
+	global Double min(){ return min;}
+	global String toAString(){ return '[' + min + ',' + max + ']'; }
+	global Boolean contains(Double value){ return min <= value && value <= max; }
+	global Boolean contains(DoubleRange value){ return min <= value.min() && value.max() <= max; }
+	global Boolean overlaps(DoubleRange value){ return min <= value.max() && value.min() <= max; }
 
 }

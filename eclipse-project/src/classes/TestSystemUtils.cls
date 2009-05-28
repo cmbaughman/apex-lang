@@ -9,6 +9,9 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global interface SObjectComparator{
-	Integer compare(SObject record1, SObject record2);
+@IsTest
+private class TestSystemUtils {
+	private static testmethod void testLimitDebug(){
+		SystemUtils.debugLimits();
+	}
 }

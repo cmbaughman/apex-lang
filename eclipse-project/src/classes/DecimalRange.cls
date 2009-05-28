@@ -9,15 +9,15 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-public class DecimalRange {
+global class DecimalRange implements IObject{
 
 	private Decimal min;
 	private Decimal max;
 	
-	public DecimalRange(Decimal number1){
+	global DecimalRange(Decimal number1){
 		min = max = number1;
 	} 
-	public DecimalRange(Decimal number1, Decimal number2){
+	global DecimalRange(Decimal number1, Decimal number2){
 		if(number1 < number2){
 			min = number1;
 			max = number2;	
@@ -27,11 +27,11 @@ public class DecimalRange {
 		}
 	}
 	
-	public Decimal max(){ return max; }
-	public Decimal min(){ return min;}
-	public String toAString(){ return '[' + min + ',' + max + ']'; }
-	public Boolean contains(Decimal value){ return min <= value && value <= max; }
-	public Boolean contains(DecimalRange value){ return min <= value.min() && value.max() <= max; }
-	public Boolean overlaps(DecimalRange value){ return min <= value.max() && value.min() <= max; }
+	global Decimal max(){ return max; }
+	global Decimal min(){ return min;}
+	global String toAString(){ return '[' + min + ',' + max + ']'; }
+	global Boolean contains(Decimal value){ return min <= value && value <= max; }
+	global Boolean contains(DecimalRange value){ return min <= value.min() && value.max() <= max; }
+	global Boolean overlaps(DecimalRange value){ return min <= value.max() && value.min() <= max; }
 
 }

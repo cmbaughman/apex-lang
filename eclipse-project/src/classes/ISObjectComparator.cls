@@ -9,6 +9,6 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global interface SObjectComparator{
+global interface ISObjectComparator{
 	Integer compare(SObject record1, SObject record2);
 }
