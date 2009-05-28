@@ -199,11 +199,15 @@ global class ArrayUtils {
 		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
 			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
 		}
-		for(Object elmt : list1){
-			returnList.add(elmt);
+		if(isNotEmpty(list1)){
+			for(Object elmt : list1){
+				returnList.add(elmt);
+			}
 		}
-		for(Object elmt : list2){
-			returnList.add(elmt);
+		if(isNotEmpty(list2)){
+			for(Object elmt : list2){
+				returnList.add(elmt);
+			}
 		}
 		return returnList;
 	}
@@ -213,11 +217,15 @@ global class ArrayUtils {
 		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
 			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
 		}
-		for(IObject elmt : list1){
-			returnList.add(elmt);
+		if(isNotEmpty(list1)){
+			for(IObject elmt : list1){
+				returnList.add(elmt);
+			}
 		}
-		for(IObject elmt : list2){
-			returnList.add(elmt);
+		if(isNotEmpty(list2)){
+			for(IObject elmt : list2){
+				returnList.add(elmt);
+			}
 		}
 		return returnList;
 	}
@@ -292,11 +300,19 @@ global class ArrayUtils {
 
 	//FOR FORCE.COM PRIMITIVES (Double,Integer,ID,etc.):
 	global static void qsort(List<Object> theList) {
-		qsort(theList,true);
+		qsort(theList,new PrimitiveComparator());
 	}
 
 	global static void qsort(List<Object> theList, Boolean sortAsc) {
-		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),new PrimitiveComparator(),sortAsc);
+		qsort(theList,new PrimitiveComparator(),sortAsc);
+	}
+	
+	global static void qsort(List<Object> theList, ObjectComparator comparator) {
+		qsort(theList,comparator,true);
+	}
+	
+	global static void qsort(List<Object> theList, ObjectComparator comparator, Boolean sortAsc) {
+		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 	
 	//FOR CUSTOM CLASSES (or rather those that implement IObject):
@@ -320,7 +336,7 @@ global class ArrayUtils {
 	private static void qsort(List<Object> theList,
 								Integer lo0, 
 								Integer hi0, 
-								PrimitiveComparator comparator,
+								ObjectComparator comparator,
 								Boolean sortAsc){
 		Integer lo = lo0;
         Integer hi = hi0;
