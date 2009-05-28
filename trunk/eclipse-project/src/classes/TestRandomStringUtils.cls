@@ -12,8 +12,6 @@
 @IsTest
 private class TestRandomStringUtils {
 	
-
-
     private static testmethod void testRandom(){
 	    //test: global static String random(Integer count) {
 	    for(Integer i = -5; i < 5; i++){

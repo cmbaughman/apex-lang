@@ -9,4 +9,4 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-public class IllegalStateException extends Exception {}
+global class IllegalStateException extends Exception {}

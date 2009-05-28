@@ -103,6 +103,19 @@ global class ArrayUtils {
     	return plucked;
     }
 	
+    global static String toString(IObject[] objectArray){
+    	if(objectArray == null){
+    		return 'null';	
+    	}
+    	String returnValue = '{';
+        for(Integer i = 0; i < objectArray.size(); i++){
+	    	if(i!=0){ returnValue += ','; }
+	    	returnValue += '\'' + objectArray[i] + '\'';
+        }
+    	returnValue += '}';
+    	return returnValue; 
+    }
+    
     global static String toString(Object[] objectArray){
     	if(objectArray == null){
     		return 'null';	
@@ -172,129 +185,38 @@ global class ArrayUtils {
 	//===============================================
 	//LIST/ARRAY SORTING
 	//===============================================
-	global static void sortx(List<Object> theList, ObjectComparator comparator) {
-		sortx(theList,comparator,true);
+
+	//FOR FORCE.COM PRIMITIVES (Double,Integer,ID,etc.):
+	global static void qsort(List<Object> theList) {
+		qsort(theList,true);
+	}
+
+	global static void qsort(List<Object> theList, Boolean sortAsc) {
+		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),new PrimitiveComparator(),sortAsc);
 	}
 	
-	global static void sortx(List<Object> theList, ObjectComparator comparator, Boolean sortAsc) {
-		sortRec(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
+	//FOR CUSTOM CLASSES (or rather those that implement IObject):
+	global static void qsort(List<IObject> theList, IObjectComparator comparator) {
+		qsort(theList,comparator,true);
 	}
 	
-	global static void sortx(List<IComparable> theList) {
-		sortx(theList,true);
+	global static void qsort(List<IObject> theList, IObjectComparator comparator, Boolean sortAsc) {
+		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 	
-	global static void sortx(List<IComparable> theList, Boolean sortAsc) {
-		sortRec(theList, 0, (theList == null ? 0 : theList.size()-1),sortAsc);
-	}
-	
-	global static void sortx(List<SObject> theList, SObjectComparator comparator) {
-		sortx(theList,comparator,true);
+	//FOR SALESFORCE OBJECTS (sObjects):
+	global static void qsort(List<SObject> theList, ISObjectComparator comparator) {
+		qsort(theList,comparator,true);
 	}
     
-	global static void sortx(List<SObject> theList, SObjectComparator comparator,Boolean sortAsc ) {
-		sortRec(theList,  0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
+	global static void qsort(List<SObject> theList, ISObjectComparator comparator,Boolean sortAsc ) {
+		qsort(theList,  0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
-    
-	private static void sortRec(List<IComparable> theList,  
-								Integer lo0, 
-								Integer hi0,
-								Boolean sortAsc){
-		Integer lo = lo0;
-        Integer hi = hi0;
-     
-        if (lo >= hi) {
-            return;
-        } else if( lo == hi - 1 ) {
-        
-            if (( theList[lo].compareTo(theList[hi])>0 && sortAsc) || 
-            	  (theList[lo].compareTo(theList[hi])<0 && !sortAsc)	
-            	) {
-                 IComparable prs = theList[lo];
-                 theList[lo]         = theList[hi];
-                 theList[hi]         = prs;
-            }
-            return;
-        }
 
-        IComparable pivot = theList[(lo + hi) / 2];
-        theList[(lo + hi) / 2] = theList[hi];
-        theList[hi] = pivot;
-
-        while( lo < hi ) {
-            while ((theList[lo].compareTo(pivot)<=0 && lo < hi && sortAsc) || 
-            	   (theList[lo].compareTo(pivot)>=0 && lo < hi && !sortAsc)
-            	  ) { lo++; }
-            while (( pivot.compareTo(theList[hi])<=0 && lo < hi && sortAsc) ||
-            	   ( pivot.compareTo(theList[hi]) >=0 && lo < hi && !sortAsc)
-            	  ) { hi--; }
-            
-            if( lo < hi ){
-                IComparable prs = theList[lo];
-                 theList[lo]   = theList[hi];
-                 theList[hi]    = prs;
-            }
-        }
-
-        theList[hi0] = theList[hi];
-        theList[hi] = pivot;
-        
-        sortRec(theList, lo0, lo-1,sortAsc);
-        sortRec(theList, hi+1, hi0,sortAsc);
-	}
-    
-	private static void sortRec(List<SObject> theList,
+	private static void qsort(List<Object> theList,
 								Integer lo0, 
 								Integer hi0, 
-								SObjectComparator comparator,
-								Boolean sortAsc){
-		Integer lo = lo0;
-        Integer hi = hi0;
-     
-        if (lo >= hi) {
-            return;
-        } else if( lo == hi - 1 ) {
-        
-            if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
-            	  (comparator.compare(theList[lo],theList[hi])<0 && !sortAsc)	
-            	) {
-                 SObject prs = theList[lo];
-                 theList[lo]         = theList[hi];
-                 theList[hi]         = prs;
-            }
-            return;
-        }
-
-        SObject pivot = theList[(lo + hi) / 2];
-        theList[(lo + hi) / 2] = theList[hi];
-        theList[hi] = pivot;
-
-        while( lo < hi ) {
-            while ((comparator.compare(theList[lo], pivot)<=0 && lo < hi && sortAsc) || 
-            	   (comparator.compare(theList[lo], pivot)>=0 && lo < hi && !sortAsc)
-            	  ) { lo++; }
-            while (( comparator.compare(pivot,theList[hi])<=0 && lo < hi && sortAsc) ||
-            	   ( comparator.compare(pivot,theList[hi])>=0 && lo < hi && !sortAsc)
-            	  ) { hi--; }
-            
-            if( lo < hi ){
-                 SObject prs = theList[lo];
-                 theList[lo]   = theList[hi];
-                 theList[hi]    = prs;
-            }
-        }
-
-        theList[hi0] = theList[hi];
-        theList[hi] = pivot;
-        
-        sortRec(theList, lo0, lo-1,comparator,sortAsc);
-        sortRec(theList, hi+1, hi0,comparator,sortAsc);
-	}
-
-	private static void sortRec(List<Object> theList,
-								Integer lo0, 
-								Integer hi0, 
-								ObjectComparator comparator,
+								PrimitiveComparator comparator,
 								Boolean sortAsc){
 		Integer lo = lo0;
         Integer hi = hi0;
@@ -335,7 +257,105 @@ global class ArrayUtils {
         theList[hi0] = theList[hi];
         theList[hi] = pivot;
         
-        sortRec(theList, lo0, lo-1,comparator,sortAsc);
-        sortRec(theList, hi+1, hi0,comparator,sortAsc);
+        qsort(theList, lo0, lo-1,comparator,sortAsc);
+        qsort(theList, hi+1, hi0,comparator,sortAsc);
 	}	
+	    
+	private static void qsort(List<IObject> theList,  
+								Integer lo0, 
+								Integer hi0,
+								IObjectComparator comparator,
+								Boolean sortAsc){
+		Integer lo = lo0;
+        Integer hi = hi0;
+     
+        if (lo >= hi) {
+            return;
+        } else if( lo == hi - 1 ) {
+        
+            if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
+            	  (comparator.compare(theList[lo],theList[hi])<0 && !sortAsc)	
+            	) {
+                 IObject prs = theList[lo];
+                 theList[lo]         = theList[hi];
+                 theList[hi]         = prs;
+            }
+            return;
+        }
+
+        IObject pivot = theList[(lo + hi) / 2];
+        theList[(lo + hi) / 2] = theList[hi];
+        theList[hi] = pivot;
+
+        while( lo < hi ) {
+            while ((comparator.compare(theList[lo], pivot)<=0 && lo < hi && sortAsc) || 
+            	   (comparator.compare(theList[lo], pivot)>=0 && lo < hi && !sortAsc)
+            	  ) { lo++; }
+            while (( comparator.compare(pivot,theList[hi])<=0 && lo < hi && sortAsc) ||
+            	   ( comparator.compare(pivot,theList[hi])>=0 && lo < hi && !sortAsc)
+            	  ) { hi--; }
+            
+            if( lo < hi ){
+                 IObject prs = theList[lo];
+                 theList[lo]   = theList[hi];
+                 theList[hi]    = prs;
+            }
+        }
+
+        theList[hi0] = theList[hi];
+        theList[hi] = pivot;
+        
+        qsort(theList, lo0, lo-1,comparator,sortAsc);
+        qsort(theList, hi+1, hi0,comparator,sortAsc);
+	}
+    
+	private static void qsort(List<SObject> theList,
+								Integer lo0, 
+								Integer hi0, 
+								ISObjectComparator comparator,
+								Boolean sortAsc){
+		Integer lo = lo0;
+        Integer hi = hi0;
+     
+        if (lo >= hi) {
+            return;
+        } else if( lo == hi - 1 ) {
+        
+            if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
+            	  (comparator.compare(theList[lo],theList[hi])<0 && !sortAsc)	
+            	) {
+                 SObject prs = theList[lo];
+                 theList[lo]         = theList[hi];
+                 theList[hi]         = prs;
+            }
+            return;
+        }
+
+        SObject pivot = theList[(lo + hi) / 2];
+        theList[(lo + hi) / 2] = theList[hi];
+        theList[hi] = pivot;
+
+        while( lo < hi ) {
+            while ((comparator.compare(theList[lo], pivot)<=0 && lo < hi && sortAsc) || 
+            	   (comparator.compare(theList[lo], pivot)>=0 && lo < hi && !sortAsc)
+            	  ) { lo++; }
+            while (( comparator.compare(pivot,theList[hi])<=0 && lo < hi && sortAsc) ||
+            	   ( comparator.compare(pivot,theList[hi])>=0 && lo < hi && !sortAsc)
+            	  ) { hi--; }
+            
+            if( lo < hi ){
+                 SObject prs = theList[lo];
+                 theList[lo]   = theList[hi];
+                 theList[hi]    = prs;
+            }
+        }
+
+        theList[hi0] = theList[hi];
+        theList[hi] = pivot;
+        
+        qsort(theList, lo0, lo-1,comparator,sortAsc);
+        qsort(theList, hi+1, hi0,comparator,sortAsc);
+	}
+
+
 }

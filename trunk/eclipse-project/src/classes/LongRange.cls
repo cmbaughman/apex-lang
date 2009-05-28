@@ -9,15 +9,15 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-public class LongRange {
+global class LongRange {
 
 	private Long min;
 	private Long max;
 	
-	public LongRange(Long number1){
+	global LongRange(Long number1){
 		min = max = number1;
 	} 
-	public LongRange(Long number1, Long number2){
+	global LongRange(Long number1, Long number2){
 		if(number1 < number2){
 			min = number1;
 			max = number2;	
@@ -27,11 +27,11 @@ public class LongRange {
 		}
 	}
 	
-	public Long max(){ return max; }
-	public Long min(){ return min;}
-	public String toAString(){ return '[' + min + ',' + max + ']'; }
-	public Boolean contains(Long value){ return min <= value && value <= max; }
-	public Boolean contains(LongRange value){ return min <= value.min() && value.max() <= max; }
-	public Boolean overlaps(LongRange value){ return min <= value.max() && value.min() <= max; }
+	global Long max(){ return max; }
+	global Long min(){ return min;}
+	global String toAString(){ return '[' + min + ',' + max + ']'; }
+	global Boolean contains(Long value){ return min <= value && value <= max; }
+	global Boolean contains(LongRange value){ return min <= value.min() && value.max() <= max; }
+	global Boolean overlaps(LongRange value){ return min <= value.max() && value.min() <= max; }
 
 }
