@@ -39,6 +39,7 @@ private class TestArrayUtils {
     	//test: global static Boolean isEmpty(Object[] objectArray){
     	String[] aNull = null;
     	Account[] aNull2 = null;
+    	DecimalRange[] aNull3 = null;
 		System.assertEquals(true,	ArrayUtils.isEmpty(aNull)); 
 		System.assertEquals(true,	ArrayUtils.isEmpty(new String[]{})); 
 		System.assertEquals(false,	ArrayUtils.isEmpty(new String[]{'a'})); 
@@ -51,12 +52,16 @@ private class TestArrayUtils {
 		System.assertEquals(false,	ArrayUtils.isEmpty(new Account[]{new Account(name='test')}));  
 		System.assertEquals(true,	ArrayUtils.isEmpty(new Contact[]{}));  
 		System.assertEquals(false,	ArrayUtils.isEmpty(new Contact[]{new Contact(lastname='test')}));  
+		System.assertEquals(true,	ArrayUtils.isEmpty(aNull3)); 
+		System.assertEquals(true,	ArrayUtils.isEmpty(new DecimalRange[]{}));  
+		System.assertEquals(false,	ArrayUtils.isEmpty(new DecimalRange[]{new DecimalRange(1,1)}));  
     }
     
 	private static testmethod void testIsNotEmpty(){
     	//test: global static Boolean isNotEmpty(Object[] objectArray){
     	String[] aNull = null;
     	Account[] aNull2 = null;
+    	DecimalRange[] aNull3 = null;
 		System.assertEquals(false,	ArrayUtils.isNotEmpty(aNull)); 
 		System.assertEquals(false,	ArrayUtils.isNotEmpty(new String[]{})); 
 		System.assertEquals(true,	ArrayUtils.isNotEmpty(new String[]{'a'})); 
@@ -69,6 +74,9 @@ private class TestArrayUtils {
 		System.assertEquals(true,	ArrayUtils.isNotEmpty(new Account[]{new Account(name='test')}));  
 		System.assertEquals(false,	ArrayUtils.isNotEmpty(new Contact[]{}));  
 		System.assertEquals(true,	ArrayUtils.isNotEmpty(new Contact[]{new Contact(lastname='test')}));  
+		System.assertEquals(false,	ArrayUtils.isNotEmpty(aNull3)); 
+		System.assertEquals(false,	ArrayUtils.isNotEmpty(new DecimalRange[]{}));  
+		System.assertEquals(true,	ArrayUtils.isNotEmpty(new DecimalRange[]{new DecimalRange(1,1)}));  
     }
     
 	private static testmethod void testPluck(){
@@ -183,6 +191,155 @@ private class TestArrayUtils {
 		ArrayUtils.toString(aList);
 		aList = new DecimalRange[]{new DecimalRange(12,15),new DecimalRange(12,15)};
 		ArrayUtils.toString(aList);
+	}
+
+	private static testmethod void testMergeForceDotComPrimitives(){
+		List<Object> l1 = new List<Object>();
+		for(Integer i = 0; i < ArrayUtils.MAX_NUMBER_OF_ELEMENTS_IN_LIST; i++){
+			l1.add(i);
+		}
+		Boolean exceptionThrown = false;
+		try{
+			ArrayUtils.merg(l1, new Integer[]{1});
+		}catch(IllegalArgumentException e){
+			exceptionThrown = true;
+		}
+		System.assert(exceptionThrown);
+
+		Double[] d1 = new Double[]{1,2,3};
+		Double[] d2 = new Double[]{4,5,6};
+		List<Object> merged = ArrayUtils.merg(d1, d2);
+		System.assertNotEquals(null,merged);
+		System.assertEquals(6,merged.size());
+		System.assertEquals(1,merged.get(0));
+		System.assertEquals(4,merged.get(3));
+	}
+	
+	private static testmethod void testSubsetCustomClasses(){
+		IObject[] iobjs = new DecimalRange[]{
+			new DecimalRange(1,1),new DecimalRange(2,2),new DecimalRange(3,3)};
+		List<IObject> returned = ArrayUtils.subset(iobjs, 2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(2,returned.size());
+		System.assertEquals(1,((DecimalRange)returned.get(0)).min());
+		System.assertEquals(2,((DecimalRange)returned.get(1)).min());
+		
+	}
+
+	private static testmethod void testMergeCustomClasses(){
+		List<IObject> l1 = new List<IObject>();
+		for(Integer i = 0; i < ArrayUtils.MAX_NUMBER_OF_ELEMENTS_IN_LIST; i++){
+			l1.add(new DecimalRange(i,i));
+		}
+		Boolean exceptionThrown = false;
+		try{
+			ArrayUtils.merg(l1, new DecimalRange[]{new DecimalRange(1,1)});
+		}catch(IllegalArgumentException e){
+			exceptionThrown = true;
+		}
+		System.assert(exceptionThrown);
+
+		DecimalRange[] d1 = new DecimalRange[]{new DecimalRange(1,1),new DecimalRange(2,2)};
+		DecimalRange[] d2 = new DecimalRange[]{new DecimalRange(3,3),new DecimalRange(4,4)};
+		List<IObject> merged = ArrayUtils.merg(d1, d2);
+		System.assertNotEquals(null,merged);
+		System.assertEquals(4,merged.size());
+		System.assertEquals(1,((DecimalRange)merged.get(0)).min());
+		System.assertEquals(3,((DecimalRange)merged.get(2)).min());
+	}
+	
+	private static testmethod void testSubsetSObjects(){
+		SObject[] sobjs = new Contact[]{
+			new Contact(lastname='1'),
+			new Contact(lastname='2'),
+			new Contact(lastname='3')};
+		List<SObject> returned = ArrayUtils.subset(sobjs, 2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(2,returned.size());
+		System.assertEquals('1',((Contact)returned.get(0)).lastname);
+		System.assertEquals('2',((Contact)returned.get(1)).lastname);
+	}
+
+	private static testmethod void testMergeSObjects(){
+		List<SObject> l1 = new List<Contact>();
+		for(Integer i = 0; i < ArrayUtils.MAX_NUMBER_OF_ELEMENTS_IN_LIST; i++){
+			l1.add(new Contact());
+		}
+		Boolean exceptionThrown = false;
+		try{
+			ArrayUtils.merg(l1, new Contact[]{new Contact()});
+		}catch(IllegalArgumentException e){
+			exceptionThrown = true;
+		}
+		System.assert(exceptionThrown);
+		l1 = null;
+		List<SObject> merged = ArrayUtils.merg(l1,l1);
+		System.assertEquals(null,merged);
+		
+		Contact[] c1 = new Contact[]{new Contact(lastname='1'),new Contact(lastname='2')};
+		merged = ArrayUtils.merg(l1,c1);
+		Contact[] c2 = new Contact[]{new Contact(lastname='3'),new Contact(lastname='4')};
+		merged = ArrayUtils.merg(c1, c2);
+		System.assertNotEquals(null,merged);
+		System.assertEquals(4,merged.size());
+		System.assertEquals('1',((Contact)merged.get(0)).lastname);
+		System.assertEquals('2',((Contact)merged.get(1)).lastname);
+		System.assertEquals('3',((Contact)merged.get(2)).lastname);
+		System.assertEquals('4',((Contact)merged.get(3)).lastname);
+	}
+	
+	private static testmethod void testSubsetForceDotComPrimitives(){
+		Double[] prim = new Double[]{1,2,3};
+		List<Object> returned = ArrayUtils.subset(prim, 3);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(3,returned.size());
+		System.assertEquals(1,returned.get(0));
+		System.assertEquals(2,returned.get(1));
+		System.assertEquals(3,returned.get(2));
+
+		returned = ArrayUtils.subset(prim, 2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(2,returned.size());
+		System.assertEquals(1,returned.get(0));
+		System.assertEquals(2,returned.get(1));
+
+		returned = ArrayUtils.subset(prim, 1);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(1,returned.size());
+		System.assertEquals(1,returned.get(0));
+
+		returned = ArrayUtils.subset(prim,1,3);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(2,returned.size());
+		System.assertEquals(2,returned.get(0));
+		System.assertEquals(3,returned.get(1));
+
+		returned = ArrayUtils.subset(prim,-1,2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(0,returned.size());
+
+		returned = ArrayUtils.subset(prim,10,2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(0,returned.size());
+
+		returned = ArrayUtils.subset(prim,0,20);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(3,returned.size());
+
+		prim = null;
+		returned = ArrayUtils.subset(prim,0,2);
+		System.assertNotEquals(null,returned);
+		System.assertEquals(0,returned.size());
+
+
+			//subset({1,2,3},0,3)={1,2,3}
+	//subset({1,2,3},1,3)={2,3}
+	//subset({1,2,3},2,3)={3}
+	//subset({1,2,3},3,3)={}
+	//subset({1,2,3},0,2)={1,2}
+	//subset({1,2,3},1,2)={2,3}
+	//subset({1,2,3},2,2)={3}
+		
 	}
 	    
 }

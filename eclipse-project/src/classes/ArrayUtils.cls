@@ -12,6 +12,7 @@
 global class ArrayUtils {
 	
 	global static String[] EMPTY_STRING_ARRAY = new String[]{};
+	global static Integer MAX_NUMBER_OF_ELEMENTS_IN_LIST {get{return 1000;}}
 	
     global static Object[] reverse(Object[] anArray) {
         if (anArray == null) {
@@ -77,6 +78,13 @@ global class ArrayUtils {
     	return objectArray.size() == 0;
     }
 	
+    global static Boolean isEmpty(IObject[] objectArray){
+    	if(objectArray == null){
+    		return true;
+    	}
+    	return objectArray.size() == 0;
+    }
+	
     global static Boolean isEmpty(SObject[] objectArray){
     	if(objectArray == null){
     		return true;
@@ -85,6 +93,10 @@ global class ArrayUtils {
     }
 	
     global static Boolean isNotEmpty(Object[] objectArray){
+    	return !isEmpty(objectArray);
+    }
+	
+    global static Boolean isNotEmpty(IObject[] objectArray){
     	return !isEmpty(objectArray);
     }
 	
@@ -180,6 +192,98 @@ global class ArrayUtils {
 			'select Id from ' 
 			+ StringUtils.split(''+prototype,':')[0] 
 			+ ' where Id = \'0015000000Mrr40\' LIMIT 0'); // use dummy Id to ensure no return
+	}
+
+	global static List<Object> merg(List<Object> list1, List<Object> list2) {
+		List<Object> returnList = new List<Object>();
+		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
+			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
+		}
+		for(Object elmt : list1){
+			returnList.add(elmt);
+		}
+		for(Object elmt : list2){
+			returnList.add(elmt);
+		}
+		return returnList;
+	}
+	
+	global static List<IObject> merg(List<IObject> list1, List<IObject> list2) {
+		List<IObject> returnList = new List<IObject>();
+		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
+			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
+		}
+		for(IObject elmt : list1){
+			returnList.add(elmt);
+		}
+		for(IObject elmt : list2){
+			returnList.add(elmt);
+		}
+		return returnList;
+	}
+	
+	global static List<SObject> merg(List<SObject> list1, List<SObject> list2) {
+		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
+			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
+		}
+		if(isEmpty(list1) && isEmpty(list2)){
+			return null;
+		}
+		List<SObject> returnList = createEmptySObjectList(isNotEmpty(list1) ? list1.get(0) : list2.get(0));
+		if(list1 != null){
+			for(SObject elmt : list1){
+				returnList.add(elmt);
+			}
+		}
+		if(list2 != null){
+			for(SObject elmt : list2){
+				returnList.add(elmt);
+			}
+		}
+		return returnList;
+	}
+	
+	global static List<Object> subset(List<Object> aList, Integer count) {
+		return subset(aList,0,count);
+	}
+
+	global static List<Object> subset(List<Object> list1, Integer startIndex, Integer count) {
+		List<Object> returnList = new List<Object>();
+		if(list1 != null && list1.size() > 0 && startIndex >= 0 && startIndex <= list1.size()-1 && count > 0){
+			for(Integer i = startIndex; i < list1.size() && i - startIndex < count; i++){
+				returnList.add(list1.get(i));
+			}
+		}
+		return returnList;
+	}
+	
+	global static List<IObject> subset(List<IObject> aList, Integer count) {
+		return subset(aList,0,count);
+	}
+
+	global static List<IObject> subset(List<IObject> list1, Integer startIndex, Integer count) {
+		List<IObject> returnList = new List<IObject>();
+		if(list1 != null && list1.size() > 0 && startIndex <= list1.size()-1 && count > 0){
+			for(Integer i = startIndex; i < list1.size() && i - startIndex < count; i++){
+				returnList.add(list1.get(i));
+			}
+		}
+		return returnList;
+	}
+	
+	global static List<SObject> subset(List<SObject> aList, Integer count) {
+		return subset(aList,0,count);
+	}
+
+	global static List<SObject> subset(List<SObject> list1, Integer startIndex, Integer count) {
+		List<SObject> returnList = null;
+		if(list1 != null && list1.size() > 0 && startIndex <= list1.size()-1 && count > 0){
+			returnList = createEmptySObjectList(list1.get(0));
+			for(Integer i = startIndex; i < list1.size() && i - startIndex < count; i++){
+				returnList.add(list1.get(i));
+			}
+		}
+		return returnList;
 	}
 	
 	//===============================================
