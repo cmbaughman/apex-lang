@@ -166,7 +166,7 @@ private class TestIObjectPaginator {
 	}
 	
 	private static testmethod void testListener(){
-		IPaginatorListenerConcreteForTests listener = new IPaginatorListenerConcreteForTests();
+		IObjectPaginatorListenerForTesting listener = new IObjectPaginatorListenerForTesting();
 		System.assertEquals(false,listener.handlePageChangeInvoked); 
 		List<IObject> records = createTestIObject(8);
 		final IObjectPaginator paginator = new IObjectPaginator(records,5,listener);
@@ -211,6 +211,40 @@ private class TestIObjectPaginator {
 		System.assertEquals(0,paginator.pageNumber);
 		System.assertEquals(0, paginator.pageCount);
 		System.assertEquals(false,paginator.hasNext);
+		System.assertEquals(false,paginator.hasPrevious);
+	}
+	
+	private static testmethod void testFirstAndLast(){
+		IObjectPaginator paginator = new IObjectPaginator(createTestIObject(11),2);
+		System.assertNotEquals(null,paginator.all);
+		System.assertEquals(11,paginator.all.size());
+		System.assertNotEquals(null,paginator.page);
+		System.assertEquals(2,paginator.page.size());
+		System.assertEquals(2,paginator.pageSize);
+		System.assertEquals(0,paginator.pageNumber);
+		System.assertEquals(6,paginator.pageCount);
+		System.assertEquals(true,paginator.hasNext);
+		System.assertEquals(false,paginator.hasPrevious);
+		
+		paginator.last();
+		System.assertNotEquals(null,paginator.all);
+		System.assertEquals(11,paginator.all.size());
+		System.assertNotEquals(null,paginator.page);
+		System.assertEquals(1,paginator.page.size());
+		System.assertEquals(2,paginator.pageSize);
+		System.assertEquals(5,paginator.pageNumber);
+		System.assertEquals(6,paginator.pageCount);
+		System.assertEquals(false,paginator.hasNext);
+		System.assertEquals(true,paginator.hasPrevious);
+
+		paginator.first();
+		System.assertEquals(11,paginator.all.size());
+		System.assertNotEquals(null,paginator.page);
+		System.assertEquals(2,paginator.page.size());
+		System.assertEquals(2,paginator.pageSize);
+		System.assertEquals(0,paginator.pageNumber);
+		System.assertEquals(6,paginator.pageCount);
+		System.assertEquals(true,paginator.hasNext);
 		System.assertEquals(false,paginator.hasPrevious);
 	}
 	

@@ -13,7 +13,7 @@ global class IObjectPaginator {
 
 	global static final Integer DEFAULT_PAGE_SIZE = 20;
 
-	private List<IPaginatorListener> listeners = new List<IPaginatorListener>();
+	private List<IObjectPaginatorListener> listeners = new List<IObjectPaginatorListener>();
 	
 	global List<IObject> all {get;private set;}
 	global List<IObject> page {get;private set;}
@@ -32,7 +32,7 @@ global class IObjectPaginator {
 		this(all,pageSize,null);
 	}
 	
-	global IObjectPaginator(List<IObject> all, Integer pageSize, IPaginatorListener listener){
+	global IObjectPaginator(List<IObject> all, Integer pageSize, IObjectPaginatorListener listener){
 		addListener(listener);
 		reset(all,pageSize);
 	}
@@ -72,6 +72,18 @@ global class IObjectPaginator {
 		return null;
 	}
 	
+	global PageReference first(){
+		pageNumber = 0;
+		updatePage();
+		return null;
+	}
+	
+	global PageReference last(){
+		pageNumber = pageCount - 1;
+		updatePage();
+		return null;
+	}
+	
 	private void reset(List<IObject> all, Integer pageSize){
 		this.all = all;
 		this.pageSize = pageSize < 1 ? DEFAULT_PAGE_SIZE : pageSize;
@@ -90,8 +102,8 @@ global class IObjectPaginator {
 				this.page.add(this.all.get(i));
 			}
 		}
-		for(IPaginatorListener listener : listeners){
-			listener.handlePageChange();
+		for(IObjectPaginatorListener listener : listeners){
+			listener.handlePageChange(this.page);
 		}
 		/*
 		System.debug('==============================================================');
@@ -108,7 +120,7 @@ global class IObjectPaginator {
 		*/
 	}
 	
-	global void addListener(IPaginatorListener listener){
+	global void addListener(IObjectPaginatorListener listener){
 		if(listener != null){
 			listeners.add(listener);
 		}
