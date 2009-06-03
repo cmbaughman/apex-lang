@@ -299,41 +299,41 @@ global class ArrayUtils {
 	//===============================================
 
 	//FOR FORCE.COM PRIMITIVES (Double,Integer,ID,etc.):
-	global static void qsort(List<Object> theList) {
-		qsort(theList,new PrimitiveComparator());
+	global static List<Object> qsort(List<Object> theList) {
+		return qsort(theList,new PrimitiveComparator());
 	}
 
-	global static void qsort(List<Object> theList, Boolean sortAsc) {
-		qsort(theList,new PrimitiveComparator(),sortAsc);
+	global static List<Object> qsort(List<Object> theList, Boolean sortAsc) {
+		return qsort(theList,new PrimitiveComparator(),sortAsc);
 	}
 	
-	global static void qsort(List<Object> theList, ObjectComparator comparator) {
-		qsort(theList,comparator,true);
+	global static List<Object> qsort(List<Object> theList, ObjectComparator comparator) {
+		return qsort(theList,comparator,true);
 	}
 	
-	global static void qsort(List<Object> theList, ObjectComparator comparator, Boolean sortAsc) {
-		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
+	global static List<Object> qsort(List<Object> theList, ObjectComparator comparator, Boolean sortAsc) {
+		return qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 	
 	//FOR CUSTOM CLASSES (or rather those that implement IObject):
-	global static void qsort(List<IObject> theList, IObjectComparator comparator) {
-		qsort(theList,comparator,true);
+	global static List<IObject> qsort(List<IObject> theList, IObjectComparator comparator) {
+		return qsort(theList,comparator,true);
 	}
 	
-	global static void qsort(List<IObject> theList, IObjectComparator comparator, Boolean sortAsc) {
-		qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
+	global static List<IObject> qsort(List<IObject> theList, IObjectComparator comparator, Boolean sortAsc) {
+		return qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 	
 	//FOR SALESFORCE OBJECTS (sObjects):
-	global static void qsort(List<SObject> theList, ISObjectComparator comparator) {
-		qsort(theList,comparator,true);
+	global static List<SObject> qsort(List<SObject> theList, ISObjectComparator comparator) {
+		return qsort(theList,comparator,true);
 	}
     
-	global static void qsort(List<SObject> theList, ISObjectComparator comparator,Boolean sortAsc ) {
-		qsort(theList,  0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
+	global static List<SObject> qsort(List<SObject> theList, ISObjectComparator comparator,Boolean sortAsc ) {
+		return qsort(theList,  0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 
-	private static void qsort(List<Object> theList,
+	private static List<Object> qsort(List<Object> theList,
 								Integer lo0, 
 								Integer hi0, 
 								ObjectComparator comparator,
@@ -342,7 +342,7 @@ global class ArrayUtils {
         Integer hi = hi0;
      
         if (lo >= hi) {
-            return;
+            return theList;
         } else if( lo == hi - 1 ) {
         
             if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
@@ -352,7 +352,7 @@ global class ArrayUtils {
                  theList[lo]         = theList[hi];
                  theList[hi]         = prs;
             }
-            return;
+            return theList;
         }
 
         Object pivot = theList[(lo + hi) / 2];
@@ -379,9 +379,10 @@ global class ArrayUtils {
         
         qsort(theList, lo0, lo-1,comparator,sortAsc);
         qsort(theList, hi+1, hi0,comparator,sortAsc);
+        return theList;
 	}	
 	    
-	private static void qsort(List<IObject> theList,  
+	private static List<IObject> qsort(List<IObject> theList,  
 								Integer lo0, 
 								Integer hi0,
 								IObjectComparator comparator,
@@ -390,7 +391,7 @@ global class ArrayUtils {
         Integer hi = hi0;
      
         if (lo >= hi) {
-            return;
+            return theList;
         } else if( lo == hi - 1 ) {
         
             if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
@@ -400,7 +401,7 @@ global class ArrayUtils {
                  theList[lo]         = theList[hi];
                  theList[hi]         = prs;
             }
-            return;
+            return theList;
         }
 
         IObject pivot = theList[(lo + hi) / 2];
@@ -427,9 +428,10 @@ global class ArrayUtils {
         
         qsort(theList, lo0, lo-1,comparator,sortAsc);
         qsort(theList, hi+1, hi0,comparator,sortAsc);
+        return theList;
 	}
     
-	private static void qsort(List<SObject> theList,
+	private static List<SObject> qsort(List<SObject> theList,
 								Integer lo0, 
 								Integer hi0, 
 								ISObjectComparator comparator,
@@ -438,7 +440,7 @@ global class ArrayUtils {
         Integer hi = hi0;
      
         if (lo >= hi) {
-            return;
+            return theList;
         } else if( lo == hi - 1 ) {
         
             if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
@@ -448,7 +450,7 @@ global class ArrayUtils {
                  theList[lo]         = theList[hi];
                  theList[hi]         = prs;
             }
-            return;
+            return theList;
         }
 
         SObject pivot = theList[(lo + hi) / 2];
@@ -475,6 +477,7 @@ global class ArrayUtils {
         
         qsort(theList, lo0, lo-1,comparator,sortAsc);
         qsort(theList, hi+1, hi0,comparator,sortAsc);
+        return theList;
 	}
 
 
