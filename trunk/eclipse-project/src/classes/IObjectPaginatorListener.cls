@@ -9,15 +9,6 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global class IPaginatorListenerConcreteForTests implements IPaginatorListener{
-	global Boolean handlePageChangeInvoked {get;set;}
-	
-	global IPaginatorListenerConcreteForTests(){
-		handlePageChangeInvoked = false;
-	}
-	
-	global void handlePageChange(){
-		handlePageChangeInvoked = true;
-	}
-	
+global interface IObjectPaginatorListener {
+	void handlePageChange(List<IObject> newPage);
 }

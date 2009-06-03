@@ -9,6 +9,15 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global interface IPaginatorListener {
-	void handlePageChange();
+global class SObjectPaginatorListenerForTesting implements SObjectPaginatorListener{
+	global Boolean handlePageChangeInvoked {get;set;}
+	
+	global SObjectPaginatorListenerForTesting(){
+		handlePageChangeInvoked = false;
+	}
+	
+	global void handlePageChange(List<SObject> newPage){
+		handlePageChangeInvoked = true;
+	}
+	
 }
