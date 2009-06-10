@@ -172,7 +172,8 @@ private class TestSObjectPaginator {
 		SObjectPaginatorListenerForTesting listener = new SObjectPaginatorListenerForTesting();
 		System.assertEquals(false,listener.handlePageChangeInvoked); 
 		List<Account> records = createTestAccount(8);
-		final SObjectPaginator paginator = new SObjectPaginator(records,5,listener);
+		SObjectPaginator paginator = new SObjectPaginator(records,listener);
+		paginator.setPageSize(5);
 		System.assertEquals(true,listener.handlePageChangeInvoked);
 
 		listener.handlePageChangeInvoked = false;		
@@ -250,6 +251,48 @@ private class TestSObjectPaginator {
 		System.assertEquals(6,paginator.pageCount);
 		System.assertEquals(true,paginator.hasNext);
 		System.assertEquals(false,paginator.hasPrevious);
+	}
+	
+	private static testmethod void testSkipPages(){
+		SObjectPaginator paginator = new SObjectPaginator(createTestAccount(11),2,3);
+		System.assertNotEquals(null,paginator.all);
+		System.assertEquals(11,paginator.all.size());
+		System.assertNotEquals(null,paginator.page);
+		System.assertEquals(2,paginator.page.size());
+		System.assertEquals(2,paginator.pageSize);
+		System.assertEquals(3,paginator.skipSize);
+		System.assertEquals(0,paginator.pageNumber);
+		System.assertEquals(1,paginator.pageNumberDisplayFriendly);
+		System.assertEquals(1,paginator.pageStartPositionDisplayFriendly);
+		System.assertEquals(2,paginator.pageEndPositionDisplayFriendly);
+		System.assertEquals(6,paginator.pageCount);
+		System.assertEquals(true,paginator.hasNext);
+		System.assertEquals(false,paginator.hasPrevious);
+		List<Integer> previousSkips = paginator.previousSkipPageNumbers;
+		System.assertNotEquals(null,previousSkips);
+		System.assertEquals(0,previousSkips.size());
+		List<Integer> nextSkips = paginator.nextSkipPageNumbers;
+		System.assertNotEquals(null,nextSkips);
+		System.assertEquals(3,nextSkips.size());
+		
+		
+		paginator.last();
+		System.assertNotEquals(null,paginator.all);
+		System.assertEquals(11,paginator.all.size());
+		System.assertNotEquals(null,paginator.page);
+		System.assertEquals(1,paginator.page.size());
+		System.assertEquals(2,paginator.pageSize);
+		System.assertEquals(3,paginator.skipSize);
+		System.assertEquals(5,paginator.pageNumber);
+		System.assertEquals(6,paginator.pageCount);
+		System.assertEquals(false,paginator.hasNext);
+		System.assertEquals(true,paginator.hasPrevious);
+		previousSkips = paginator.previousSkipPageNumbers;
+		System.assertNotEquals(null,previousSkips);
+		System.assertEquals(3,previousSkips.size());
+		nextSkips = paginator.nextSkipPageNumbers;
+		System.assertNotEquals(null,nextSkips);
+		System.assertEquals(0,nextSkips.size());
 	}
 	
 	private static List<Account> createTestAccount(Integer count){

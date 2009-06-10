@@ -61,6 +61,23 @@ private class TestPageUtils {
 		System.assertEquals('value1',PageUtils.param('test1'));
 	}
 	
+	private static testmethod void testMultipleParam(){
+		//test: global static String param(String param){
+		ApexPages.currentPage().getParameters().put('test1','value1');
+		ApexPages.currentPage().getParameters().put('test2','value2');
+		ApexPages.currentPage().getParameters().put('test3',null);
+		ApexPages.currentPage().getParameters().put('test4','');
+		ApexPages.currentPage().getParameters().put('test5','  ');
+		Map<String,String> retValue = PageUtils.getParameters('test');
+		System.assertNotEquals(null,retValue);
+		System.assertEquals(5,retValue.size());
+		System.assert(retValue.containsKey('test1'));
+		System.assert(retValue.containsKey('test2'));
+		System.assert(retValue.containsKey('test3'));
+		System.assert(retValue.containsKey('test4'));
+		System.assert(retValue.containsKey('test5'));
+	}
+	
 	private static testmethod void testParamTwoArgs(){
 		//test: global static String param(String param){
 		System.assertEquals(null,ApexPages.currentPage().getParameters().get('test1'));

@@ -78,13 +78,13 @@ global class ArrayUtils {
     	return objectArray.size() == 0;
     }
 	
-    global static Boolean isEmpty(IObject[] objectArray){
+/*    global static Boolean isEmpty(IObject[] objectArray){
     	if(objectArray == null){
     		return true;
     	}
     	return objectArray.size() == 0;
     }
-	
+	*/
     global static Boolean isEmpty(SObject[] objectArray){
     	if(objectArray == null){
     		return true;
@@ -96,10 +96,10 @@ global class ArrayUtils {
     	return !isEmpty(objectArray);
     }
 	
-    global static Boolean isNotEmpty(IObject[] objectArray){
+/*    global static Boolean isNotEmpty(IObject[] objectArray){
     	return !isEmpty(objectArray);
     }
-	
+	*/
     global static Boolean isNotEmpty(SObject[] objectArray){
     	return !isEmpty(objectArray);
     }
@@ -211,7 +211,7 @@ global class ArrayUtils {
 		}
 		return returnList;
 	}
-	
+	/*
 	global static List<IObject> merg(List<IObject> list1, List<IObject> list2) {
 		List<IObject> returnList = new List<IObject>();
 		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
@@ -228,7 +228,7 @@ global class ArrayUtils {
 			}
 		}
 		return returnList;
-	}
+	}*/
 	
 	global static List<SObject> merg(List<SObject> list1, List<SObject> list2) {
 		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
@@ -264,12 +264,12 @@ global class ArrayUtils {
 		}
 		return returnList;
 	}
-	
+	/*
 	global static List<IObject> subset(List<IObject> aList, Integer count) {
 		return subset(aList,0,count);
-	}
+	}*/
 
-	global static List<IObject> subset(List<IObject> list1, Integer startIndex, Integer count) {
+	/*global static List<IObject> subset(List<IObject> list1, Integer startIndex, Integer count) {
 		List<IObject> returnList = new List<IObject>();
 		if(list1 != null && list1.size() > 0 && startIndex <= list1.size()-1 && count > 0){
 			for(Integer i = startIndex; i < list1.size() && i - startIndex < count; i++){
@@ -277,7 +277,7 @@ global class ArrayUtils {
 			}
 		}
 		return returnList;
-	}
+	}*/
 	
 	global static List<SObject> subset(List<SObject> aList, Integer count) {
 		return subset(aList,0,count);

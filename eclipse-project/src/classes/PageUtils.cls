@@ -29,6 +29,17 @@ global class PageUtils {
 		return ApexPages.currentPage().getParameters().get(param);
 	}
 	
+	// Returns the parameters which contains a part of the key
+	global static Map<String,String> getParameters(String param){
+		Map<String,String> parameters = new Map<String,String>();
+		for(String key:ApexPages.currentPage().getParameters().keySet()){
+			if(key.contains(param)){
+				parameters.put(key,ApexPages.currentPage().getParameters().get(key));
+			}
+		}
+		return parameters;
+	}
+	
 	global static String put(String param, String value){
 		ApexPages.currentPage().getParameters().put(param,value);
 		return value;
