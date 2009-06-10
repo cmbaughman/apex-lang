@@ -12,27 +12,79 @@
 global class IObjectPaginator {
 
 	global static final Integer DEFAULT_PAGE_SIZE = 20;
+	global static final Integer DEFAULT_SKIP_SIZE = 3;
+	private static final Integer MAX_SKIP_SIZE = 20;
 
 	private List<IObjectPaginatorListener> listeners = new List<IObjectPaginatorListener>();
 	
 	global List<IObject> all {get;private set;}
 	global List<IObject> page {get;private set;}
 	global Integer pageSize = DEFAULT_PAGE_SIZE;
+	global Integer skipSize = DEFAULT_SKIP_SIZE;
 	global Integer pageNumber {get;private set;}
 	global Integer pageCount { get{ Double allSize = this.all == null ? 0 : this.all.size(); Double pageSize = this.pageSize; return this.all == null ? 0 : Math.ceil(allSize/pageSize).intValue(); } }
 	global Integer recordCount {get{ return this.all == null ? 0 : this.all.size(); } }
 	global Boolean hasNext{get{ return pageNumber >= 0 && pageNumber < this.pageCount-1;}}
 	global Boolean hasPrevious{get{return pageNumber > 0 && pageNumber <= this.pageCount-1;}}
+	global Integer pageStartPosition {get{ return this.pageNumber * this.pageSize; } }
+	global Integer pageEndPosition {
+		get{ 
+			Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
+			endPosition = endPosition < this.all.size() ? endPosition : this.all.size()-1;
+			return endPosition; 
+		} 
+	}
+	global List<Integer> previousSkipPageNumbers {
+		get{
+			List<Integer> returnValues = new List<Integer>();
+			for(Integer i = skipSize; i > 0; i--){
+				if(pageNumber-i < 0){
+					continue;
+				}
+				returnValues.add(pageNumber-i);
+			}
+			return returnValues;
+		}
+	}
+	global List<Integer> nextSkipPageNumbers {
+		get{
+			List<Integer> returnValues = new List<Integer>();
+			for(Integer i = 1; i <= skipSize; i++){
+				if(pageNumber+i >= pageCount){
+					break;
+				}
+				returnValues.add(pageNumber+i);
+			}
+			return returnValues;
+		}
+	}
+
+	global Integer pageNumberDisplayFriendly {get{ return this.pageNumber + 1; } }
+	global Integer pageStartPositionDisplayFriendly {get{ return this.pageStartPosition + 1; } }
+	global Integer pageEndPositionDisplayFriendly {get{ return this.pageEndPosition + 1; } }
 
 	global IObjectPaginator(List<IObject> all){
-		this(all,DEFAULT_PAGE_SIZE,null);
+		this(all,DEFAULT_PAGE_SIZE,DEFAULT_SKIP_SIZE,null);
 	}
 	
 	global IObjectPaginator(List<IObject> all, Integer pageSize){
-		this(all,pageSize,null);
+		this(all,pageSize,DEFAULT_SKIP_SIZE,null);
+	}
+	
+	global IObjectPaginator(List<IObject> all, IObjectPaginatorListener listener){
+		this(all,DEFAULT_PAGE_SIZE,listener);
+	}
+	
+	global IObjectPaginator(List<IObject> all, Integer pageSize, Integer skipSize){
+		this(all,pageSize,skipSize,null);
 	}
 	
 	global IObjectPaginator(List<IObject> all, Integer pageSize, IObjectPaginatorListener listener){
+		this(all,pageSize,DEFAULT_SKIP_SIZE,listener);
+	}
+	
+	global IObjectPaginator(List<IObject> all, Integer pageSize, Integer skipSize, IObjectPaginatorListener listener){
+		setSkipSize(skipSize);
 		addListener(listener);
 		reset(all,pageSize);
 	}
@@ -43,6 +95,10 @@ global class IObjectPaginator {
 	
 	global void setPageSize(Integer pageSize){
 		reset(this.all,pageSize);
+	}
+
+	global void setSkipSize(Integer skipSize){
+		this.skipSize = skipSize < 0 || skipSize > MAX_SKIP_SIZE ? this.skipSize : skipSize;
 	}
 	
 	global PageReference skipToPage(Integer pageNumber){
@@ -94,11 +150,13 @@ global class IObjectPaginator {
 	private void updatePage() {
 		this.page = null;
 		if(this.all != null && this.all.size() > 0){
+			/*
 			Integer startPosition = this.pageNumber * this.pageSize;
 			Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
 			endPosition = endPosition < this.all.size() ? endPosition : this.all.size()-1;
+			*/
 			this.page = new List<IObject>();
-			for (Integer i = startPosition; i <= endPosition; i++) {
+			for (Integer i = this.pageStartPosition; i <= this.pageEndPosition; i++) {
 				this.page.add(this.all.get(i));
 			}
 		}
