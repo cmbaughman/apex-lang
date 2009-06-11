@@ -185,7 +185,7 @@ private class TestArrayUtils {
 	}  
 
 	private static testmethod void testToString(){
-		List<IObject> aList = null;
+		List<Object> aList = null;
 		ArrayUtils.toString(aList);
 		aList = new DecimalRange[]{};
 		ArrayUtils.toString(aList);
@@ -216,7 +216,7 @@ private class TestArrayUtils {
 	}
 	
 	private static testmethod void testSubsetCustomClasses(){
-		IObject[] iobjs = new DecimalRange[]{
+		Object[] iobjs = new DecimalRange[]{
 			new DecimalRange(1,1),new DecimalRange(2,2),new DecimalRange(3,3)};
 		List<Object> returned = ArrayUtils.subset(iobjs, 2);
 		System.assertNotEquals(null,returned);
@@ -227,7 +227,7 @@ private class TestArrayUtils {
 	}
 
 	private static testmethod void testMergeCustomClasses(){
-		List<IObject> l1 = new List<IObject>();
+		List<Object> l1 = new List<Object>();
 		for(Integer i = 0; i < ArrayUtils.MAX_NUMBER_OF_ELEMENTS_IN_LIST; i++){
 			l1.add(new DecimalRange(i,i));
 		}

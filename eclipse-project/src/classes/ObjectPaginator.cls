@@ -9,16 +9,16 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global class IObjectPaginator {
+global class ObjectPaginator {
 
 	global static final Integer DEFAULT_PAGE_SIZE = 20;
 	global static final Integer DEFAULT_SKIP_SIZE = 3;
 	private static final Integer MAX_SKIP_SIZE = 20;
 
-	private List<IObjectPaginatorListener> listeners = new List<IObjectPaginatorListener>();
+	private List<ObjectPaginatorListener> listeners = new List<ObjectPaginatorListener>();
 	
-	global List<IObject> all {get;private set;}
-	global List<IObject> page {get;private set;}
+	global List<Object> all {get;private set;}
+	global List<Object> page {get;private set;}
 	global Integer pageSize = DEFAULT_PAGE_SIZE;
 	global Integer skipSize = DEFAULT_SKIP_SIZE;
 	global Integer pageNumber {get;private set;}
@@ -63,33 +63,33 @@ global class IObjectPaginator {
 	global Integer pageStartPositionDisplayFriendly {get{ return this.pageStartPosition + 1; } }
 	global Integer pageEndPositionDisplayFriendly {get{ return this.pageEndPosition + 1; } }
 
-	global IObjectPaginator(List<IObject> all){
+	global ObjectPaginator(List<Object> all){
 		this(all,DEFAULT_PAGE_SIZE,DEFAULT_SKIP_SIZE,null);
 	}
 	
-	global IObjectPaginator(List<IObject> all, Integer pageSize){
+	global ObjectPaginator(List<Object> all, Integer pageSize){
 		this(all,pageSize,DEFAULT_SKIP_SIZE,null);
 	}
 	
-	global IObjectPaginator(List<IObject> all, IObjectPaginatorListener listener){
+	global ObjectPaginator(List<Object> all, ObjectPaginatorListener listener){
 		this(all,DEFAULT_PAGE_SIZE,listener);
 	}
 	
-	global IObjectPaginator(List<IObject> all, Integer pageSize, Integer skipSize){
+	global ObjectPaginator(List<Object> all, Integer pageSize, Integer skipSize){
 		this(all,pageSize,skipSize,null);
 	}
 	
-	global IObjectPaginator(List<IObject> all, Integer pageSize, IObjectPaginatorListener listener){
+	global ObjectPaginator(List<Object> all, Integer pageSize, ObjectPaginatorListener listener){
 		this(all,pageSize,DEFAULT_SKIP_SIZE,listener);
 	}
 	
-	global IObjectPaginator(List<IObject> all, Integer pageSize, Integer skipSize, IObjectPaginatorListener listener){
+	global ObjectPaginator(List<Object> all, Integer pageSize, Integer skipSize, ObjectPaginatorListener listener){
 		setSkipSize(skipSize);
 		addListener(listener);
 		reset(all,pageSize);
 	}
 	
-	global void setRecords(List<IObject> all){
+	global void setRecords(List<Object> all){
 		reset(all,this.pageSize);
 	}
 	
@@ -140,7 +140,7 @@ global class IObjectPaginator {
 		return null;
 	}
 	
-	private void reset(List<IObject> all, Integer pageSize){
+	private void reset(List<Object> all, Integer pageSize){
 		this.all = all;
 		this.pageSize = pageSize < 1 ? DEFAULT_PAGE_SIZE : pageSize;
 		this.pageNumber = 0;
@@ -155,12 +155,12 @@ global class IObjectPaginator {
 			Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
 			endPosition = endPosition < this.all.size() ? endPosition : this.all.size()-1;
 			*/
-			this.page = new List<IObject>();
+			this.page = new List<Object>();
 			for (Integer i = this.pageStartPosition; i <= this.pageEndPosition; i++) {
 				this.page.add(this.all.get(i));
 			}
 		}
-		for(IObjectPaginatorListener listener : listeners){
+		for(ObjectPaginatorListener listener : listeners){
 			listener.handlePageChange(this.page);
 		}
 		/*
@@ -177,8 +177,8 @@ global class IObjectPaginator {
 		System.debug('==============================================================');
 		*/
 	}
-	
-	global void addListener(IObjectPaginatorListener listener){
+	 
+	global void addListener(ObjectPaginatorListener listener){
 		if(listener != null){
 			listeners.add(listener);
 		}
