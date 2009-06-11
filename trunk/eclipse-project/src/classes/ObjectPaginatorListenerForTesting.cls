@@ -9,6 +9,15 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global interface IObjectPaginatorListener {
-	void handlePageChange(List<IObject> newPage);
+global class ObjectPaginatorListenerForTesting implements ObjectPaginatorListener{
+	global Boolean handlePageChangeInvoked {get;set;}
+	
+	global ObjectPaginatorListenerForTesting(){
+		handlePageChangeInvoked = false;
+	}
+	
+	global void handlePageChange(List<Object> newPage){
+		handlePageChangeInvoked = true;
+	}
+	
 }

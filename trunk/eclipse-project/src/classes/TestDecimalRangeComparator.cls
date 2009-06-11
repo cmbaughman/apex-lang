@@ -13,7 +13,7 @@
 private class TestDecimalRangeComparator {
 
 	private static testmethod void testIllegalArgumentExceptionThrown(){
-		IObjectComparator drc = new DecimalRangeComparator();
+		ObjectComparator drc = new DecimalRangeComparator();
 		Boolean exceptionThrown = false;
 		try{
 			drc.compare(null,null);
@@ -24,9 +24,9 @@ private class TestDecimalRangeComparator {
 	}
 
 	private static testmethod void testCompare(){
-		IObject r1 = new DecimalRange(1,2);
-		IObject r2 = new DecimalRange(1.5,1.7);
-		IObjectComparator drc = new DecimalRangeComparator();
+		Object r1 = new DecimalRange(1,2);
+		Object r2 = new DecimalRange(1.5,1.7);
+		ObjectComparator drc = new DecimalRangeComparator();
 		System.assertEquals(-1,drc.compare(r1,r2));
 		System.assertEquals(0,drc.compare(r1,r1));
 		System.assertEquals(1,drc.compare(r2,r1));

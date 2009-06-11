@@ -9,6 +9,6 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global interface IObjectComparator{
-	Integer compare(IObject object1, IObject object2);
+global interface ObjectPaginatorListener {
+	void handlePageChange(List<Object> newPage);
 }

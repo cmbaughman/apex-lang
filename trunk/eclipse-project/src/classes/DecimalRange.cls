@@ -9,7 +9,7 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global class DecimalRange implements IObject{
+global class DecimalRange{
 
 	private Decimal min;
 	private Decimal max;

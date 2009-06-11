@@ -78,13 +78,6 @@ global class ArrayUtils {
     	return objectArray.size() == 0;
     }
 	
-/*    global static Boolean isEmpty(IObject[] objectArray){
-    	if(objectArray == null){
-    		return true;
-    	}
-    	return objectArray.size() == 0;
-    }
-	*/
     global static Boolean isEmpty(SObject[] objectArray){
     	if(objectArray == null){
     		return true;
@@ -96,10 +89,6 @@ global class ArrayUtils {
     	return !isEmpty(objectArray);
     }
 	
-/*    global static Boolean isNotEmpty(IObject[] objectArray){
-    	return !isEmpty(objectArray);
-    }
-	*/
     global static Boolean isNotEmpty(SObject[] objectArray){
     	return !isEmpty(objectArray);
     }
@@ -115,18 +104,6 @@ global class ArrayUtils {
     	return plucked;
     }
 	
-    global static String toString(IObject[] objectArray){
-    	if(objectArray == null){
-    		return 'null';	
-    	}
-    	String returnValue = '{';
-        for(Integer i = 0; i < objectArray.size(); i++){
-	    	if(i!=0){ returnValue += ','; }
-	    	returnValue += '\'' + objectArray[i] + '\'';
-        }
-    	returnValue += '}';
-    	return returnValue; 
-    }
     
     global static String toString(Object[] objectArray){
     	if(objectArray == null){
@@ -211,24 +188,7 @@ global class ArrayUtils {
 		}
 		return returnList;
 	}
-	/*
-	global static List<IObject> merg(List<IObject> list1, List<IObject> list2) {
-		List<IObject> returnList = new List<IObject>();
-		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
-			throw new IllegalArgumentException('Lists cannot be merged because new list would be greater than maximum number of elements in a list: ' + MAX_NUMBER_OF_ELEMENTS_IN_LIST);
-		}
-		if(isNotEmpty(list1)){
-			for(IObject elmt : list1){
-				returnList.add(elmt);
-			}
-		}
-		if(isNotEmpty(list2)){
-			for(IObject elmt : list2){
-				returnList.add(elmt);
-			}
-		}
-		return returnList;
-	}*/
+
 	
 	global static List<SObject> merg(List<SObject> list1, List<SObject> list2) {
 		if(list1 != null && list2 != null && (list1.size()+list2.size()) > MAX_NUMBER_OF_ELEMENTS_IN_LIST){
@@ -264,20 +224,7 @@ global class ArrayUtils {
 		}
 		return returnList;
 	}
-	/*
-	global static List<IObject> subset(List<IObject> aList, Integer count) {
-		return subset(aList,0,count);
-	}*/
 
-	/*global static List<IObject> subset(List<IObject> list1, Integer startIndex, Integer count) {
-		List<IObject> returnList = new List<IObject>();
-		if(list1 != null && list1.size() > 0 && startIndex <= list1.size()-1 && count > 0){
-			for(Integer i = startIndex; i < list1.size() && i - startIndex < count; i++){
-				returnList.add(list1.get(i));
-			}
-		}
-		return returnList;
-	}*/
 	
 	global static List<SObject> subset(List<SObject> aList, Integer count) {
 		return subset(aList,0,count);
@@ -315,14 +262,7 @@ global class ArrayUtils {
 		return qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
 	}
 	
-	//FOR CUSTOM CLASSES (or rather those that implement IObject):
-	global static List<IObject> qsort(List<IObject> theList, IObjectComparator comparator) {
-		return qsort(theList,comparator,true);
-	}
-	
-	global static List<IObject> qsort(List<IObject> theList, IObjectComparator comparator, Boolean sortAsc) {
-		return qsort(theList, 0, (theList == null ? 0 : theList.size()-1),comparator,sortAsc);
-	}
+
 	
 	//FOR SALESFORCE OBJECTS (sObjects):
 	global static List<SObject> qsort(List<SObject> theList, ISObjectComparator comparator) {
@@ -382,54 +322,6 @@ global class ArrayUtils {
         return theList;
 	}	
 	    
-	private static List<IObject> qsort(List<IObject> theList,  
-								Integer lo0, 
-								Integer hi0,
-								IObjectComparator comparator,
-								Boolean sortAsc){
-		Integer lo = lo0;
-        Integer hi = hi0;
-     
-        if (lo >= hi) {
-            return theList;
-        } else if( lo == hi - 1 ) {
-        
-            if (( comparator.compare(theList[lo],theList[hi])>0 && sortAsc) || 
-            	  (comparator.compare(theList[lo],theList[hi])<0 && !sortAsc)	
-            	) {
-                 IObject prs = theList[lo];
-                 theList[lo]         = theList[hi];
-                 theList[hi]         = prs;
-            }
-            return theList;
-        }
-
-        IObject pivot = theList[(lo + hi) / 2];
-        theList[(lo + hi) / 2] = theList[hi];
-        theList[hi] = pivot;
-
-        while( lo < hi ) {
-            while ((comparator.compare(theList[lo], pivot)<=0 && lo < hi && sortAsc) || 
-            	   (comparator.compare(theList[lo], pivot)>=0 && lo < hi && !sortAsc)
-            	  ) { lo++; }
-            while (( comparator.compare(pivot,theList[hi])<=0 && lo < hi && sortAsc) ||
-            	   ( comparator.compare(pivot,theList[hi])>=0 && lo < hi && !sortAsc)
-            	  ) { hi--; }
-            
-            if( lo < hi ){
-                 IObject prs = theList[lo];
-                 theList[lo]   = theList[hi];
-                 theList[hi]    = prs;
-            }
-        }
-
-        theList[hi0] = theList[hi];
-        theList[hi] = pivot;
-        
-        qsort(theList, lo0, lo-1,comparator,sortAsc);
-        qsort(theList, hi+1, hi0,comparator,sortAsc);
-        return theList;
-	}
     
 	private static List<SObject> qsort(List<SObject> theList,
 								Integer lo0, 

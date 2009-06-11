@@ -9,9 +9,9 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-global class DecimalRangeComparator implements IObjectComparator{
+global class DecimalRangeComparator implements ObjectComparator{
 
-	global Integer compare(IObject object1, IObject object2){
+	global Integer compare(Object object1, Object object2){
 		if(object1==null || !(object1 instanceof DecimalRange)
 		|| object2==null || !(object2 instanceof DecimalRange)){
 			throw new IllegalArgumentException();
