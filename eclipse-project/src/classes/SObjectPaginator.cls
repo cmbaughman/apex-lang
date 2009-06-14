@@ -159,9 +159,7 @@ global class SObjectPaginator {
 			for (Integer i = this.pageStartPosition; i <= this.pageEndPosition; i++) {
 				this.page.add(this.all.get(i));
 			}
-		}
-		for(SObjectPaginatorListener listener : listeners){
-			listener.handlePageChange(this.page);
+			firePageChangeEvent();
 		}
 		/*
 		System.debug('==============================================================');
@@ -181,6 +179,12 @@ global class SObjectPaginator {
 	global void addListener(SObjectPaginatorListener listener){
 		if(listener != null){
 			listeners.add(listener);
+		}
+	}
+	
+	global void firePageChangeEvent(){
+		for(SObjectPaginatorListener listener : listeners){
+			listener.handlePageChange(this.page);
 		}
 	}
 
