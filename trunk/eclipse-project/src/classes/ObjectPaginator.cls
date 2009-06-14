@@ -160,9 +160,7 @@ global class ObjectPaginator {
 				this.page.add(this.all.get(i));
 			}
 		}
-		for(ObjectPaginatorListener listener : listeners){
-			listener.handlePageChange(this.page);
-		}
+		firePageChangeEvent();
 		/*
 		System.debug('==============================================================');
 		System.debug('After Update Page:');
@@ -184,4 +182,9 @@ global class ObjectPaginator {
 		}
 	}
 
+	global void firePageChangeEvent(){
+		for(ObjectPaginatorListener listener : listeners){
+			listener.handlePageChange(this.page);
+		}
+	}
 }
