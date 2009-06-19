@@ -15,13 +15,15 @@ private class TestObjectPaginator {
 	private static testmethod void testHundredObjects(){
 		Integer RECORD_COUNT = 100;
 		List<Object> records = createTestObject(RECORD_COUNT);
-		final ObjectPaginator paginator = new ObjectPaginator(records);
+		final ObjectPaginator paginator = new ObjectPaginator();
+		paginator.setRecords(records);
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(RECORD_COUNT,paginator.all.size());
 		System.assertEquals(RECORD_COUNT,paginator.recordCount);
 		System.assertNotEquals(null,paginator.page);
 		System.assertEquals(ObjectPaginator.DEFAULT_PAGE_SIZE,paginator.page.size());
 		System.assertEquals(ObjectPaginator.DEFAULT_PAGE_SIZE,paginator.pageSize);
+		System.assertEquals(ObjectPaginator.DEFAULT_PAGE_SIZE,paginator.getPageSize());
 		System.assertEquals(0,paginator.pageNumber);
 		System.assertEquals(Math.ceil(RECORD_COUNT/ObjectPaginator.DEFAULT_PAGE_SIZE).intValue(), paginator.pageCount);
 		System.assertEquals(true,paginator.hasNext);
@@ -47,7 +49,9 @@ private class TestObjectPaginator {
 	
 	private static testmethod void testRecordsSmallerThanPageSize(){
 		List<Object> records = createTestObject(8);
-		final ObjectPaginator paginator = new ObjectPaginator(records,5);
+		final ObjectPaginator paginator = new ObjectPaginator(5);
+		paginator.setRecords(records);
+		
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(8,paginator.all.size());
 		System.assertNotEquals(null,paginator.page);
@@ -91,7 +95,8 @@ private class TestObjectPaginator {
 	}
 
 	private static testmethod void testNextIllegalState(){
-		ObjectPaginator paginator = new ObjectPaginator(createTestObject(2),1);
+		ObjectPaginator paginator = new ObjectPaginator(1);
+		paginator.setRecords(createTestObject(2));
 		paginator.next();
 		Boolean exceptionThrown = false;
 		try{
@@ -101,7 +106,8 @@ private class TestObjectPaginator {
 		}
 		System.assertEquals(true,exceptionThrown);
 
-		paginator = new ObjectPaginator(createTestObject(4),1);
+		paginator = new ObjectPaginator(1);
+		paginator.setRecords(createTestObject(4));
 		paginator.next();
 		paginator.next();
 		paginator.next();
@@ -115,7 +121,8 @@ private class TestObjectPaginator {
 	}
 	
 	private static testmethod void testPreviousIllegalState(){
-		ObjectPaginator paginator = new ObjectPaginator(createTestObject(2),1);
+		ObjectPaginator paginator = new ObjectPaginator(1);
+		paginator.setRecords(createTestObject(2));
 		Boolean exceptionThrown = false;
 		try{
 			paginator.previous();
@@ -126,7 +133,8 @@ private class TestObjectPaginator {
 	}
 	
 	private static testmethod void testSkipToPage(){
-		ObjectPaginator paginator = new ObjectPaginator(createTestObject(10),3);
+		ObjectPaginator paginator = new ObjectPaginator(3);
+		paginator.setRecords(createTestObject(10));
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(10,paginator.all.size());
 		System.assertNotEquals(null,paginator.page);
@@ -169,7 +177,8 @@ private class TestObjectPaginator {
 		ObjectPaginatorListenerForTesting listener = new ObjectPaginatorListenerForTesting();
 		System.assertEquals(false,listener.handlePageChangeInvoked); 
 		List<Object> records = createTestObject(8);
-		ObjectPaginator paginator = new ObjectPaginator(records,listener);
+		ObjectPaginator paginator = new ObjectPaginator(listener);
+		paginator.setRecords(records);
 		paginator.setPageSize(5);
 		System.assertEquals(true,listener.handlePageChangeInvoked);
 
@@ -195,7 +204,8 @@ private class TestObjectPaginator {
 	}
 	
 	private static testmethod void testBadInput(){
-		ObjectPaginator paginator = new ObjectPaginator(null);
+		ObjectPaginator paginator = new ObjectPaginator();
+		paginator.setRecords(null);
 		System.assertEquals(null,paginator.all);
 		System.assertEquals(null,paginator.page);
 		System.assertEquals(ObjectPaginator.DEFAULT_PAGE_SIZE,paginator.pageSize);
@@ -204,7 +214,8 @@ private class TestObjectPaginator {
 		System.assertEquals(false,paginator.hasNext);
 		System.assertEquals(false,paginator.hasPrevious);
 
-		paginator = new ObjectPaginator(createTestObject(0));
+		paginator = new ObjectPaginator();
+		paginator.setRecords(createTestObject(0));
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(0,paginator.all.size());
 		System.assertEquals(null,paginator.page);
@@ -216,7 +227,8 @@ private class TestObjectPaginator {
 	}
 	
 	private static testmethod void testFirstAndLast(){
-		ObjectPaginator paginator = new ObjectPaginator(createTestObject(11),2);
+		ObjectPaginator paginator = new ObjectPaginator(2);
+		paginator.setRecords(createTestObject(11));
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(11,paginator.all.size());
 		System.assertNotEquals(null,paginator.page);
@@ -250,7 +262,8 @@ private class TestObjectPaginator {
 	}
 
 	private static testmethod void testSkipPages(){
-		ObjectPaginator paginator = new ObjectPaginator(createTestObject(11),2,3);
+		ObjectPaginator paginator = new ObjectPaginator(2,3);
+		paginator.setRecords(createTestObject(11));
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(11,paginator.all.size());
 		System.assertNotEquals(null,paginator.page);
