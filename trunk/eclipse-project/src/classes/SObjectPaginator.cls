@@ -63,30 +63,30 @@ global class SObjectPaginator {
 	global Integer pageStartPositionDisplayFriendly {get{ return this.pageStartPosition + 1; } }
 	global Integer pageEndPositionDisplayFriendly {get{ return this.pageEndPosition + 1; } }
 
-	global SObjectPaginator(List<SObject> all){
-		this(all,DEFAULT_PAGE_SIZE,DEFAULT_SKIP_SIZE,null);
+	global SObjectPaginator(){
+		this(DEFAULT_PAGE_SIZE,DEFAULT_SKIP_SIZE,null);
 	}
 	
-	global SObjectPaginator(List<SObject> all, Integer pageSize){
-		this(all,pageSize,DEFAULT_SKIP_SIZE,null);
+	global SObjectPaginator(Integer pageSize){
+		this(pageSize,DEFAULT_SKIP_SIZE,null);
 	}
 	
-	global SObjectPaginator(List<SObject> all, SObjectPaginatorListener listener){
-		this(all,DEFAULT_PAGE_SIZE,listener);
+	global SObjectPaginator(SObjectPaginatorListener listener){
+		this(DEFAULT_PAGE_SIZE,listener);
 	}
 	
-	global SObjectPaginator(List<SObject> all, Integer pageSize, Integer skipSize){
-		this(all,pageSize,skipSize,null);
+	global SObjectPaginator(Integer pageSize, Integer skipSize){
+		this(pageSize,skipSize,null);
 	}
 	
-	global SObjectPaginator(List<SObject> all, Integer pageSize, SObjectPaginatorListener listener){
-		this(all,pageSize,DEFAULT_SKIP_SIZE,listener);
+	global SObjectPaginator(Integer pageSize, SObjectPaginatorListener listener){
+		this(pageSize,DEFAULT_SKIP_SIZE,listener);
 	}
 	
-	global SObjectPaginator(List<SObject> all, Integer pageSize, Integer skipSize, SObjectPaginatorListener listener){
+	global SObjectPaginator(Integer pageSize, Integer skipSize, SObjectPaginatorListener listener){
+		setPageSize(pageSize);
 		setSkipSize(skipSize);
 		addListener(listener);
-		reset(all,pageSize);
 	}
 	
 	global void setRecords(List<SObject> all){
@@ -94,7 +94,13 @@ global class SObjectPaginator {
 	}
 	
 	global void setPageSize(Integer pageSize){
-		reset(this.all,pageSize);
+		if(this.pageSize!=pageSize){
+			reset(this.all,pageSize);
+		}
+	}
+	
+	global Integer getPageSize(){
+		return pageSize;
 	}
 
 	global void setSkipSize(Integer skipSize){
@@ -114,7 +120,7 @@ global class SObjectPaginator {
 		if(!this.hasNext){
 			throw new IllegalStateException();
 		}
-		pageNumber++;
+		this.pageNumber++;
 		updatePage();
 		return null;
 	}
@@ -123,19 +129,19 @@ global class SObjectPaginator {
 		if(!this.hasPrevious){
 			throw new IllegalStateException();
 		}
-		pageNumber--;
+		this.pageNumber--;
 		updatePage();
 		return null;
 	}
 	
 	global PageReference first(){
-		pageNumber = 0;
+		this.pageNumber = 0;
 		updatePage();
 		return null;
 	}
 	
 	global PageReference last(){
-		pageNumber = pageCount - 1;
+		this.pageNumber = pageCount - 1;
 		updatePage();
 		return null;
 	}
@@ -150,42 +156,23 @@ global class SObjectPaginator {
 	private void updatePage() {
 		this.page = null;
 		if(this.all != null && this.all.size() > 0){
-			/*
-			Integer startPosition = this.pageNumber * this.pageSize;
-			Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
-			endPosition = endPosition < this.all.size() ? endPosition : this.all.size()-1;
-			*/
 			this.page = ArrayUtils.createEmptySObjectList(this.all.get(0));
 			for (Integer i = this.pageStartPosition; i <= this.pageEndPosition; i++) {
 				this.page.add(this.all.get(i));
 			}
-			firePageChangeEvent();
 		}
-		/*
-		System.debug('==============================================================');
-		System.debug('After Update Page:');
-		System.debug('this.all         = ' + ArrayUtils.toString(this.all));
-		System.debug('this.page        = ' + ArrayUtils.toString(this.page));
-		System.debug('this.pageSize    = ' + this.pageSize);
-		System.debug('this.pageNumber  = ' + this.pageNumber);
-		System.debug('this.pageCount   = ' + this.pageCount);
-		System.debug('this.recordCount = ' + this.recordCount);
-		System.debug('this.hasNext     = ' + this.hasNext);
-		System.debug('this.hasPrevious = ' + this.hasPrevious);
-		System.debug('==============================================================');
-		*/
+		firePageChangeEvent();
 	}
-	
+	 
 	global void addListener(SObjectPaginatorListener listener){
 		if(listener != null){
 			listeners.add(listener);
 		}
 	}
-	
+
 	global void firePageChangeEvent(){
 		for(SObjectPaginatorListener listener : listeners){
 			listener.handlePageChange(this.page);
 		}
 	}
-
 }
