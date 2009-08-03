@@ -137,6 +137,11 @@ global class PageUtils {
 		return false;
 	}
 
-	
-	
+	global static String encodeVariable(String variable){
+        if(variable!=null){
+        	return EncodingUtil.urlEncode(variable,'UTF-8');
+        } else {
+        	return '';
+        }                        
+    }	
 }

@@ -1361,12 +1361,8 @@ global class StringUtils {
     global static boolean regionMatches(String str, boolean ignoreCase,
 		Integer toffset, String other, Integer ooffset, Integer len){
 		
-		System.debug('regionMatches(\'' + str + '\',' + ignoreCase + ',' + toffset + ',\'' 
-    		+ other + '\',' + ooffset + ',' + len + ')');
         str = substring(str,toffset,toffset+len);
         other = substring(other,ooffset,ooffset+len);
-		System.debug('str = ' + str);
-		System.debug('other = ' + other);
 		if(ignoreCase){
 			return equalsIgnoreCase(str, other);			
 		}
@@ -1869,5 +1865,13 @@ global class StringUtils {
         return str.toUpperCase();
     }
     
+	global static String ensureStringStartsEndsWithChar(String str, String charc){
+		String returnStr = str;
+		if(returnStr != null && charc != null){
+			returnStr = StringUtils.startsWith(str,charc) ? returnStr : charc + returnStr;
+			returnStr = StringUtils.endsWith(str,charc) ? returnStr : returnStr + charc;
+		}
+		return returnStr;
+	}
 
 }

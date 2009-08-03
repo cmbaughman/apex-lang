@@ -140,6 +140,20 @@ private class TestPageUtils {
 		System.assertEquals(false,PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR,true).isEmpty());
 	}
 
+	private static testmethod void testEncodeVariable(){
+		//test: global static String encodeVariable(String variable){
+		assertEncodeVariable(null,'');
+		assertEncodeVariable('test123','test123');
+		assertEncodeVariable('abc$&+,/:;=?@123','abc%24%26%2B%2C%2F%3A%3B%3D%3F%40123');
+	}
+
+    private static void assertEncodeVariable(String variable, String expected){
+    	String actual = PageUtils.encodeVariable(variable);
+    	System.assert(actual==expected, 'PageUtils.encodeVariable(\'' + variable + '\') returned ' + actual + '; expected ' + expected);
+    }
+    
+	
+
 	private static testmethod void testIsMessageAtLevelOrHigher(){
 		//test: global static Boolean isMessageAtLevelOrHigher(ApexPages.Message message, ApexPages.Severity level){
 		assertIsMessageAtLevelOrHigher(null,null,false);

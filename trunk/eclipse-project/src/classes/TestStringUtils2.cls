@@ -744,6 +744,21 @@ private class TestStringUtils2 {
     	ArrayUtils.assertArraysAreEqual(expected, StringUtils.substringsBetween(str,open,close));
     }  
 
+    private static testmethod void testEnsureStringStartsEndsWithChar(){
+		//test: global static String ensureStringStartsEndsWithChar(String str, String charc){
+		assertEnsureStringStartsEndsWithChar(null, null, null);
+		assertEnsureStringStartsEndsWithChar(null, 'abc', null);
+		assertEnsureStringStartsEndsWithChar('', 'abc', 'abcabc');
+		assertEnsureStringStartsEndsWithChar('test123', null, 'test123');
+		assertEnsureStringStartsEndsWithChar('test123', 'abc', 'abctest123abc');
+    }
+
+    private static void assertEnsureStringStartsEndsWithChar(String str, String charc, String expected) {
+    	String actual = StringUtils.ensureStringStartsEndsWithChar(str,charc);
+    	System.assert(actual==expected, 'StringUtils.ensureStringStartsEndsWithChar(\'' + str + '\', \'' + charc 
+    		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }  
+
 
      
 }
