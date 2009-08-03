@@ -30,10 +30,10 @@ private class TestSObjectSortByNameComparator {
 	}
 	
 	private static testmethod void testCompareWithContacts(){
-		Contact a1 = new Contact(lastname='abc');
+		Contact a1 = new Contact(lastname='abc',phone='3213213211');
 		insert a1;
 		a1 = [select name from Contact where id = :a1.id];
-		Contact a2 = new Contact(lastname='efg');
+		Contact a2 = new Contact(lastname='efg',phone='3213213211');
 		insert a2;
 		a2 = [select name from Contact where id = :a2.id];
 		ISObjectComparator comparator = new SObjectSortByNameComparator();

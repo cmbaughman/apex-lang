@@ -116,4 +116,20 @@ private class TestBooleanUtils {
     	
     	System.assertEquals(BooleanUtils.xor(new List<Boolean>{false,false,true}),false);
     }
+    
+    private static testMethod void testStrToBoolean()
+    {
+    	System.assertEquals(BooleanUtils.strToBoolean('true'),true);
+    	System.assertEquals(BooleanUtils.strToBoolean('false'),false);
+    	System.assertEquals(BooleanUtils.strToBoolean(null),false);
+    }
+    
+    private static testMethod void testToStringYN()
+    {
+    	System.assertEquals(BooleanUtils.toStringYN(true),'Y');
+    	System.assertEquals(BooleanUtils.toStringYN(false),'N');
+    	System.assertEquals(BooleanUtils.toStringYN(null),null);
+    }
+    
+    
 }

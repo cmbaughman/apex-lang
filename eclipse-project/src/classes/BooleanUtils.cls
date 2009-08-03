@@ -72,6 +72,18 @@ global class BooleanUtils {
 		}
 	}
 	
+	global static Boolean strToBoolean(String value)
+	{
+		if(value==null)
+			return false;
+		else
+		{
+			if(StringUtils.equalsIgnoreCase(value,'true'))
+				return true;
+			else
+				return false;
+		}
+	}
 	
 	/************************************/
 	//Converts an int to a boolean specifying 
@@ -124,6 +136,20 @@ global class BooleanUtils {
 				return 'no';
 		}
 	}
+	
+	global static String toStringYN(Boolean bool)
+	{
+		if(bool==null)
+			return null;
+		else
+		{
+			if(bool)
+				return 'Y';
+			else
+				return 'N';
+		}
+	}
+	
 	
 	global static String toString(Boolean bool,
 								  String trueString,
