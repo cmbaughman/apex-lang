@@ -47,7 +47,7 @@ private class SObjectUtilsTest {
 		System.assertEquals(null,SObjectUtils.toString(new Account(name='Acme')));
 	}
 	
-	private static testmethod void testGetCachedDescribe(){
+	/*private static testmethod void testGetCachedDescribe(){
 		//test: global static Schema.DescribeSObjectResult getCachedDescribe(SObject obj){
 		Schema.DescribeSObjectResult desc1 = SObjectUtils.getCachedDescribe(new Account());
 		System.debug(desc1);
@@ -57,7 +57,7 @@ private class SObjectUtilsTest {
 		System.debug(desc2);
 		SystemUtils.debugLimits();
 	}
-	
+	*/
 	
 	
 		
