@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestDecimalRangeComparator {
+private class DecimalRangeComparatorTest {
 
 	private static testmethod void testIllegalArgumentExceptionThrown(){
 		ObjectComparator drc = new DecimalRangeComparator();

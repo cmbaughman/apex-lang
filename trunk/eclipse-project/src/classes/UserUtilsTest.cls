@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestUserUtils {
+private class UserUtilsTest {
 
 	private static testmethod void testIsCurrentUserSysAdminPositive(){
 		//test: global static Boolean isCurrentUserSysAdmin(){

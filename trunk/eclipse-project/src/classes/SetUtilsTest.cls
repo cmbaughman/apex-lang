@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestSetUtils {
+private class SetUtilsTest {
 
 	private static testmethod void testObjectToBlob(){
 		//test: global static Set<Blob> objectToBlob(Set<Object> objectSet){

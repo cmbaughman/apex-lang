@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestMapUtils {
+private class MapUtilsTest {
 
 	private static testmethod void testJoinMap(){
 		//test public static String joinMap(Map<String,String> theMap, String keyValueSeparator, String recordSeparator)

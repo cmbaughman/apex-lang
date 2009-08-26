@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestUrlUtils {
+private class UrlUtilsTest {
 
 	private static testmethod void testGetBase(){
 		//test: global static String getBase(String url){

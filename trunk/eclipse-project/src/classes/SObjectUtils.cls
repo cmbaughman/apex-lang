@@ -30,6 +30,19 @@ global class SObjectUtils {
 		return blankFields;
 	}
 	
+	private static final Map<String,Schema.DescribeSObjectResult> cachedDescribes = new Map<String,Schema.DescribeSObjectResult>();
+	global static Schema.DescribeSObjectResult getCachedDescribe(SObject obj){
+		if(obj == null){
+			return null;
+		}
+		final String objectApiName = ''+ obj.getsObjectType();
+		if(!cachedDescribes.containsKey(objectApiName)){
+			cachedDescribes.put(objectApiName, obj.getsObjectType().getDescribe());
+		}
+		return cachedDescribes.get(objectApiName);
+	}
+	
+	
 	global static String toString(SObject obj){
 		if(Limits.getFieldsDescribes() >= Limits.getLimitFieldsDescribes()){
 			return null;

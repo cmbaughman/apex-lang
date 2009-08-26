@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestCharacter {
+private class CharacterTest {
 
    	private static String CHARS_ASCII_CONTROL = '\n\t\r\f';		
 	private static String CHARS_ASCII_DIGITS = '0123456789';

@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestSObjectSortByNameComparator {
+private class SObjectSortByNameComparatorTest {
 
 	private static testmethod void testCompareBadInput(){
 		ISObjectComparator comparator = new SObjectSortByNameComparator();

@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestStringUtils2 {
+private class StringUtils2Test {
 
 	private static testmethod void testLeft(){
 		//test: global static String left(String str, Integer len) {
