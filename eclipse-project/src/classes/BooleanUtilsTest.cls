@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestBooleanUtils {
+private class BooleanUtilsTest {
 
     private static testmethod void testIsFalse()
     {

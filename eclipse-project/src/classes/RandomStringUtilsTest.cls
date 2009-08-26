@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestRandomStringUtils {
+private class RandomStringUtilsTest {
 	
 
 

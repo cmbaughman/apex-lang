@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestDecimalRange {
+private class DecimalRangeTest {
 	
 	private static testmethod void testContains(){
 		assertContains(new DecimalRange(0),0,true);

@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestNumberUtils {
+private class NumberUtilsTest {
 	
     private static testmethod void testMaxIntegerValue(){
     	System.assert(NumberUtils.MAX_INTEGER == 2147483647);

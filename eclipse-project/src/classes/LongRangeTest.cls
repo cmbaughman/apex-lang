@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestLongRange {
+private class LongRangeTest {
 	
 	private static testmethod void testContains(){
 		assertContains(new LongRange(0),0,true);

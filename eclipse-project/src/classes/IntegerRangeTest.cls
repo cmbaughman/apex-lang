@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestIntegerRange {
+private class IntegerRangeTest {
 	
 	private static testmethod void testContains(){
 		assertContains(new IntegerRange(0),0,true);

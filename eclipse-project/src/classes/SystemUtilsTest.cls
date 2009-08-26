@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestSystemUtils {
+private class SystemUtilsTest {
 	private static testmethod void testLimitDebug(){
 		SystemUtils.debugLimits();
 	}

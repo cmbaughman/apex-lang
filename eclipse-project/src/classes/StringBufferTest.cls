@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestStringBuffer {
+private class StringBufferTest {
 	
 	private static testmethod void testDecimal(){
 		Decimal value = 3.14159;

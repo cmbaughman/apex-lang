@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestDoubleRange {
+private class DoubleRangeTest {
 	
 	private static testmethod void testContains(){
 		assertContains(new DoubleRange(0),0,true);

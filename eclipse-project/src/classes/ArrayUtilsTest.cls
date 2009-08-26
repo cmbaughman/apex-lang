@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestArrayUtils {
+private class ArrayUtilsTest {
 	
 	private static testmethod void testReverseObject(){
     	//test: global static Object[] reverse(Object[] anArray) 

@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestPageUtils {
+private class PageUtilsTest {
  
 	private static testmethod void testAddConfirm(){
 		//test: global static void addConfirm(String message){

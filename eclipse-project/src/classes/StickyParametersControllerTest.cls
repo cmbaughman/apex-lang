@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestStickyParametersController {
+private class StickyParametersControllerTest {
 	
 	private class ConcreteStickyParametersController extends StickyParametersController{
 		public ConcreteStickyParametersController(String[] stickyParams){

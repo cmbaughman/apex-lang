@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestStringUtils {
+private class StringUtilsTest {
 
     private static testmethod void testAbbreviateTwoArgs(){
 		assertAbbreviateTwoArgs(null, 		-1, null, 		false);

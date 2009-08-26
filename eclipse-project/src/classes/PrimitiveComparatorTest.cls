@@ -10,7 +10,7 @@
  * ============================================================
  */
 @IsTest
-private class TestPrimitiveComparator {
+private class PrimitiveComparatorTest {
 
 	private static testmethod void testNulls(){
 		String aNull = null;
