@@ -1874,4 +1874,15 @@ global class StringUtils {
 		return returnStr;
 	}
 
+	global static String[] toCharArray(String str){
+		List<String> strs = new List<String>();
+		if(str != null && str.length() > 0){
+			for(Integer i = 0; i < str.length(); i++){
+				strs.add(str.substring(i, i+1));
+			}
+		}	
+		return strs;
+	}
+	
+
 }
