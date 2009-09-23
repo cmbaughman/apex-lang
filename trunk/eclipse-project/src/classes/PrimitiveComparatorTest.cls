@@ -74,7 +74,7 @@ private class PrimitiveComparatorTest {
 	}
 	private static void assertCompareDouble(Object d1, Object d2, Integer expected){ System.assertEquals(expected,(new PrimitiveComparator()).compare(d1,d2));}
 	
-	private static testmethod void testID(){
+	/*private static testmethod void testID(){
 		Account a = new Account(name='test1');
 		insert a;
 		ID i1 = a.id;
@@ -86,6 +86,7 @@ private class PrimitiveComparatorTest {
 		assertCompareID(i2,i1,1);
 	}
 	private static void assertCompareID(Object i1, Object i2, Integer expected){ System.assertEquals(expected,(new PrimitiveComparator()).compare(i1,i2));}
+	*/
 	
 	private static testmethod void testInteger(){ 
 		Integer i1 = -10;

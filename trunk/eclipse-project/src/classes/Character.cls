@@ -78,7 +78,29 @@ global class Character {
 		return null; 
 	}
 	
+	global static String toTitleCase(String ch){
+		if(inAsciiRange(ch,LOWERCASE_ASCII_RANGE)){
+			return toChar(toAscii(ch)-32);
+		}
+		return ch; 
+	}
+	
+	global static String toUpperCase(String ch){
+		return toTitleCase(ch); 
+	}
+	
+	global static String toLowerCase(String ch){
+		if(inAsciiRange(ch,UPPERCASE_ASCII_RANGE)){
+			return toChar(toAscii(ch)+32);
+		}
+		return ch; 
+	}
+	
 	global static Boolean isUpperCase(String character){ 
+		return inAsciiRange(character,UPPERCASE_ASCII_RANGE); 
+	}
+	
+	global static Boolean isTitleCase(String character){ 
 		return inAsciiRange(character,UPPERCASE_ASCII_RANGE); 
 	}
 	

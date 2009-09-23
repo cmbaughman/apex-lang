@@ -351,8 +351,7 @@ private class StringUtils2Test {
     private static testmethod void testStartsWithIgnoreCase(){
     	//test:global static boolean startsWithIgnoreCase(String str, String prefix) 
 		assertStartsWithIgnoreCase(null, null, true);
-		assertStartsWithIgnoreCase(null, 'abcdef', false);
-		assertStartsWithIgnoreCase('abc', null, false);
+		assertStartsWithIgnoreCase(null, 'abcdef', false);		assertStartsWithIgnoreCase('abc', null, false);
 		assertStartsWithIgnoreCase('abcdef', 'abc', true);
 		assertStartsWithIgnoreCase('ABCDEF', 'abc', true); 
     }
@@ -723,7 +722,7 @@ private class StringUtils2Test {
 		assertSubstringBetweenThreeArgs('yabcz', '', '', '');
 		assertSubstringBetweenThreeArgs('yabcz', 'y', 'z', 'abc');
 		assertSubstringBetweenThreeArgs('yabczyabcz', 'y', 'z', 'abc');
-    }
+    } 
 
     private static void assertSubstringBetweenThreeArgs(String str, String open, String close, String expected) {
     	String actual = StringUtils.substringBetween(str,open,close);
@@ -759,6 +758,13 @@ private class StringUtils2Test {
     		+ '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }  
 
+    private static testmethod void testToCharArray(){
+		//test: global static String[] toCharArray(String str){
+    	ArrayUtils.assertArraysAreEqual(new String[]{},StringUtils.toCharArray(null));
+    	ArrayUtils.assertArraysAreEqual(new String[]{},StringUtils.toCharArray(''));
+    	ArrayUtils.assertArraysAreEqual(new String[]{' '},StringUtils.toCharArray(' '));
+    	ArrayUtils.assertArraysAreEqual(new String[]{' ',' '},StringUtils.toCharArray('  '));
+    	ArrayUtils.assertArraysAreEqual(new String[]{'a','b','c'},StringUtils.toCharArray('abc'));
+    }
 
-     
 }

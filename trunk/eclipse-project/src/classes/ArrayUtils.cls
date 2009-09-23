@@ -371,6 +371,44 @@ global class ArrayUtils {
         qsort(theList, hi+1, hi0,comparator,sortAsc);
         return theList;
 	}
+/*
+	global static List<Object> unique(List<Object> theList) {
+		List<Object> uniques = new List<Object>();
+		Set<Object> keys = new Set<Object>(); 
+		if(theList != null && theList.size() > 0){
+			for(Object obj : theList){
+				if(keys.contains(obj)){
+					continue;
+				} else {
+					keys.add(obj);
+					uniques.add(obj);
+				}
+			}
+		}
+		return uniques;
+	}
+
+	global static List<SObject> unique(List<SObject> theList) {
+		if(theList == null){
+			return null;
+		}
+		List<SObject> uniques = createEmptySObjectList(theList.get(0));
+		Set<String> keys = new Set<String>(); 
+		if(theList != null && theList.size() > 0){
+			String key = null;
+			for(SObject obj : theList){
+				key = obj == null ? null : ''+obj;
+				if(keys.contains(key)){
+					continue;
+				} else {
+					keys.add(key);
+					uniques.add(obj);
+				}
+			}
+		}
+		return uniques;
+	}
+*/
 
 
 }
