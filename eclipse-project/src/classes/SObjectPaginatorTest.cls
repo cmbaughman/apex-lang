@@ -8,16 +8,13 @@
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
- */
+ */ 
 @IsTest
 private class SObjectPaginatorTest {
 
-	private static testmethod void testHundredAccounts(){
+	private static testmethod void testHundredObjects(){
 		Integer RECORD_COUNT = 100;
-		List<SObject> records = new List<Account>();
-		for(Integer i = 0; i < RECORD_COUNT; i++){
-			records.add(new Account(name='test'+i));
-		}
+		List<SObject> records = createTestAccount(RECORD_COUNT);
 		final SObjectPaginator paginator = new SObjectPaginator();
 		paginator.setRecords(records);
 		System.assertNotEquals(null,paginator.all);
@@ -51,9 +48,10 @@ private class SObjectPaginatorTest {
 	}
 	
 	private static testmethod void testRecordsSmallerThanPageSize(){
-		List<Account> records = createTestAccount(8);
+		List<SObject> records = createTestAccount(8);
 		final SObjectPaginator paginator = new SObjectPaginator(5);
 		paginator.setRecords(records);
+		
 		System.assertNotEquals(null,paginator.all);
 		System.assertEquals(8,paginator.all.size());
 		System.assertNotEquals(null,paginator.page);
@@ -134,6 +132,197 @@ private class SObjectPaginatorTest {
 		System.assertEquals(true,exceptionThrown);
 	}
 	
+	private static void assertDefaultPageSize(SObjectPaginator paginator){
+		System.assertEquals(SObjectPaginator.DEFAULT_PAGE_SIZE, paginator.pageSize);
+	}
+	
+	private static void assertDefaultPageSizeOptions(SObjectPaginator paginator){
+		System.assertEquals(SObjectPaginator.DEFAULT_PAGE_SIZE_OPTIONS, paginator.pageSizeIntegerOptions);
+		final List<SelectOption> SEL_OPTIONS = new List<SelectOption>(); 
+		for(Integer i : SObjectPaginator.DEFAULT_PAGE_SIZE_OPTIONS){
+			SEL_OPTIONS.add(new SelectOption(''+i,''+i));
+		}
+		//ArrayUtils.assertArraysAreEqual(SEL_OPTIONS, paginator.pageSizeSelectOptions);
+		System.assertNotEquals(null, paginator.getPageSizeOptions());
+	}
+	
+	private static void assertDefaultSkipSize(SObjectPaginator paginator){
+		System.assertEquals(SObjectPaginator.DEFAULT_SKIP_SIZE, paginator.skipSize);
+	}
+	
+	private static void assertDefaultListener(SObjectPaginator paginator){
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(0, paginator.listeners.size());
+	}
+	
+	private static testmethod void testConstructor01(){
+		//global SObjectPaginator(){
+		final SObjectPaginator paginator = new SObjectPaginator();
+		assertDefaultPageSize(paginator);
+		assertDefaultPageSizeOptions(paginator);
+		assertDefaultSkipSize(paginator);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor02(){
+		//global SObjectPaginator(SObjectPaginatorListener listener ){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+
+		final SObjectPaginator paginator = new SObjectPaginator(EXAMPLE_LISTENER);
+		assertDefaultPageSize(paginator);
+		assertDefaultPageSizeOptions(paginator);
+		assertDefaultSkipSize(paginator);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor03(){
+		//global SObjectPaginator(List<Integer> pageSizeIntegerOptions ){
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{-1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(EXAMPLE_PAGE_LIST_OPTIONS);
+		assertDefaultPageSize(paginator);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		assertDefaultSkipSize(paginator);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor04(){
+		//global SObjectPaginator(List<Integer> pageSizeIntegerOptions,SObjectPaginatorListener listener ){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(EXAMPLE_PAGE_LIST_OPTIONS,EXAMPLE_LISTENER);
+		assertDefaultPageSize(paginator);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		assertDefaultSkipSize(paginator);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor05(){
+		//global SObjectPaginator(List<Integer> pageSizeIntegerOptions,Integer skipSize ){
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(EXAMPLE_PAGE_LIST_OPTIONS,10);
+		assertDefaultPageSize(paginator);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		System.assertEquals(10, paginator.skipSize);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor06(){
+		//global SObjectPaginator(List<Integer> pageSizeIntegerOptions,Integer skipSize,SObjectPaginatorListener listener ){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(EXAMPLE_PAGE_LIST_OPTIONS,10,EXAMPLE_LISTENER);
+		assertDefaultPageSize(paginator);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		System.assertEquals(10, paginator.skipSize);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor07(){
+		//global SObjectPaginator(Integer pageSize ){
+
+		final SObjectPaginator paginator = new SObjectPaginator(10);
+		System.assertEquals(10, paginator.pageSize);
+		assertDefaultPageSizeOptions(paginator);
+		assertDefaultSkipSize(paginator);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor08(){
+		//global SObjectPaginator(Integer pageSize,SObjectPaginatorListener listener ){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,EXAMPLE_LISTENER);
+		System.assertEquals(10, paginator.pageSize);
+		assertDefaultPageSizeOptions(paginator);
+		assertDefaultSkipSize(paginator);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor09(){
+		//global SObjectPaginator(Integer pageSize,Integer skipSize ){
+		final SObjectPaginator paginator = new SObjectPaginator(10,10);
+		
+		System.assertEquals(10, paginator.pageSize);
+		assertDefaultPageSizeOptions(paginator);
+		System.assertEquals(10, paginator.skipSize);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor10(){
+		//global SObjectPaginator(Integer pageSize,Integer skipSize,SObjectPaginatorListener listener ){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,10,EXAMPLE_LISTENER);
+		System.assertEquals(10, paginator.pageSize);
+		assertDefaultPageSizeOptions(paginator);
+		System.assertEquals(10, paginator.skipSize);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor11(){
+		//global SObjectPaginator(Integer pageSize,List<Integer> pageSizeIntegerOptions){
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,EXAMPLE_PAGE_LIST_OPTIONS);
+		System.assertEquals(10, paginator.pageSize);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		assertDefaultSkipSize(paginator);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor12(){
+		//global SObjectPaginator(Integer pageSize,List<Integer> pageSizeIntegerOptions,SObjectPaginatorListener listener){
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,EXAMPLE_PAGE_LIST_OPTIONS,EXAMPLE_LISTENER);
+		System.assertEquals(10, paginator.pageSize);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		assertDefaultSkipSize(paginator);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
+	private static testmethod void testConstructor13(){
+		//global SObjectPaginator(Integer pageSize,List<Integer> pageSizeIntegerOptions,Integer skipSize){
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,EXAMPLE_PAGE_LIST_OPTIONS,10);
+		System.assertEquals(10, paginator.pageSize);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		System.assertEquals(10, paginator.skipSize);
+		assertDefaultListener(paginator);
+	}
+	
+	private static testmethod void testConstructor14(){
+		//global SObjectPaginator(Integer pageSize,List<Integer> pageSizeIntegerOptions, Integer skipSize, SObjectPaginatorListener listener){
+		final SObjectPaginatorListener EXAMPLE_LISTENER = new SObjectPaginatorListenerForTesting();
+		final List<Integer> EXAMPLE_PAGE_LIST_OPTIONS = new List<Integer>{1,2,3};
+
+		final SObjectPaginator paginator = new SObjectPaginator(10,EXAMPLE_PAGE_LIST_OPTIONS,10,EXAMPLE_LISTENER);
+		System.assertEquals(10, paginator.pageSize);
+		System.assertEquals(EXAMPLE_PAGE_LIST_OPTIONS, paginator.pageSizeIntegerOptions);
+		System.assertEquals(10, paginator.skipSize);
+		System.assertNotEquals(null, paginator.listeners);
+		System.assertEquals(1, paginator.listeners.size());
+		System.assertEquals(EXAMPLE_LISTENER, paginator.listeners.get(0));
+	}
+	
 	private static testmethod void testSkipToPage(){
 		SObjectPaginator paginator = new SObjectPaginator(3);
 		paginator.setRecords(createTestAccount(10));
@@ -178,7 +367,7 @@ private class SObjectPaginatorTest {
 	private static testmethod void testListener(){
 		SObjectPaginatorListenerForTesting listener = new SObjectPaginatorListenerForTesting();
 		System.assertEquals(false,listener.handlePageChangeInvoked); 
-		List<Account> records = createTestAccount(8);
+		List<SObject> records = createTestAccount(8);
 		SObjectPaginator paginator = new SObjectPaginator(listener);
 		paginator.setRecords(records);
 		paginator.setPageSize(5);
@@ -228,7 +417,6 @@ private class SObjectPaginatorTest {
 		System.assertEquals(false,paginator.hasPrevious);
 	}
 	
-	
 	private static testmethod void testFirstAndLast(){
 		SObjectPaginator paginator = new SObjectPaginator(2);
 		paginator.setRecords(createTestAccount(11));
@@ -263,7 +451,7 @@ private class SObjectPaginatorTest {
 		System.assertEquals(true,paginator.hasNext);
 		System.assertEquals(false,paginator.hasPrevious);
 	}
-	
+
 	private static testmethod void testSkipPages(){
 		SObjectPaginator paginator = new SObjectPaginator(2,3);
 		paginator.setRecords(createTestAccount(11));
@@ -306,7 +494,7 @@ private class SObjectPaginatorTest {
 		System.assertNotEquals(null,nextSkips);
 		System.assertEquals(0,nextSkips.size());
 	}
-	
+		
 	private static List<Account> createTestAccount(Integer count){
 		List<Account> records = new List<Account>();
 		for(Integer i = 0; i < count; i++){

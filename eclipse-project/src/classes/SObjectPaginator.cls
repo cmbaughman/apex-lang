@@ -11,22 +11,140 @@
  */
 global class SObjectPaginator {
 
-	global static final Integer DEFAULT_PAGE_SIZE = 20;
-	global static final Integer DEFAULT_SKIP_SIZE = 3;
-	private static final Integer MAX_SKIP_SIZE = 20;
-
-	private List<SObjectPaginatorListener> listeners = new List<SObjectPaginatorListener>();
+	//================================================
+	// CONSTRUCTORS	
+	//================================================
+	global SObjectPaginator(){
+		this(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS, DEFAULT_SKIP_SIZE, null);
+	} 
 	
-	global List<SObject> all {get;private set;}
-	global List<SObject> page {get;private set;}
-	global Integer pageSize = DEFAULT_PAGE_SIZE;
-	global Integer skipSize = DEFAULT_SKIP_SIZE;
-	global Integer pageNumber {get;private set;}
-	global Integer pageCount { get{ Double allSize = this.all == null ? 0 : this.all.size(); Double pageSize = this.pageSize; return this.all == null ? 0 : Math.ceil(allSize/pageSize).intValue(); } }
-	global Integer recordCount {get{ return this.all == null ? 0 : this.all.size(); } }
-	global Boolean hasNext{get{ return pageNumber >= 0 && pageNumber < this.pageCount-1;}}
-	global Boolean hasPrevious{get{return pageNumber > 0 && pageNumber <= this.pageCount-1;}}
-	global Integer pageStartPosition {get{ return this.pageNumber * this.pageSize; } }
+	global SObjectPaginator(	SObjectPaginatorListener listener ){
+		this(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS, DEFAULT_SKIP_SIZE, listener);
+	}
+	 
+	global SObjectPaginator(	List<Integer> pageSizeIntegerOptions ){
+		this(DEFAULT_PAGE_SIZE, pageSizeIntegerOptions, DEFAULT_SKIP_SIZE, null);
+	}
+	 
+	global SObjectPaginator(	List<Integer> pageSizeIntegerOptions,
+							SObjectPaginatorListener listener ){
+		this(DEFAULT_PAGE_SIZE, pageSizeIntegerOptions, DEFAULT_SKIP_SIZE, listener);
+	} 
+	
+	global SObjectPaginator(	List<Integer> pageSizeIntegerOptions,
+								Integer skipSize ){
+		this(DEFAULT_PAGE_SIZE, pageSizeIntegerOptions, skipSize, null);
+	} 
+	
+	global SObjectPaginator( 	List<Integer> pageSizeIntegerOptions,
+								Integer skipSize,
+		 						SObjectPaginatorListener listener ){
+		this(DEFAULT_PAGE_SIZE, pageSizeIntegerOptions, skipSize, listener);
+	} 
+	
+	global SObjectPaginator(	Integer pageSize ){
+		this(pageSize, DEFAULT_PAGE_SIZE_OPTIONS, DEFAULT_SKIP_SIZE, null);
+	}
+	 
+	global SObjectPaginator(	Integer pageSize,
+								SObjectPaginatorListener listener ){
+		this(pageSize, DEFAULT_PAGE_SIZE_OPTIONS, DEFAULT_SKIP_SIZE, listener);
+	} 
+	
+	global SObjectPaginator(	Integer pageSize,
+								Integer skipSize ){
+		this(pageSize, DEFAULT_PAGE_SIZE_OPTIONS, skipSize, null);
+	}
+	 
+	global SObjectPaginator(	Integer pageSize,
+								Integer skipSize,
+								SObjectPaginatorListener listener ){
+		this(pageSize, DEFAULT_PAGE_SIZE_OPTIONS, skipSize, listener);
+	} 
+	
+	global SObjectPaginator(	Integer pageSize,
+								List<Integer> pageSizeIntegerOptions){
+		this(pageSize, pageSizeIntegerOptions, DEFAULT_SKIP_SIZE, null);
+	}
+	 
+	global SObjectPaginator(	Integer pageSize,
+								List<Integer> pageSizeIntegerOptions,
+								SObjectPaginatorListener listener){
+		this(pageSize, pageSizeIntegerOptions, DEFAULT_SKIP_SIZE, listener);
+	}
+	 
+	global SObjectPaginator(	Integer pageSize,
+								List<Integer> pageSizeIntegerOptions,
+								Integer skipSize){
+		this(pageSize, pageSizeIntegerOptions, skipSize, null);
+	}
+	 
+	global SObjectPaginator(	Integer pageSize, 
+								List<Integer> pageSizeIntegerOptions, 
+								Integer skipSize, 
+								SObjectPaginatorListener listener){
+		this.listeners = new List<SObjectPaginatorListener>();								
+		setPageSize(pageSize);
+		setPageSizeOptions(pageSizeIntegerOptions);
+		setSkipSize(skipSize);
+		addListener(listener);
+	}
+
+	//================================================
+	// CONSTANTS	
+	//================================================
+	global static final 	Integer 		DEFAULT_PAGE_SIZE 			= 20;
+	global static final 	List<Integer> 	DEFAULT_PAGE_SIZE_OPTIONS 	= new List<Integer>{10,20,50,100,200};
+	global static final 	Integer 		DEFAULT_SKIP_SIZE 			= 3;
+	global static final 	Integer 		MAX_SKIP_SIZE 				= 20;
+
+	//================================================
+	// PROPERTIES	
+	//================================================
+	global List<SObject> 					all 					{get;private set;}
+	global List<SObject> 					page 					{get;private set;}
+	global Integer 							pageSize				{get;private set;} 
+	global List<Integer>	 				pageSizeIntegerOptions	{get;private set;} 
+	global List<SelectOption> 				pageSizeSelectOptions 	{get;private set;} 
+	global Integer 							skipSize 				{get;private set;}
+	global Integer 							pageNumber 				{get;private set;}
+	global List<SObjectPaginatorListener> 	listeners 				{get;private set;}	
+
+	//================================================
+	// DERIVED PROPERTIES	
+	//================================================
+	global Integer pageCount { 
+		get{ 
+			Double allSize = this.all == null ? 0 : this.all.size(); 
+			Double pageSize = this.pageSize; 
+			return this.all == null ? 0 : Math.ceil(allSize/pageSize).intValue(); 
+		} 
+	}
+	
+	global Integer recordCount {
+		get{ 
+			return this.all == null ? 0 : this.all.size(); 
+		} 
+	}
+	
+	global Boolean hasNext{
+		get{ 
+			return pageNumber >= 0 && pageNumber < this.pageCount-1;
+		}
+	}
+	
+	global Boolean hasPrevious{
+		get{
+			return pageNumber > 0 && pageNumber <= this.pageCount-1;
+		}
+	}
+	
+	global Integer pageStartPosition {
+		get{ 
+			return this.pageNumber * this.pageSize; 
+		} 
+	}
+	
 	global Integer pageEndPosition {
 		get{ 
 			Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
@@ -46,6 +164,7 @@ global class SObjectPaginator {
 			return returnValues;
 		}
 	}
+	
 	global List<Integer> nextSkipPageNumbers {
 		get{
 			List<Integer> returnValues = new List<Integer>();
@@ -59,36 +178,27 @@ global class SObjectPaginator {
 		}
 	}
 
-	global Integer pageNumberDisplayFriendly {get{ return this.pageNumber + 1; } }
-	global Integer pageStartPositionDisplayFriendly {get{ return this.pageStartPosition + 1; } }
-	global Integer pageEndPositionDisplayFriendly {get{ return this.pageEndPosition + 1; } }
+	global Integer pageNumberDisplayFriendly {
+		get{ 
+			return this.pageNumber + 1; 
+		} 
+	}
+	
+	global Integer pageStartPositionDisplayFriendly {
+		get{ 
+			return this.pageStartPosition + 1; 
+		} 
+	}
+	
+	global Integer pageEndPositionDisplayFriendly {
+		get{ 
+			return this.pageEndPosition + 1; 
+		} 
+	}
 
-	global SObjectPaginator(){
-		this(DEFAULT_PAGE_SIZE,DEFAULT_SKIP_SIZE,null);
-	}
-	
-	global SObjectPaginator(Integer pageSize){
-		this(pageSize,DEFAULT_SKIP_SIZE,null);
-	}
-	
-	global SObjectPaginator(SObjectPaginatorListener listener){
-		this(DEFAULT_PAGE_SIZE,listener);
-	}
-	
-	global SObjectPaginator(Integer pageSize, Integer skipSize){
-		this(pageSize,skipSize,null);
-	}
-	
-	global SObjectPaginator(Integer pageSize, SObjectPaginatorListener listener){
-		this(pageSize,DEFAULT_SKIP_SIZE,listener);
-	}
-	
-	global SObjectPaginator(Integer pageSize, Integer skipSize, SObjectPaginatorListener listener){
-		setPageSize(pageSize);
-		setSkipSize(skipSize);
-		addListener(listener);
-	}
-	
+	//================================================
+	// METHODS	
+	//================================================
 	global void setRecords(List<SObject> all){
 		reset(all,this.pageSize);
 	}
@@ -100,7 +210,27 @@ global class SObjectPaginator {
 	}
 	
 	global Integer getPageSize(){
-		return pageSize;
+		return this.pageSize;
+	}
+
+	global void setPageSizeOptions(List<Integer> pageSizeIntegerOptions){
+		this.pageSizeIntegerOptions = pageSizeIntegerOptions;
+		if(this.pageSizeSelectOptions == null){
+			this.pageSizeSelectOptions = new List<SelectOption>();
+		}
+		this.pageSizeSelectOptions.clear();
+		if(pageSizeIntegerOptions != null && pageSizeIntegerOptions.size() > 0){
+			for(Integer pageSizeOption : pageSizeIntegerOptions){
+				if(pageSizeOption < 1){
+					continue;
+				}
+				this.pageSizeSelectOptions.add(new SelectOption(''+pageSizeOption,''+pageSizeOption));
+			}
+		}
+	}
+	
+	global List<SelectOption> getPageSizeOptions(){
+		return this.pageSizeSelectOptions;
 	}
 
 	global void setSkipSize(Integer skipSize){
