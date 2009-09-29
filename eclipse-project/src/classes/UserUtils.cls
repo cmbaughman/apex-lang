@@ -10,26 +10,26 @@
  * ============================================================
  */
 global class UserUtils {
-	
-	global static Boolean isCurrentUserSysAdmin(){
-		try{
-			User usr = [select id, name from User where id = :UserInfo.getUserId() and profile.name = 'System Administrator'];
-			return true;
-		} catch(QueryException e){
-			return false;
-		}
-	}
+    
+    global static Boolean isCurrentUserSysAdmin(){
+        try{
+            User usr = [select id, name from User where id = :UserInfo.getUserId() and profile.name = 'System Administrator'];
+            return true;
+        } catch(QueryException e){
+            return false;
+        }
+    }
 
-	global static Boolean isCurrentUserPortalUser(){
-		return getCurrentUserPortalAccountID() != null;
-	}
-	
-	global static ID getCurrentUserPortalAccountID(){
-		User usr = 
-			[select id, ContactId, Contact.AccountId, userrole.name 
-			from user 
-			where id = :UserInfo.getUserId()];
-		return usr.Contact.AccountId;
-	}
-	
+    global static Boolean isCurrentUserPortalUser(){
+        return getCurrentUserPortalAccountID() != null;
+    }
+    
+    global static ID getCurrentUserPortalAccountID(){
+        User usr = 
+            [select id, ContactId, Contact.AccountId, userrole.name 
+            from user 
+            where id = :UserInfo.getUserId()];
+        return usr.Contact.AccountId;
+    }
+    
 }

@@ -10,14 +10,14 @@
  * ============================================================
  */
 global class ObjectPaginatorListenerForTesting implements ObjectPaginatorListener{
-	global Boolean handlePageChangeInvoked {get;set;}
-	
-	global ObjectPaginatorListenerForTesting(){
-		handlePageChangeInvoked = false;
-	}
-	
-	global void handlePageChange(List<Object> newPage){
-		handlePageChangeInvoked = true;
-	}
-	
+    global Boolean handlePageChangeInvoked {get;set;}
+    
+    global ObjectPaginatorListenerForTesting(){
+        handlePageChangeInvoked = false;
+    }
+    
+    global void handlePageChange(List<Object> newPage){
+        handlePageChangeInvoked = true;
+    }
+    
 }

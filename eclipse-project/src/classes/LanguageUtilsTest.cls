@@ -13,7 +13,7 @@
 private class LanguageUtilsTest {
 
     private static testmethod void testGetLangCodeByHttpParam(){
-    	//test: global static String getLangCodeByHttpParam(){
+        //test: global static String getLangCodeByHttpParam(){
         System.assertNotEquals('es', LanguageUtils.getLangCodeByHttpParam());  
         PageUtils.param('l','XXXXXXXX');
         System.assertNotEquals('es', LanguageUtils.getLangCodeByHttpParam());  
@@ -24,7 +24,7 @@ private class LanguageUtilsTest {
     }
     
     private static testmethod void testGetLangCodeByBrowser(){
-    	//test: global static String getLangCodeByBrowser(){
+        //test: global static String getLangCodeByBrowser(){
         System.assertNotEquals('es', LanguageUtils.getLangCodeByBrowser());  
         ApexPages.currentPage().getHeaders().put('Accept-Language','XXXXXXXX');
         System.assertNotEquals('es', LanguageUtils.getLangCodeByBrowser());  
@@ -43,42 +43,42 @@ private class LanguageUtilsTest {
     }
     
     private static testmethod void testGetLangCodeByUser(){
-    	//test: global static String getLangCodeByUser(){
+        //test: global static String getLangCodeByUser(){
         System.assertEquals(UserInfo.getLanguage(), LanguageUtils.getLangCodeByUser());  
     }
 
 
     private static testmethod void testGetLangCodeByHttpParamOrIfNullThenBrowser(){
-		//test: global static String getLangCodeByHttpParamOrIfNullThenBrowser(){
+        //test: global static String getLangCodeByHttpParamOrIfNullThenBrowser(){
         System.assertNotEquals('es', LanguageUtils.getLangCodeByHttpParamOrIfNullThenBrowser());  
         ApexPages.currentPage().getHeaders().put('Accept-Language','zh');
         System.assertEquals('zh-cn', LanguageUtils.getLangCodeByHttpParamOrIfNullThenBrowser());  
         PageUtils.param('l','es');
         System.assertEquals('es', LanguageUtils.getLangCodeByHttpParamOrIfNullThenBrowser());  
-	}
+    }
 
-	private static testmethod void testGetLangCodeByHttpParamOrIfNullThenUser(){
-		//test: global static String getLangCodeByHttpParamOrIfNullThenUser(){
+    private static testmethod void testGetLangCodeByHttpParamOrIfNullThenUser(){
+        //test: global static String getLangCodeByHttpParamOrIfNullThenUser(){
         System.assertEquals(UserInfo.getLanguage(), LanguageUtils.getLangCodeByHttpParamOrIfNullThenUser());  
         PageUtils.param('l','es');
         System.assertEquals('es', LanguageUtils.getLangCodeByHttpParamOrIfNullThenUser());  
-	}
+    }
 
     private static testmethod void testGetLangCodeByBrowserOrIfNullThenHttpParam(){
-		//test: global static String getLangCodeByBrowserOrIfNullThenHttpParam(){
+        //test: global static String getLangCodeByBrowserOrIfNullThenHttpParam(){
         System.assertNotEquals('es', LanguageUtils.getLangCodeByBrowserOrIfNullThenHttpParam());  
         PageUtils.param('l','es');
         System.assertEquals('es', LanguageUtils.getLangCodeByBrowserOrIfNullThenHttpParam());  
         ApexPages.currentPage().getHeaders().put('Accept-Language','zh-cn');
         System.assertEquals('zh-cn', LanguageUtils.getLangCodeByBrowserOrIfNullThenHttpParam());  
-	}
+    }
 
     private static testmethod void testGetLangCodeByBrowserOrIfNullThenUser(){
-		//test: global static String getLangCodeByBrowserOrIfNullThenUser(){
+        //test: global static String getLangCodeByBrowserOrIfNullThenUser(){
         System.assertNotEquals('es', LanguageUtils.getLangCodeByBrowserOrIfNullThenUser());  
         System.assertEquals(UserInfo.getLanguage(), LanguageUtils.getLangCodeByBrowserOrIfNullThenUser());  
         ApexPages.currentPage().getHeaders().put('Accept-Language','zh');
         System.assertEquals('zh-cn', LanguageUtils.getLangCodeByBrowserOrIfNullThenUser());  
-	}
+    }
 
 }

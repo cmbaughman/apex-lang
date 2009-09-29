@@ -10,14 +10,14 @@
  * ============================================================
  */
 global class SObjectPaginatorListenerForTesting implements SObjectPaginatorListener{
-	global Boolean handlePageChangeInvoked {get;set;}
-	
-	global SObjectPaginatorListenerForTesting(){
-		handlePageChangeInvoked = false;
-	}
-	
-	global void handlePageChange(List<SObject> newPage){
-		handlePageChangeInvoked = true;
-	}
-	
+    global Boolean handlePageChangeInvoked {get;set;}
+    
+    global SObjectPaginatorListenerForTesting(){
+        handlePageChangeInvoked = false;
+    }
+    
+    global void handlePageChange(List<SObject> newPage){
+        handlePageChangeInvoked = true;
+    }
+    
 }

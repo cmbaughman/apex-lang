@@ -10,5 +10,5 @@
  * ============================================================
  */
 global interface SObjectComparator{
-	Integer compare(SObject record1, SObject record2);
+    Integer compare(SObject record1, SObject record2);
 }

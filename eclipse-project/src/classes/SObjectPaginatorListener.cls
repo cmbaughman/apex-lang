@@ -10,5 +10,5 @@
  * ============================================================
  */
 global interface SObjectPaginatorListener {
-	void handlePageChange(List<SObject> newPage);
+    void handlePageChange(List<SObject> newPage);
 }
