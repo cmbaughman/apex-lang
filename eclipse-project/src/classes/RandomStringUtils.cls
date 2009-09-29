@@ -47,41 +47,41 @@ global class RandomStringUtils {
         if (count <= 0) {
             return '';
         }
-    	if(chars == null && (letters || numbers)){
-    		chars = '';
-    		startIndex = 0;
-			if(letters){
-				endIndex += 52;
-				for(Integer i = Character.toAscii('a'), max = Character.toAscii('z'); i <= max; i++){
-					chars += Character.toChar(i);
-				}	
-				for(Integer i = Character.toAscii('A'), max = Character.toAscii('Z'); i <= max; i++){
-					chars += Character.toChar(i);
-				}	
-			}
-			if(numbers){
-				endIndex += 10;
-				for(Integer i = Character.toAscii('0'), max = Character.toAscii('9'); i <= max; i++){
-					chars += Character.toChar(i);
-				}	
-			}
-    	}
-		IntegerRange allowableRange = null;
-    	if(chars == null){
-    		allowableRange = new IntegerRange(32,127);
-    	} else {
-    		allowableRange = new IntegerRange(0,chars.length());
-    	}
-		if(!allowableRange.contains(new IntegerRange(startIndex,endIndex))){
+        if(chars == null && (letters || numbers)){
+            chars = '';
+            startIndex = 0;
+            if(letters){
+                endIndex += 52;
+                for(Integer i = Character.toAscii('a'), max = Character.toAscii('z'); i <= max; i++){
+                    chars += Character.toChar(i);
+                }    
+                for(Integer i = Character.toAscii('A'), max = Character.toAscii('Z'); i <= max; i++){
+                    chars += Character.toChar(i);
+                }    
+            }
+            if(numbers){
+                endIndex += 10;
+                for(Integer i = Character.toAscii('0'), max = Character.toAscii('9'); i <= max; i++){
+                    chars += Character.toChar(i);
+                }    
+            }
+        }
+        IntegerRange allowableRange = null;
+        if(chars == null){
+            allowableRange = new IntegerRange(32,127);
+        } else {
+            allowableRange = new IntegerRange(0,chars.length());
+        }
+        if(!allowableRange.contains(new IntegerRange(startIndex,endIndex))){
             startIndex = allowableRange.min();
             endIndex = allowableRange.max();
-		}	
+        }    
 
         String buffer = '';
         String ch;
         Integer gap = endIndex - startIndex;
-		Integer next = 0;
-		
+        Integer next = 0;
+        
         while (count-- > 0) {
             next = Math.round(Math.floor(Math.random()*gap)) + startIndex;
             if (chars == null) {
@@ -99,29 +99,29 @@ global class RandomStringUtils {
     /**
      * Implementation ported from Java Library at http://jug.safehaus.org
      */
-	public static String randomUUID(){
-		String returnValue = '';
-		Integer nextByte = 0;
-		for(Integer i = 0; i < 16; i++){
-			if(i==4 || i==6 || i==8 || i==10){
-				returnValue += '-';
-			}
-			//generate a "byte"; i.e., number in range [-2^7,2^7-1]
-			nextByte = (Math.round(Math.random() * 255)-128) & 255;
+    global static String randomUUID(){
+        String returnValue = '';
+        Integer nextByte = 0;
+        for(Integer i = 0; i < 16; i++){
+            if(i==4 || i==6 || i==8 || i==10){
+                returnValue += '-';
+            }
+            //generate a "byte"; i.e., number in range [-2^7,2^7-1]
+            nextByte = (Math.round(Math.random() * 255)-128) & 255;
 
-			if(i==6){
-				nextByte = nextByte & 15;
-	        	nextByte = nextByte | (4 << 4);
-			}
-			if(i==8){
-		        nextByte = nextByte & 63;
-		        nextByte = nextByte | 128;
-			}
-			
+            if(i==6){
+                nextByte = nextByte & 15;
+                nextByte = nextByte | (4 << 4);
+            }
+            if(i==8){
+                nextByte = nextByte & 63;
+                nextByte = nextByte | 128;
+            }
+            
             returnValue += StringUtils.charAt(kHexChars,nextByte >> 4);
             returnValue += StringUtils.charAt(kHexChars,nextByte & 15);
-		}
-		return returnValue;
-	}
-	
+        }
+        return returnValue;
+    }
+    
 }
