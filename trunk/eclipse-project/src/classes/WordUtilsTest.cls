@@ -300,7 +300,7 @@ private class WordUtilsTest{
         System.assertEquals('i2', WordUtils.initials('i am here 123', anArray));
     }
 
-	private static testmethod void testSwapCase_String() {
+    private static testmethod void testSwapCase_String() {
         System.assertEquals(null, WordUtils.swapCase(null));
         System.assertEquals('', WordUtils.swapCase(''));
         System.assertEquals('  ', WordUtils.swapCase('  '));

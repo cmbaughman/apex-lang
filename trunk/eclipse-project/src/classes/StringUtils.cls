@@ -56,9 +56,9 @@ global class StringUtils {
     } 
 
     global static String capitalize(String str) {
-    	if(isBlank(str)){
-    		return str;
-    	}
+        if(isBlank(str)){
+            return str;
+        }
         return upperCase(str.substring(0,1)) + str.substring(1);
     }
     
@@ -84,16 +84,16 @@ global class StringUtils {
     }
 
     global static String charAt(String str, Integer index) {
-    	if(str == null){
-    		return null;
-    	}
-    	if(str.length() <= 0){
-    		return str;	
-    	}
-    	if(index < 0 || index >= str.length()){
-    		return null;	
-    	}
-    	return str.substring(index, index+1);
+        if(str == null){
+            return null;
+        }
+        if(str.length() <= 0){
+            return str;    
+        }
+        if(index < 0 || index >= str.length()){
+            return null;    
+        }
+        return str.substring(index, index+1);
     }
     
     global static String chomp(String str) {
@@ -164,7 +164,7 @@ global class StringUtils {
         }
         for (Integer i = 0; i < str.length(); i++) {
             if(searchChars.contains(charAt(str, i))){
-            	return true;	
+                return true;    
             }
         }
         return false;
@@ -176,7 +176,7 @@ global class StringUtils {
         }
         return contains(str.toUpperCase(), searchStr.toUpperCase());
     }
-	
+    
     global static boolean containsNone(String str, String invalidChars) {
         if (str == null || invalidChars == null) {
             return true;
@@ -237,7 +237,7 @@ global class StringUtils {
         String returnString = '';
         String currentChar = null;
         for (Integer i = 0; i < str.length(); i++) {
-        	currentChar = charAt(str,i);
+            currentChar = charAt(str,i);
             if (!Character.isWhitespace(currentChar)) {
                 returnString += currentChar;
             }
@@ -246,7 +246,7 @@ global class StringUtils {
     }
 
     global static String difference(String str1, String str2) {
-    	//'abc',''
+        //'abc',''
         if (str1 == null) {
             return str2;
         }
@@ -258,7 +258,7 @@ global class StringUtils {
             return EMPTY;
         }
         if(at == 0){
-        	return str2;
+            return str2;
         }
         return str2.substring(at);
     }
@@ -282,7 +282,7 @@ global class StringUtils {
         //return -1;
     }
     
-	global static Integer indexOfDifference(String[] strs) {
+    global static Integer indexOfDifference(String[] strs) {
         if (strs == null || strs.size() <= 1) {
             return -1;
         }
@@ -367,7 +367,7 @@ global class StringUtils {
     }
 
     global static Integer ordinalIndexOf(String str, String searchStr, Integer ordinal) {
-    	//'','',-1
+        //'','',-1
         if (str == null || searchStr == null || ordinal <= 0) {
             return INDEX_NOT_FOUND;
         }
@@ -489,14 +489,14 @@ global class StringUtils {
         }
         for (Integer i = 0; i < str.length(); i++) {
             if(searchChars.contains(charAt(str,i))){
-            	continue;	
+                continue;    
             }
             return i;
         }
         return -1;
     }
 
-	global static Boolean endsWith(String str, String suffix) {
+    global static Boolean endsWith(String str, String suffix) {
         return endsWith(str, suffix, false);
     }
     
@@ -667,7 +667,7 @@ global class StringUtils {
     }
     
     global static boolean isNotBlank(String str) {
-    	return !isBlank(str);
+        return !isBlank(str);
     }
     
     global static boolean isEmpty(String str) {
@@ -679,7 +679,7 @@ global class StringUtils {
     }
 
     global static String joinArray(Object[] objectArray) {
-		return joinArray(objectArray, null);
+        return joinArray(objectArray, null);
     }
     
     global static String joinArray(Object[] objectArray, String separator) {
@@ -699,7 +699,7 @@ global class StringUtils {
 
         String buf = '';
         if(startIndex < 0){
-        	startIndex = 0;
+            startIndex = 0;
         }
         for (Integer i = startIndex; i < endIndex && i < objectArray.size(); i++) {
             if (i > startIndex) {
@@ -713,112 +713,112 @@ global class StringUtils {
     }
 
     global static String joinStrings(Set<String> strings, String separator){
-    	if(strings == null || strings.size() == 0){
-    		return null;
-    	}
-    	Boolean isFirst = true;
-    	String returnString = '';
-		for(String aString : strings){
-			if(StringUtils.isBlank(aString)){
-				continue;
-			}
-			if(isFirst){
-				isFirst = false;
-			}else{
-				if(separator != null){
-					returnString += separator;
-				}
-			}
-			returnString += aString;
-		}	
-		return returnString;
+        if(strings == null || strings.size() == 0){
+            return null;
+        }
+        Boolean isFirst = true;
+        String returnString = '';
+        for(String aString : strings){
+            if(StringUtils.isBlank(aString)){
+                continue;
+            }
+            if(isFirst){
+                isFirst = false;
+            }else{
+                if(separator != null){
+                    returnString += separator;
+                }
+            }
+            returnString += aString;
+        }    
+        return returnString;
     }
 
-	global static String joinSet(Set<Blob> blobSet, String separator){ 
-		return joinSet(SetUtils.blobToObject(blobSet),separator);
-	}
+    global static String joinSet(Set<Blob> blobSet, String separator){ 
+        return joinSet(SetUtils.blobToObject(blobSet),separator);
+    }
 
-	global static String joinSet(Set<Boolean> booleanSet, String separator){ 
-		return joinSet(SetUtils.booleanToObject(booleanSet),separator);
-	}
+    global static String joinSet(Set<Boolean> booleanSet, String separator){ 
+        return joinSet(SetUtils.booleanToObject(booleanSet),separator);
+    }
 
-	global static String joinSet(Set<Date> dateSet, String separator){ 
-		return joinSet(SetUtils.dateToObject(dateSet),separator);
-	}
+    global static String joinSet(Set<Date> dateSet, String separator){ 
+        return joinSet(SetUtils.dateToObject(dateSet),separator);
+    }
 
-	global static String joinSet(Set<Datetime> datetimeSet, String separator){ 
-		return joinSet(SetUtils.datetimeToObject(datetimeSet),separator);
-	}
+    global static String joinSet(Set<Datetime> datetimeSet, String separator){ 
+        return joinSet(SetUtils.datetimeToObject(datetimeSet),separator);
+    }
 
-	global static String joinSet(Set<Decimal> decimalSet, String separator){ 
-		return joinSet(SetUtils.decimalToObject(decimalSet),separator);
-	}
+    global static String joinSet(Set<Decimal> decimalSet, String separator){ 
+        return joinSet(SetUtils.decimalToObject(decimalSet),separator);
+    }
 
-	global static String joinSet(Set<Double> doubleSet, String separator){ 
-		return joinSet(SetUtils.doubleToObject(doubleSet),separator);
-	}
+    global static String joinSet(Set<Double> doubleSet, String separator){ 
+        return joinSet(SetUtils.doubleToObject(doubleSet),separator);
+    }
 
-	global static String joinSet(Set<ID> idSet, String separator){ 
-		return joinSet(SetUtils.idToObject(idSet),separator);
-	}
+    global static String joinSet(Set<ID> idSet, String separator){ 
+        return joinSet(SetUtils.idToObject(idSet),separator);
+    }
 
-	global static String joinSet(Set<Integer> integerSet, String separator){ 
-		return joinSet(SetUtils.integerToObject(integerSet),separator);
-	}
+    global static String joinSet(Set<Integer> integerSet, String separator){ 
+        return joinSet(SetUtils.integerToObject(integerSet),separator);
+    }
 
-	global static String joinSet(Set<Long> longSet, String separator){ 
-		return joinSet(SetUtils.longToObject(longSet),separator);
-	}
+    global static String joinSet(Set<Long> longSet, String separator){ 
+        return joinSet(SetUtils.longToObject(longSet),separator);
+    }
 
-	global static String joinSet(Set<Time> timeSet, String separator){ 
-		return joinSet(SetUtils.timeToObject(timeSet),separator);
-	}
+    global static String joinSet(Set<Time> timeSet, String separator){ 
+        return joinSet(SetUtils.timeToObject(timeSet),separator);
+    }
 
-	global static String joinSet(Set<String> stringSet, String separator){ 
-		return joinSet(SetUtils.stringToObject(stringSet),separator);
-	}
+    global static String joinSet(Set<String> stringSet, String separator){ 
+        return joinSet(SetUtils.stringToObject(stringSet),separator);
+    }
 
     global static String joinSet(Set<Object> objectSet, String separator){
-    	if(objectSet == null || objectSet.size() == 0){
-    		return null;
-    	}
-    	Boolean isFirst = true;
-    	String returnString = '';
-		for(Object anObject : objectSet){
-			if(StringUtils.isBlank(''+anObject)){
-				continue;
-			}
-			if(isFirst){
-				isFirst = false;
-			}else{
-				if(separator != null){
-					returnString += separator;
-				}
-			}
-			if(anObject instanceof Blob){ returnString += '' + ((Blob)anObject).toString() + '';
-			} else if(anObject instanceof Boolean){ returnString += ((Boolean)anObject);
-			} else if(anObject instanceof Date){ returnString += '' + ((Date)anObject) + '';
-			} else if(anObject instanceof Datetime){ returnString += '' + ((Datetime)anObject) + '';
-			} else if(anObject instanceof Integer){ returnString += ((Integer)anObject);
-			} else if(anObject instanceof Long){ returnString += ((Long)anObject);
-			} else if(anObject instanceof Decimal){ returnString += ((Decimal)anObject);
-			//} else if(anObject instanceof Double){ returnString += ((Double)anObject);
-			} else if(anObject instanceof String){ returnString += '' + ((String)anObject) + '';
-			//} else if(anObject instanceof ID){ returnString += '' + ((ID)anObject) + '';
-			} else if(anObject instanceof Time){ returnString += '' + ((Time)anObject) + '';}
-		}	
-		return returnString;
+        if(objectSet == null || objectSet.size() == 0){
+            return null;
+        }
+        Boolean isFirst = true;
+        String returnString = '';
+        for(Object anObject : objectSet){
+            if(StringUtils.isBlank(''+anObject)){
+                continue;
+            }
+            if(isFirst){
+                isFirst = false;
+            }else{
+                if(separator != null){
+                    returnString += separator;
+                }
+            }
+            if(anObject instanceof Blob){ returnString += '' + ((Blob)anObject).toString() + '';
+            } else if(anObject instanceof Boolean){ returnString += ((Boolean)anObject);
+            } else if(anObject instanceof Date){ returnString += '' + ((Date)anObject) + '';
+            } else if(anObject instanceof Datetime){ returnString += '' + ((Datetime)anObject) + '';
+            } else if(anObject instanceof Integer){ returnString += ((Integer)anObject);
+            } else if(anObject instanceof Long){ returnString += ((Long)anObject);
+            } else if(anObject instanceof Decimal){ returnString += ((Decimal)anObject);
+            //} else if(anObject instanceof Double){ returnString += ((Double)anObject);
+            } else if(anObject instanceof String){ returnString += '' + ((String)anObject) + '';
+            //} else if(anObject instanceof ID){ returnString += '' + ((ID)anObject) + '';
+            } else if(anObject instanceof Time){ returnString += '' + ((Time)anObject) + '';}
+        }    
+        return returnString;
     }
     
     global static String joinStrings(List<String> strings, String separator){
-    	if(strings == null || strings.size() == 0){
-    		return null;
-    	}
-    	Set<String> setToJoin = new Set<String>();
-    	for(String value : strings){
-    		setToJoin.add(value);	
-    	}
-    	return joinStrings(setToJoin,separator);
+        if(strings == null || strings.size() == 0){
+            return null;
+        }
+        Set<String> setToJoin = new Set<String>();
+        for(String value : strings){
+            setToJoin.add(value);    
+        }
+        return joinStrings(setToJoin,separator);
     }
     
     global static Integer lastIndexOf(String str, String searchStr) {
@@ -885,7 +885,7 @@ global class StringUtils {
     }
 
     global static String overlay(String str, String overlay, Integer startIndex, Integer endIndex) {
-		//'', 'abc', 0, 0
+        //'', 'abc', 0, 0
         if (str == null) {
             return null;
         }
@@ -921,7 +921,7 @@ global class StringUtils {
         return leftPad(str, size, ' ');
     }
 
-	global static String leftPad(String str, Integer size, String padStr) {
+    global static String leftPad(String str, Integer size, String padStr) {
         if (str == null) {
             return null;
         }
@@ -939,7 +939,7 @@ global class StringUtils {
         } else if (padCharCount < padLen) {
             return padStr.substring(0, padCharCount) + str;
         } else {
-        	String padding = '';
+            String padding = '';
             for (Integer i = 0; i < padCharCount; i++) {
                 padding += padStr.substring(Math.mod(i,padLen),Math.mod(i,padLen)+1);
             }
@@ -952,10 +952,10 @@ global class StringUtils {
     }    
     
     global static String lowerCase(String str) {
-    	if(str == null){
-    		return null;
-    	}
-    	return str.toLowerCase();
+        if(str == null){
+            return null;
+        }
+        return str.toLowerCase();
     }
     
     global static String remove(String str, String remove) {
@@ -1005,7 +1005,7 @@ global class StringUtils {
         return str;
     }
 
-	global static String repeat(String str, Integer repeat) {
+    global static String repeat(String str, Integer repeat) {
         if (str == null) {
             return null;
         }
@@ -1063,7 +1063,7 @@ global class StringUtils {
     }
 
     global static String replace(String text, String searchString, String replacement, Integer max) {
-    	//'aba', 'a', '', -1
+        //'aba', 'a', '', -1
         if (isEmpty(text) || isEmpty(searchString) || replacement == null || max == 0) {
             return text;
         }
@@ -1094,19 +1094,19 @@ global class StringUtils {
     } 
 
     global static String replaceEachRepeatedly(String text, String[] searchList, String[] replacementList,
-    	Boolean repeat) {
+        Boolean repeat) {
         return replaceEach(text, searchList, replacementList, repeat, 
-        	(searchList == null ? 0 : searchList.size()));
+            (searchList == null ? 0 : searchList.size()));
     }
     
  
     global static String replaceEach(
-    	String text, 
-    	String[] searchList, 
-    	String[] replacementList, 
-		boolean repeat, 
-		Integer timeToLive){
-	
+        String text, 
+        String[] searchList, 
+        String[] replacementList, 
+        boolean repeat, 
+        Integer timeToLive){
+    
         // mchyzer Performance note: This creates very few new objects (one major goal)
         // let me know if there are performance requests, we can create a harness to measure
 
@@ -1134,7 +1134,7 @@ global class StringUtils {
         // keep track of which still have matches
         boolean[] noMoreMatchesForReplIndex = new boolean[searchLength];
         for(Integer i = 0; i < noMoreMatchesForReplIndex.size(); i++){
-        	noMoreMatchesForReplIndex[i] = false;
+            noMoreMatchesForReplIndex[i] = false;
         }
 
         // index on index that the match was found
@@ -1254,7 +1254,7 @@ global class StringUtils {
         }
         String returnString = '';
         for(Integer i = (str.length()-1); i >= 0; i--){
-        	returnString += charAt(str,i);
+            returnString += charAt(str,i);
         }
         return returnString;
     }
@@ -1264,7 +1264,7 @@ global class StringUtils {
             return null;
         }
         if(separatorChar == null){
-        	separatorChar = ' ';	
+            separatorChar = ' ';    
         }
         Character.validateChar(separatorChar);
         return joinArray(ArrayUtils.reverse(split(str,separatorChar)),separatorChar);
@@ -1306,7 +1306,7 @@ global class StringUtils {
         } else if (padCharCount < padLen) {
             return str + padStr.substring(0, padCharCount);
         } else {
-        	String padding = '';
+            String padding = '';
             for (Integer i = 0; i < padCharCount; i++) {
                 padding += padStr.substring(Math.mod(i,padLen),Math.mod(i,padLen)+1);
             }
@@ -1314,7 +1314,7 @@ global class StringUtils {
         }
     }
     
-	global static String swapCase(String str) {
+    global static String swapCase(String str) {
         if (isBlank(str)) {
             return str;
         }
@@ -1351,24 +1351,24 @@ global class StringUtils {
     }  
     
     global static boolean regionMatches(String str, Integer toffset, String other, Integer ooffset, Integer len){
-		return regionMatches(str,false,toffset,other,ooffset,len);
-	}
-	
+        return regionMatches(str,false,toffset,other,ooffset,len);
+    }
+    
     global static boolean regionMatchesIgnoreCase(String str, Integer toffset, String other, Integer ooffset, Integer len){
-		return regionMatches(str,true,toffset,other,ooffset,len);
-	}
+        return regionMatches(str,true,toffset,other,ooffset,len);
+    }
 
     global static boolean regionMatches(String str, boolean ignoreCase,
-		Integer toffset, String other, Integer ooffset, Integer len){
-		
+        Integer toffset, String other, Integer ooffset, Integer len){
+        
         str = substring(str,toffset,toffset+len);
         other = substring(other,ooffset,ooffset+len);
-		if(ignoreCase){
-			return equalsIgnoreCase(str, other);			
-		}
-		return equals(str, other);
-                             	
-	}
+        if(ignoreCase){
+            return equalsIgnoreCase(str, other);            
+        }
+        return equals(str, other);
+                                 
+    }
     global static String[] split(String str) {
         return split(str, null, -1);
     }
@@ -1394,10 +1394,10 @@ global class StringUtils {
     }        
     
     private static String[] splitWorker(
-    	String str, String separatorChars, 
-    	Integer max, boolean preserveAllTokens) {
-    		
-    	//' abc ',null, -1, true
+        String str, String separatorChars, 
+        Integer max, boolean preserveAllTokens) {
+            
+        //' abc ',null, -1, true
 
         if (str == null) {return null;}
         Integer len = str.length();
@@ -1418,11 +1418,11 @@ global class StringUtils {
                             i = len;
                             lastMatch = false;
                         }
-			        	if(start == i){
-			                theList.add('');
-			        	} else {
-				            theList.add(str.substring(start, i));
-			        	}
+                        if(start == i){
+                            theList.add('');
+                        } else {
+                            theList.add(str.substring(start, i));
+                        }
                         match = false;
                     }
                     start = ++i;
@@ -1443,11 +1443,11 @@ global class StringUtils {
                             i = len;
                             lastMatch = false;
                         }
-			        	if(start == i){
-			                theList.add('');
-			        	} else {
-				            theList.add(str.substring(start, i));
-			        	}
+                        if(start == i){
+                            theList.add('');
+                        } else {
+                            theList.add(str.substring(start, i));
+                        }
                         match = false;
                     }
                     start = ++i;
@@ -1467,7 +1467,7 @@ global class StringUtils {
                             i = len;
                             lastMatch = false;
                         }
-			            theList.add(start == i ? '' : str.substring(start, i));
+                        theList.add(start == i ? '' : str.substring(start, i));
                         match = false;
                     }
                     start = ++i;
@@ -1479,11 +1479,11 @@ global class StringUtils {
             }
         }
         if (match || (preserveAllTokens && lastMatch)) {
-        	if(start == i){
+            if(start == i){
                 theList.add('');
-        	} else {
-	            theList.add(str.substring(start, i));
-        	}
+            } else {
+                theList.add(str.substring(start, i));
+            }
         }
         return theList;
     }    
@@ -1505,9 +1505,9 @@ global class StringUtils {
     }
      
     private static String[] splitByWholeSeparatorWorker(
-    	String str, String separator, 
-    	Integer max, boolean preserveAllTokens){
-    		
+        String str, String separator, 
+        Integer max, boolean preserveAllTokens){
+            
         if (str == null) {return null;}
         Integer len = str.length();
         if (len == 0) { return new String[]{}; }
@@ -1836,10 +1836,10 @@ global class StringUtils {
     
         
     global static String trim(String str){
-    	if(str == null){
-    		return null;
-    	}
-    	return str.trim();
+        if(str == null){
+            return null;
+        }
+        return str.trim();
     }
     
     global static String trimToNull(String str) {
@@ -1850,39 +1850,39 @@ global class StringUtils {
     global static String trimToEmpty(String str) {
         return str == null ? EMPTY : str.trim();
     }    
-	
+    
     global static String uncapitalize(String str) {
-    	if(isBlank(str)){
-    		return str;
-    	}
+        if(isBlank(str)){
+            return str;
+        }
         return lowerCase(str.substring(0,1)) + str.substring(1);
     }
     
-	global static String upperCase(String str) {
+    global static String upperCase(String str) {
         if (str == null) {
             return null;
         }
         return str.toUpperCase();
     }
     
-	global static String ensureStringStartsEndsWithChar(String str, String charc){
-		String returnStr = str;
-		if(returnStr != null && charc != null){
-			returnStr = StringUtils.startsWith(str,charc) ? returnStr : charc + returnStr;
-			returnStr = StringUtils.endsWith(str,charc) ? returnStr : returnStr + charc;
-		}
-		return returnStr;
-	}
+    global static String ensureStringStartsEndsWithChar(String str, String charc){
+        String returnStr = str;
+        if(returnStr != null && charc != null){
+            returnStr = StringUtils.startsWith(str,charc) ? returnStr : charc + returnStr;
+            returnStr = StringUtils.endsWith(str,charc) ? returnStr : returnStr + charc;
+        }
+        return returnStr;
+    }
 
-	global static String[] toCharArray(String str){
-		List<String> strs = new List<String>();
-		if(str != null && str.length() > 0){
-			for(Integer i = 0; i < str.length(); i++){
-				strs.add(str.substring(i, i+1));
-			}
-		}	
-		return strs;
-	}
-	
+    global static String[] toCharArray(String str){
+        List<String> strs = new List<String>();
+        if(str != null && str.length() > 0){
+            for(Integer i = 0; i < str.length(); i++){
+                strs.add(str.substring(i, i+1));
+            }
+        }    
+        return strs;
+    }
+    
 
 }

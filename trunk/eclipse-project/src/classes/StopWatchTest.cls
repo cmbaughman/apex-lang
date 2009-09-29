@@ -62,7 +62,7 @@ private class StopWatchTest{
         long suspendTime = watch.getTime();
         watch.stop();
         long totalTime = watch.getTime();
-		System.assertEquals( suspendTime, totalTime );
+        System.assertEquals( suspendTime, totalTime );
     }
 
     private static testmethod void testBadStates() {
@@ -71,7 +71,7 @@ private class StopWatchTest{
         try {
             watch.stop();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling stop on an unstarted StopWatch should throw an exception. ');
 
@@ -79,7 +79,7 @@ private class StopWatchTest{
         try {
             watch.stop();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling stop on an unstarted StopWatch should throw an exception. ');
 
@@ -87,7 +87,7 @@ private class StopWatchTest{
         try {
             watch.suspend();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling suspend on an unstarted StopWatch should throw an exception.');
  
@@ -95,7 +95,7 @@ private class StopWatchTest{
         try {
             watch.split();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling split on a non-running StopWatch should throw an exception. ');
 
@@ -103,7 +103,7 @@ private class StopWatchTest{
         try {
             watch.unsplit();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling unsplit on an unsplit StopWatch should throw an exception. ');
 
@@ -111,7 +111,7 @@ private class StopWatchTest{
         try {
             watch.resume();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling resume on an unsuspended StopWatch should throw an exception. ');
 
@@ -121,7 +121,7 @@ private class StopWatchTest{
         try {
             watch.start();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling start on a started StopWatch should throw an exception. ');
 
@@ -129,7 +129,7 @@ private class StopWatchTest{
         try {
             watch.unsplit();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling unsplit on an unsplit StopWatch should throw an exception. ');
 
@@ -137,7 +137,7 @@ private class StopWatchTest{
         try {
             watch.getSplitTime();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling getSplitTime on an unsplit StopWatch should throw an exception. ');
 
@@ -145,7 +145,7 @@ private class StopWatchTest{
         try {
             watch.resume();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling resume on an unsuspended StopWatch should throw an exception. ');
 
@@ -155,7 +155,7 @@ private class StopWatchTest{
         try {
             watch.start();
         } catch(IllegalStateException ise) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling start on a stopped StopWatch should throw an exception as it needs to be reset. ');
     }
@@ -167,7 +167,7 @@ private class StopWatchTest{
         try {
             watch.getStartTime();
         } catch (IllegalStateException expected) {
-        	exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling getStartTime on an unstarted StopWatch should throw an exception');
         watch.start();
@@ -176,9 +176,9 @@ private class StopWatchTest{
         try {
             watch.getStartTime();
             System.assert(watch.getStartTime() >= beforeStopWatch);
-        	exceptionCaught = false;
+            exceptionCaught = false;
         } catch (IllegalStateException ex) {
-        	msg = ex.getMessage();
+            msg = ex.getMessage();
         }
         System.assert(!exceptionCaught,'Start time should be available: ' + msg);
         watch.reset();
@@ -186,7 +186,7 @@ private class StopWatchTest{
         try {
             watch.getStartTime();
         } catch (IllegalStateException expected) {
-	        exceptionCaught = true;
+            exceptionCaught = true;
         }
         System.assert(exceptionCaught,'Calling getStartTime on a reset, but unstarted StopWatch should throw an exception');
     }

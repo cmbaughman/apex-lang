@@ -14,47 +14,47 @@
 @IsTest
 private class EmailUtilsTest {
 
-	static testMethod void testsendEmail_test() {
-		system.debug('## Start the testSendSupportEmails_test');
-		List<String> recepients=new String[]{'test@test.com','test2@test.com'};
-		EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
-		EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
-	} 
-	
-	static testMethod void testsendEmailNoReceipients_test() {
-		system.debug('## Start the testSendSupportEmails_test');
-		List<String> recepients=null;
-		EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
-		
-		recepients=new List<String>();
-		EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
-	}
-	
-	static testMethod void testsendEmailWithAttachment_test() {
-		system.debug('## Start the testSendSupportEmails_test');
-		List<String> recepients=new String[]{'test@test.com','test2@test.com'};
-		List<Attachment> stdAttachments = new List<Attachment>();
-		Attachment a = new Attachment();
-		a.Name = 'Test';
-		a.Body = EncodingUtil.base64Decode('Test Body');
-		stdAttachments.add(a);
-		EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
-	}
-	
-	static testMethod void testsendEmailWithAttachmentIDs_test() {
-		system.debug('## Start the testSendSupportEmails_test');
-		List<String> recepients=new String[]{'test@test.com','test2@test.com'};
-		List<ID> stdAttachments = new List<ID>();
-		
-		Account acct = new Account(name='Test Account');
-		insert acct;
-		
-		Attachment a = new Attachment();
-		a.ParentId = acct.Id;
-		a.Name = 'Test';
-		a.Body = EncodingUtil.base64Decode('Test Body');
-		insert a;
-		stdAttachments.add(a.Id);
-		EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
-	}
+    static testMethod void testsendEmail_test() {
+        system.debug('## Start the testSendSupportEmails_test');
+        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
+        EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+        EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+    } 
+    
+    static testMethod void testsendEmailNoReceipients_test() {
+        system.debug('## Start the testSendSupportEmails_test');
+        List<String> recepients=null;
+        EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+        
+        recepients=new List<String>();
+        EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+    }
+    
+    static testMethod void testsendEmailWithAttachment_test() {
+        system.debug('## Start the testSendSupportEmails_test');
+        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
+        List<Attachment> stdAttachments = new List<Attachment>();
+        Attachment a = new Attachment();
+        a.Name = 'Test';
+        a.Body = EncodingUtil.base64Decode('Test Body');
+        stdAttachments.add(a);
+        EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
+    }
+    
+    static testMethod void testsendEmailWithAttachmentIDs_test() {
+        system.debug('## Start the testSendSupportEmails_test');
+        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
+        List<ID> stdAttachments = new List<ID>();
+        
+        Account acct = new Account(name='Test Account');
+        insert acct;
+        
+        Attachment a = new Attachment();
+        a.ParentId = acct.Id;
+        a.Name = 'Test';
+        a.Body = EncodingUtil.base64Decode('Test Body');
+        insert a;
+        stdAttachments.add(a.Id);
+        EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
+    }
 }
