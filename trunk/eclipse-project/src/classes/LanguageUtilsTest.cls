@@ -80,5 +80,66 @@ private class LanguageUtilsTest {
         ApexPages.currentPage().getHeaders().put('Accept-Language','zh');
         System.assertEquals('zh-cn', LanguageUtils.getLangCodeByBrowserOrIfNullThenUser());  
     }
+    
+    private static testmethod void testGetLanguageName(){
+    	//test: global String getLanguageName(String displayLanguageCode, String languageCode){
+		
+		//basic tests          
+        System.assertEquals('Francouzština', LanguageUtils.getLanguageName('cs','fr'));  
+        System.assertEquals('Spanyol', LanguageUtils.getLanguageName('in','es'));  
+        System.assertEquals('French', LanguageUtils.getLanguageName('en_US','fr'));
+        System.assertEquals('Tsjechisch', LanguageUtils.getLanguageName('nl_nl','cs'));  
 
+		//test conversion to lower-case
+        System.assertEquals('Francouzština', LanguageUtils.getLanguageName('CS','FR'));
+
+		//test default to english
+        System.assertEquals('French', LanguageUtils.getLanguageName('xx','fr'));
+
+		//test default substitution; ie nl => nl_nl
+        System.assertEquals('Tsjechisch', LanguageUtils.getLanguageName('nl','cs'));  
+    }
+    
+    private static testmethod void testGetAllLanguageSelectOptions(){
+    	//test: global static List<SelectOption> getAllLanguageSelectOptions(){
+    	final List<SelectOption> languages = LanguageUtils.getAllLanguageSelectOptions();
+    	System.assertNotEquals(null,languages);
+    	System.assertNotEquals(null,languages.get(0));
+    	System.assertEquals('Chinese (Simplified)',languages.get(0).getLabel());
+    	System.assertNotEquals(null,languages.get(1));
+    	System.assertEquals('Chinese (Traditional)',languages.get(1).getLabel());
+    	System.assertNotEquals(null,languages.get(2));
+    	System.assertEquals('Czech',languages.get(2).getLabel());
+    }
+    
+    private static testmethod void testGetAllLanguageSelectOptions2(){
+    	//test: global static List<SelectOption> getAllLanguageSelectOptions(String displayLanguageCode){
+    	final List<SelectOption> languages = LanguageUtils.getAllLanguageSelectOptions('ru');
+    	System.assertNotEquals(null,languages);
+    	System.assertNotEquals(null,languages.get(0));
+    	System.assertEquals('Английский (США)',languages.get(0).getLabel());
+    	System.assertNotEquals(null,languages.get(1));
+    	System.assertEquals('Венгерский',languages.get(1).getLabel());
+    	System.assertNotEquals(null,languages.get(2));
+    	System.assertEquals('Голландский',languages.get(2).getLabel());
+    }
+    
+    private static testmethod void testgetAllLanguages(){
+    	//test: global static Map<String,String> getAllLanguages(){
+    	final Map<String,String> languages = LanguageUtils.getAllLanguages();
+    	System.assertNotEquals(null,languages);
+    	System.assertNotEquals(0,languages.size());
+        System.assertEquals('French', languages.get('fr'));
+        System.assertEquals('Italian', languages.get('it'));
+	}    	
+    
+    private static testmethod void testgetAllLanguages2(){
+    	//test: global static Map<String,String> getAllLanguages(String displayLanguageCode){
+    	final Map<String,String> languages = LanguageUtils.getAllLanguages('ru');
+    	System.assertNotEquals(null,languages);
+    	System.assertNotEquals(0,languages.size());
+        System.assertEquals('Французский', languages.get('fr'));
+        System.assertEquals('Итальянский', languages.get('it'));
+	}    	
+    
 }

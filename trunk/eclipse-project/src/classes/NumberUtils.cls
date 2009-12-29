@@ -47,75 +47,60 @@ global class NumberUtils {
         }
         return returnValue;
     }
-    /*
+    
+    
+    
+    global static String toBinaryString(Integer i){
+        return toString(i,2);
+    }
+
+    global static String toOctalString(Integer i){
+        return toString(i,8);
+    }
+    
+    global static String toHexString(Integer i){
+        return toString(i,16);
+    }
+
     global static String toString(Integer i, Integer radix){
-        return longToString(i,radix);
+    	if(i == null){
+            return null;
+    	}
+    	return toString((Long)i,radix);
     }
 
-//27
-// 25/10 = 2.5 > 1
-// 5/1 = 5
-//27/16 = 1
-// 11/1 = 9
+    global static String toBinaryString(Long l){
+        return toString(l,2);
+    }
 
-//27
-//12
-//
+    global static String toOctalString(Long l){
+        return toString(l,8);
+    }
+
+    global static String toHexString(Long l){
+        return toString(l,16);
+    }
+
     global static String toString(Long l, Integer radix){
-        //l=27
-        //radix=16
-        Boolean isNegative = false;
-        if(l < 0){
-            isNegative = true;
-            l = Math.abs(l);
+    	if(l == null){
+    		return null;
+    	}
+        if(radix < 2 || radix > 36){
+            throw new IllegalArgumentException('invalid radix parameter: ' + radix + '; radix must be >= 2 and <= 36');
         }
-        String retwurnValue = '';
-        final String CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        Integer index = 0;
-        for(Integer i = 0; i < 63; i++){
-            index = 
-            index = (l / Math.pow(radix,i)).intValue();
-            returnValue += CHARS.substring(index,index+1);
-        }
-        return '-' + returnValue;
+        return (l<0 ? '-' : '') + toStringPrivate(Math.abs(l),radix,'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substring(0,radix));
     }
-    
-    /*
-    
-    27 < f(x) = number ^ radix
-    
-    
-    radix 10
-    
-    min power
-    
-    12 2
-    11 2
-    10 1
-    
-    */
-    
-    
-    /*
-    global static String toBinary(Long number){
-        
-        Integer power = 1;
-        while(number > 0){
-            
+
+    private static String toStringPrivate(Long l, Integer radix, String validChars){
+        Integer r = Math.mod(l,radix).intValue();
+        String result;
+        if(l-r == 0){ 
+            result = StringUtils.charAt(validChars,r);
+        }else{ 
+            result = toStringPrivate(((l-r)/radix),radix,validChars) + StringUtils.charAt(validChars,r);
         }
-        binary = StringUtils.trim(binary);
-        if(!StringUtils.containsOnly(binary,'01')){
-            throw new IllegalArgumentException('invalid binary string: ' + binary);
-        }
-        final String BINARY_LENGTH = StringUtils.length(binary);
-        Integer position = BINARY_LENGTH;
-        Long sum = 0;
-        for(Integer i = 0; i<BINARY_LENGTH; i++){
-            sum +=
-                Integer.valueOf(binary.substring((BINARY_LENGTH - i - 1),(BINARY_LENGTH - i))
-                * Math.pow(2,(StringUtils.length(binary) - position)));            
-        }
-        return sum;
+        return result;
+    	
     }
-    */
+
 }
