@@ -36,7 +36,7 @@ private class UserUtilsTest {
                 update usr;
             }catch(DmlException e){
                 usr = new User(
-                    Username='test123@salesforce.com',
+                    Username= RandomStringUtils.randomAlphabetic(20)+ '@' + RandomStringUtils.randomAlphabetic(20) + '.com',
                     Alias = 'test123', 
                     Email='test123@salesforce.com', 
                     FirstName='John', 
