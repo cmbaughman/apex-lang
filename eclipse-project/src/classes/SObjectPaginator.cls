@@ -94,21 +94,21 @@ global class SObjectPaginator {
     // CONSTANTS    
     //================================================
     global static final     Integer         DEFAULT_PAGE_SIZE             = 20;
-    global static final     List<Integer>     DEFAULT_PAGE_SIZE_OPTIONS     = new List<Integer>{10,20,50,100,200};
+    global static final     List<Integer>   DEFAULT_PAGE_SIZE_OPTIONS     = new List<Integer>{10,20,50,100,200};
     global static final     Integer         DEFAULT_SKIP_SIZE             = 3;
     global static final     Integer         MAX_SKIP_SIZE                 = 20;
 
     //================================================
     // PROPERTIES    
     //================================================
-    global List<SObject>                     all                     {get;private set;}
-    global List<SObject>                     page                     {get;private set;}
-    global Integer                             pageSize                {get;private set;} 
-    global List<Integer>                     pageSizeIntegerOptions    {get;private set;} 
-    global List<SelectOption>                 pageSizeSelectOptions     {get;private set;} 
-    global Integer                             skipSize                 {get;private set;}
-    global Integer                             pageNumber                 {get;private set;}
-    global List<SObjectPaginatorListener>     listeners                 {get;private set;}    
+    global List<SObject>                    all                     {get;private set;}
+    global List<SObject>                    page                    {get;private set;}
+    global Integer                          pageSize                {get;private set;} 
+    global List<Integer>                    pageSizeIntegerOptions  {get;private set;} 
+    global List<SelectOption>               pageSizeSelectOptions   {get;private set;} 
+    global Integer                          skipSize                {get;private set;}
+    global Integer                          pageNumber              {get;private set;}
+    global List<SObjectPaginatorListener>   listeners               {get;private set;}    
 
     //================================================
     // DERIVED PROPERTIES    
@@ -148,7 +148,7 @@ global class SObjectPaginator {
     global Integer pageEndPosition {
         get{ 
             Integer endPosition = (this.pageNumber + 1) * this.pageSize - 1;
-            endPosition = endPosition < this.all.size() ? endPosition : this.all.size()-1;
+            endPosition = endPosition < recordCount ? endPosition : recordCount-1;
             return endPosition; 
         } 
     }
