@@ -59,6 +59,47 @@ private class SObjectUtilsTest {
     }
     */
     
-    
-        
+    /*
+    private static testmethod void testSendNotificationEmailBadArgs(){
+        //test: global static void sendNotificationEmail(SObject obj){
+        Boolean exceptionCaught = false;
+        try{
+            SObjectUtils.sendNotificationEmail(null);
+        }catch(IllegalArgumentException e){
+            exceptionCaught = true;
+        }
+        System.assertEquals(true,exceptionCaught);
+
+        exceptionCaught = false;
+        try{
+            SObjectUtils.sendNotificationEmail(new Lead());
+        }catch(IllegalArgumentException e){
+            exceptionCaught = true;
+        }
+        System.assertEquals(true,exceptionCaught);
+
+        exceptionCaught = false;
+        try{
+        	final Account a = new Account(name='test123');
+        	insert a;
+            delete a;
+            SObjectUtils.sendNotificationEmail(a);
+        }catch(IllegalArgumentException e){
+            exceptionCaught = true;
+        }
+        System.assertEquals(true,exceptionCaught);
+    }    
+
+    private static testmethod void testSendNotificationEmail(){
+        //test: global static void sendNotificationEmail(SObject obj){
+        QueueSobject q = null;
+        try{
+        	q = [select queueid from QueueSobject where sobjecttype = 'Lead' limit 1];
+        }catch(QueryException e){} 
+        System.assert(q != null, 'Environment Dependency: in order for this test to pass, you need at least one Lead queue set up.');
+        final Lead l = new Lead(lastname='Doe', company='test', ownerid=q.queueid);
+        insert l;
+        SObjectUtils.sendNotificationEmail(l);
+    }     
+    */   
 }
