@@ -161,6 +161,12 @@ global class ArrayUtils {
         }
     }
     
+    /**
+     * This method is no longer needed as in Spring '10, you can created
+     * generic SObject lists.
+     * 
+     * @deprecated
+     */
     global static List<SObject> createEmptySObjectList(SObject prototype){
         if(prototype == null){
             return null;
