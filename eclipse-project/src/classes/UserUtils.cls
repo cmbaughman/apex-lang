@@ -12,12 +12,12 @@
 global class UserUtils {
     
     global static Boolean isCurrentUserSysAdmin(){
-        try{
-            User usr = [select id, name from User where id = :UserInfo.getUserId() and profile.name = 'System Administrator'];
-            return true;
-        } catch(QueryException e){
-            return false;
-        }
+    	final List<User> users = [
+    	   select id, name 
+    	   from User 
+    	   where id = :UserInfo.getUserId() 
+    	   and profile.name = 'System Administrator']; 
+    	return (users == null ? false : users.size() > 0);
     }
 
     global static Boolean isCurrentUserPortalUser(){
