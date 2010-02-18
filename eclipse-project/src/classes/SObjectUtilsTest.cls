@@ -102,4 +102,63 @@ private class SObjectUtilsTest {
         SObjectUtils.sendNotificationEmail(l);
     }     
     */   
+    
+    private static testmethod void testCopyAllFieldsNullInputs(){
+        //test: global static SObject copyFields(SObject source, SObject dest){
+        System.assertEquals(null,SObjectUtils.copyFields(null,null));
+        System.assertEquals(null,SObjectUtils.copyFields(new Account(),null));
+        System.assertNotEquals(null,SObjectUtils.copyFields(null,new Account()));
+    }
+    
+    /*
+    private static testmethod void testCopyAllFieldsNotSameType(){
+        //test: global static SObject copyAllFields(SObject source, SObject dest){
+        Boolean exceptionCaught = false;
+        try{
+            SObjectUtils.copyAllFields(new Account(),new Contact());
+        }catch(IllegalArgumentException e){
+            exceptionCaught = true;
+        }
+        System.assert(exceptionCaught,'Expected IllegalArgumentException to be thrown');
+    }
+    */
+    
+    private static testmethod void testCopyFieldsAccountToContact(){
+        //test: global static SObject copyFields(SObject source, SObject dest){
+        final Account account = new Account(
+            Description = 'test 123',Fax = '9876543210',Name = 'test 123',Phone = '9876543210'
+        );
+        Contact contact = new Contact();
+        final SObject sobj = SObjectUtils.copyFields(account,contact);
+        System.assert((sobj instanceof Contact), 'Returned SObject type isn\'t Contact as expected');
+        contact = (Contact) sobj; 
+        System.assertEquals(account.Description,contact.Description);
+        System.assertEquals(account.Fax,contact.Fax);
+        System.assertEquals(account.Phone,contact.Phone);
+    }
+    
+    private static testmethod void testCopyFieldsAccountToAccount(){
+        //test: global static SObject copyFields(SObject source, SObject dest){
+        final Account account = new Account(
+            Description = 'test 123',Fax = '9876543210',Name = 'test 123',Phone = '9876543210'
+        );
+        Account account2 = new Account();
+        final SObject sobj = SObjectUtils.copyFields(account,account2);
+        System.assert((sobj instanceof Account), 'Returned SObject type isn\'t Account as expected');
+        account2 = (Account) sobj; 
+        System.assertEquals(account.Description,account2.Description);
+        System.assertEquals(account.Fax,account2.Fax);
+        System.assertEquals(account.Phone,account2.Phone);
+    }
+    
+    private static testmethod void testCopyFieldsOpportunityToOpportunity(){
+        //test: global static SObject copyFields(SObject source, SObject dest){
+        final Opportunity opportunity1 = new Opportunity(Name = 'test 123');
+        Opportunity opportunity2 = new Opportunity();
+        final SObject sobj = SObjectUtils.copyFields(opportunity1,opportunity2);
+        System.assert((sobj instanceof Opportunity), 'Returned SObject type isn\'t Account as expected');
+        opportunity2 = (Opportunity) sobj; 
+        System.assertEquals(opportunity1.Name,opportunity2.Name);
+    }
+    
 }
