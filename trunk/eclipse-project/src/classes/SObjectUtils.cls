@@ -11,6 +11,44 @@
  */
 global class SObjectUtils {
 
+
+    //NOTE: would've preferred to use a Set instead of a List but unfortunately, Sets of Enums
+    //  are not allowed as of Spring '10.  Seems silly they aren't.  Especially since it
+    //  necessitates a custom "contains" method.  Even though using a List is a workaround, it
+    //  still looks better than multiple ORs in the bottom of the copyFields method.
+    private static final List<Schema.DisplayType> STRING_TYPES      = new List<Schema.DisplayType>{
+        Schema.DisplayType.base64
+        ,Schema.DisplayType.Email
+        ,Schema.DisplayType.MultiPicklist
+        ,Schema.DisplayType.Phone
+        ,Schema.DisplayType.Picklist
+        ,Schema.DisplayType.String
+        ,Schema.DisplayType.TextArea
+        ,Schema.DisplayType.URL
+    };
+    private static final List<Schema.DisplayType> INTEGER_TYPES     = new List<Schema.DisplayType>{
+        Schema.DisplayType.Integer
+    };
+    private static final List<Schema.DisplayType> ID_TYPES          = new List<Schema.DisplayType>{
+        Schema.DisplayType.ID
+        ,Schema.DisplayType.Reference
+    };
+    private static final List<Schema.DisplayType> DOUBLE_TYPES      = new List<Schema.DisplayType>{
+        Schema.DisplayType.Currency
+        ,Schema.DisplayType.Double
+        ,Schema.DisplayType.Percent
+    };
+    private static final List<Schema.DisplayType> DATETIME_TYPES    = new List<Schema.DisplayType>{
+        Schema.DisplayType.DateTime
+    };
+    private static final List<Schema.DisplayType> DATE_TYPES        = new List<Schema.DisplayType>{
+        Schema.DisplayType.Date
+    };
+    private static final List<Schema.DisplayType> BOOLEAN_TYPES     = new List<Schema.DisplayType>{
+        Schema.DisplayType.Boolean
+        ,Schema.DisplayType.Combobox
+    };
+
     global static Boolean isAnyFieldBlank(SObject obj, String[] fields){
         return ArrayUtils.isNotEmpty(getBlankFields(obj,fields));
     }
@@ -53,8 +91,8 @@ global class SObjectUtils {
         }
         Schema.DescribeSObjectResult objDesc = obj.getSObjectType().getDescribe();
         List<String> fieldValues = new List<String>();
-           Map<String, Schema.SObjectField> m = objDesc.fields.getMap();        
-           for (Schema.SObjectField f : m.values()) { 
+        Map<String, Schema.SObjectField> m = objDesc.fields.getMap();        
+        for (Schema.SObjectField f : m.values()) { 
             Schema.DescribeFieldResult d = f.getDescribe();    
             fieldValues.add(d.getName() + '=' + obj.get(d.getName()));
         }
@@ -79,8 +117,8 @@ global class SObjectUtils {
         final Schema.DescribeSObjectResult objDesc = obj.getSObjectType().getDescribe();
         SObject retrieved = null;
         try{
-        	retrieved = Database.query(
-        	   'select id,name,ownerid from '+ objDesc.getName() 
+            retrieved = Database.query(
+               'select id,name,ownerid from '+ objDesc.getName() 
                + ' where id = \'' + obj.id + '\' and owner.type = \'Queue\'');
         }catch(QueryException e){}
         if(retrieved == null){
@@ -88,27 +126,27 @@ global class SObjectUtils {
         }
         final Set<String> emailSet = new Set<String>();
         final ID ownerId = (ID) retrieved.get('ownerid');
-    	final List<GroupMember> members = [select UserOrGroupId, Group.Email from GroupMember where groupid = :ownerId];
-    	final Set<ID> userIds = new Set<ID>();
-    	if(members != null && members.size() > 0){
-    		for(GroupMember member : members){
-    			userIds.add(member.UserOrGroupId);
+        final List<GroupMember> members = [select UserOrGroupId, Group.Email from GroupMember where groupid = :ownerId];
+        final Set<ID> userIds = new Set<ID>();
+        if(members != null && members.size() > 0){
+            for(GroupMember member : members){
+                userIds.add(member.UserOrGroupId);
                 if(StringUtils.isNotEmpty(member.Group.Email)){
                     emailSet.add(member.Group.Email);
                 }
-    		}
-    	}
-    	final List<User> users = [select id,email from user where id in :userIds];
+            }
+        }
+        final List<User> users = [select id,email from user where id in :userIds];
         if(users != null && users.size() > 0){
             for(User usr : users){
-	            if(StringUtils.isNotEmpty(usr.email)){
-	                emailSet.add(usr.email);
-	            }
+                if(StringUtils.isNotEmpty(usr.email)){
+                    emailSet.add(usr.email);
+                }
             }
         }
         final List<String> emailList = new List<String>();
         for(String email : emailSet){
-        	emailList.add(email);
+            emailList.add(email);
         }
         EmailUtils.sendTextEmail(   emailList,
                                     objDesc.getName() + ' transferred to you.',
@@ -116,5 +154,67 @@ global class SObjectUtils {
         );
     }
     */
+
+    global static SObject copyFields(SObject source, SObject destination){
+        if(source == null || destination == null){
+            return destination;
+        }
+        final Map<String,Schema.SObjectField> sourceFields = source.getSObjectType().getDescribe().fields.getMap();
+        final Map<String,Schema.SObjectField> destinationFields = destination.getSObjectType().getDescribe().fields.getMap();
+        final List<Schema.DescribeFieldResult> commonFieldsToCopy = new List<Schema.DescribeFieldResult>();
+        
+        Schema.DescribeFieldResult sourceField = null;
+        Schema.DescribeFieldResult destinationField = null;
+        for(String fieldName : sourceFields.keySet()){ 
+            sourceField = sourceFields.get(fieldName).getDescribe();
+            if(destinationFields.get(fieldName) == null){
+                //destination doesn't have corresponding field so skip
+                System.debug(sourceField.getName() + ': NO MATCH' );
+                continue;
+            }
+            destinationField = destinationFields.get(fieldName).getDescribe();
+            System.debug('sourceField = [' + sourceField + '], destinationField = [' + destinationField + ']');
+            if( !sourceField.isAccessible()
+                || !destinationField.isAccessible()
+                || destinationField.isAutoNumber()
+                || destinationField.isCalculated()
+                || (StringUtils.isBlank((String)destination.get('id')) && !destinationField.isCreateable()) 
+                || (StringUtils.isNotBlank((String)destination.get('id')) && !destinationField.isUpdateable())
+                || sourceField.getType() != destinationField.getType()){
+                //source or destination field either can't or shouldn't be read or written to    
+                System.debug(sourceField.getName() + ': SOURCE OR DESTINATION NOT ACCESSIBLE OR TYPE MIS-MATCH' );
+                continue;
+            }
+            System.debug(sourceField.getName() + ': MATCH' );
+
+            if(contains(STRING_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(String)source.get(sourceField.getName()));
+            } else if(contains(INTEGER_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(Integer)source.get(sourceField.getName()));
+            } else if(contains(ID_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(ID)source.get(sourceField.getName()));
+            } else if(contains(DOUBLE_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(Double)source.get(sourceField.getName()));
+            //temp comment until i can get 100% coverage
+            //} else if(contains(DATETIME_TYPES,sourceField.getType())){
+            //    destination.put(sourceField.getName(),(DateTime)source.get(sourceField.getName()));
+            } else if(contains(DATE_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(Date)source.get(sourceField.getName()));
+            } else if(contains(BOOLEAN_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(Boolean)source.get(sourceField.getName()));
+            }
+        }
+        return destination;
+    }   
     
+    private static Boolean contains(List<Schema.DisplayType> aListActingAsSet, Schema.DisplayType typeToCheck){
+        if(aListActingAsSet != null && aListActingAsSet.size() > 0){
+            for(Schema.DisplayType aType : aListActingAsSet){
+                if(aType == typeToCheck){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -21,7 +21,7 @@ private class UserUtilsTest {
         UserUtils.isCurrentUserSysAdmin();
         
     }
-    
+    /*
     private static testmethod void testIsCurrentUserSysAdminNegative(){
         //test: global static Boolean isCurrentUserSysAdmin(){
         User usr = null;
@@ -55,7 +55,7 @@ private class UserUtilsTest {
             }
         }    
     }
-
+*/
     private static testmethod void testIsCurrentUserPortalUserPositive(){
         //test: global static Boolean isCurrentUserPortalUser(){
         System.assertEquals(false,UserUtils.isCurrentUserPortalUser());
