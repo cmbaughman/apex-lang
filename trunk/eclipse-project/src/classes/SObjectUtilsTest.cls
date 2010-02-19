@@ -110,55 +110,96 @@ private class SObjectUtilsTest {
         System.assertNotEquals(null,SObjectUtils.copyFields(null,new Account()));
     }
     
-    /*
-    private static testmethod void testCopyAllFieldsNotSameType(){
-        //test: global static SObject copyAllFields(SObject source, SObject dest){
-        Boolean exceptionCaught = false;
-        try{
-            SObjectUtils.copyAllFields(new Account(),new Contact());
-        }catch(IllegalArgumentException e){
-            exceptionCaught = true;
-        }
-        System.assert(exceptionCaught,'Expected IllegalArgumentException to be thrown');
-    }
-    */
-    
     private static testmethod void testCopyFieldsAccountToContact(){
         //test: global static SObject copyFields(SObject source, SObject dest){
-        final Account account = new Account(
-            Description = 'test 123',Fax = '9876543210',Name = 'test 123',Phone = '9876543210'
-        );
+        final Account account = new Account();
+        SObjectUtils.putQuietly(account,'Description','test 123');
+        SObjectUtils.putQuietly(account,'Fax','9876543210');
+        SObjectUtils.putQuietly(account,'Name','test 123');
+        SObjectUtils.putQuietly(account,'Phone','9876543210');
         Contact contact = new Contact();
         final SObject sobj = SObjectUtils.copyFields(account,contact);
         System.assert((sobj instanceof Contact), 'Returned SObject type isn\'t Contact as expected');
         contact = (Contact) sobj; 
-        System.assertEquals(account.Description,contact.Description);
-        System.assertEquals(account.Fax,contact.Fax);
-        System.assertEquals(account.Phone,contact.Phone);
+        System.assertEquals(SObjectUtils.getQuietly(account,'Description'),
+            SObjectUtils.getQuietly(contact,'Description'));
+        System.assertEquals(SObjectUtils.getQuietly(account,'Fax'),
+            SObjectUtils.getQuietly(contact,'Fax'));
+        System.assertEquals(SObjectUtils.getQuietly(account,'Phone'),
+            SObjectUtils.getQuietly(contact,'Phone'));
     }
     
     private static testmethod void testCopyFieldsAccountToAccount(){
         //test: global static SObject copyFields(SObject source, SObject dest){
-        final Account account = new Account(
-            Description = 'test 123',Fax = '9876543210',Name = 'test 123',Phone = '9876543210'
-        );
+        final Account account = new Account();
+        SObjectUtils.putQuietly(account,'Description','test 123');
+        SObjectUtils.putQuietly(account,'Fax','9876543210');
+        SObjectUtils.putQuietly(account,'Name','test 123');
+        SObjectUtils.putQuietly(account,'Phone','9876543210');
         Account account2 = new Account();
         final SObject sobj = SObjectUtils.copyFields(account,account2);
         System.assert((sobj instanceof Account), 'Returned SObject type isn\'t Account as expected');
         account2 = (Account) sobj; 
-        System.assertEquals(account.Description,account2.Description);
-        System.assertEquals(account.Fax,account2.Fax);
-        System.assertEquals(account.Phone,account2.Phone);
+        System.assertEquals(SObjectUtils.getQuietly(account,'Description'),
+            SObjectUtils.getQuietly(account2,'Description'));
+        System.assertEquals(SObjectUtils.getQuietly(account,'Fax'),
+            SObjectUtils.getQuietly(account2,'Fax'));
+        System.assertEquals(SObjectUtils.getQuietly(account,'Phone'),
+            SObjectUtils.getQuietly(account2,'Phone'));
     }
     
     private static testmethod void testCopyFieldsOpportunityToOpportunity(){
         //test: global static SObject copyFields(SObject source, SObject dest){
-        final Opportunity opportunity1 = new Opportunity(Name = 'test 123');
+        final Opportunity opportunity1 = new Opportunity();
+        SObjectUtils.putQuietly(opportunity1,'Name','test 123');
         Opportunity opportunity2 = new Opportunity();
         final SObject sobj = SObjectUtils.copyFields(opportunity1,opportunity2);
-        System.assert((sobj instanceof Opportunity), 'Returned SObject type isn\'t Account as expected');
+        System.assert((sobj instanceof Opportunity), 'Returned SObject type isn\'t Opportunity as expected');
         opportunity2 = (Opportunity) sobj; 
-        System.assertEquals(opportunity1.Name,opportunity2.Name);
+        System.assertEquals(SObjectUtils.getQuietly(opportunity1,'Name'),
+            SObjectUtils.getQuietly(opportunity2,'Name'));
     }
+    
+    private static testmethod void testCopyFieldsContactToContact(){
+        //test: global static SObject copyFields(SObject source, SObject dest){
+        final Contact contact1 = new Contact();
+        SObjectUtils.putQuietly(contact1,'EmailBouncedDate',Datetime.now());
+        Contact contact2 = new Contact();
+        System.assertNotEquals(SObjectUtils.getQuietly(contact1,'EmailBouncedDate'),
+            SObjectUtils.getQuietly(contact2,'EmailBouncedDate'));
+        final SObject sobj = SObjectUtils.copyFields(contact1,contact2);
+        System.assert((sobj instanceof Contact), 'Returned SObject type isn\'t Contact as expected');
+        contact2 = (Contact) sobj; 
+        System.assertEquals(SObjectUtils.getQuietly(contact1,'EmailBouncedDate'),
+            SObjectUtils.getQuietly(contact2,'EmailBouncedDate'));
+    }
+    
+    private static testmethod void testPutQuietly(){
+        //test: global static void putQuietly(SObject sobj, String fieldName, Object value){
+        final Account acct = new Account(name='test123');
+        System.assertEquals(null,SObjectUtils.putQuietly(null,null,null));
+        System.assertEquals(null,SObjectUtils.putQuietly(acct,null,null));
+        System.assertEquals('test123',SObjectUtils.getQuietly(acct,'name'));
+        System.assertEquals(null,SObjectUtils.putQuietly(acct,'namexxxx',null));
+        System.assertEquals('test123',SObjectUtils.getQuietly(acct,'name'));
+        System.assertEquals('test123',SObjectUtils.putQuietly(acct,'name',null));
+        System.assertEquals(null,SObjectUtils.getQuietly(acct,'name'));
+        System.assertEquals(null,SObjectUtils.putQuietly(acct,'name',''));
+        System.assertEquals('',SObjectUtils.getQuietly(acct,'name'));
+        System.assertEquals('',SObjectUtils.putQuietly(acct,'name','xyz'));
+        System.assertEquals('xyz',SObjectUtils.getQuietly(acct,'name'));
+        System.assertEquals(null,SObjectUtils.putQuietly(acct,'namexxxx','123'));
+        System.assertEquals('xyz',SObjectUtils.getQuietly(acct,'name'));
+    }
+    
+    private static testmethod void testGetQuietly(){
+        //test: global static Object getQuietly(SObject sobj, String fieldName){    
+        final Account acct = new Account(name='test123');
+        System.assertEquals(null,SObjectUtils.getQuietly(null,null));
+        System.assertEquals(null,SObjectUtils.getQuietly(acct,null));
+        System.assertEquals(null,SObjectUtils.getQuietly(null,''));
+        System.assertEquals(null,SObjectUtils.getQuietly(acct,'namexxxxxx'));
+        System.assertEquals('test123',SObjectUtils.getQuietly(acct,'name'));
+    }    
     
 }
