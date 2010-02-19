@@ -169,7 +169,7 @@ global class SObjectUtils {
             sourceField = sourceFields.get(fieldName).getDescribe();
             if(destinationFields.get(fieldName) == null){
                 //destination doesn't have corresponding field so skip
-                System.debug(sourceField.getName() + ': NO MATCH' );
+                //System.debug(sourceField.getName() + ': NO MATCH' );
                 continue;
             }
             destinationField = destinationFields.get(fieldName).getDescribe();
@@ -182,11 +182,10 @@ global class SObjectUtils {
                 || (StringUtils.isNotBlank((String)destination.get('id')) && !destinationField.isUpdateable())
                 || sourceField.getType() != destinationField.getType()){
                 //source or destination field either can't or shouldn't be read or written to    
-                System.debug(sourceField.getName() + ': SOURCE OR DESTINATION NOT ACCESSIBLE OR TYPE MIS-MATCH' );
+                //System.debug(sourceField.getName() + ': SOURCE OR DESTINATION NOT ACCESSIBLE OR TYPE MIS-MATCH' );
                 continue;
             }
-            System.debug(sourceField.getName() + ': MATCH' );
-
+            //System.debug(sourceField.getName() + ': MATCH' );
             if(contains(STRING_TYPES,sourceField.getType())){
                 destination.put(sourceField.getName(),(String)source.get(sourceField.getName()));
             } else if(contains(INTEGER_TYPES,sourceField.getType())){
@@ -195,9 +194,8 @@ global class SObjectUtils {
                 destination.put(sourceField.getName(),(ID)source.get(sourceField.getName()));
             } else if(contains(DOUBLE_TYPES,sourceField.getType())){
                 destination.put(sourceField.getName(),(Double)source.get(sourceField.getName()));
-            //temp comment until i can get 100% coverage
-            //} else if(contains(DATETIME_TYPES,sourceField.getType())){
-            //    destination.put(sourceField.getName(),(DateTime)source.get(sourceField.getName()));
+            } else if(contains(DATETIME_TYPES,sourceField.getType())){
+                destination.put(sourceField.getName(),(DateTime)source.get(sourceField.getName()));
             } else if(contains(DATE_TYPES,sourceField.getType())){
                 destination.put(sourceField.getName(),(Date)source.get(sourceField.getName()));
             } else if(contains(BOOLEAN_TYPES,sourceField.getType())){
@@ -217,4 +215,36 @@ global class SObjectUtils {
         }
         return false;
     }
+    
+    global static Object putQuietly(SObject sobj, String fieldName, Object value){
+        Object old = null;
+        if(sobj != null && fieldName != null){
+            try{
+            	old = getQuietly(sobj,fieldName);
+            	
+            	//NOTE:  the following line doesn't handle nulls for some strange reason
+            	//  in Spring '10.  In order to make it work, the if is needed to explicitly 
+            	//  pass null.
+                //sobj.put(fieldName,value);
+				if(value==null){
+				    sobj.put(fieldName,null);
+				}else{
+				    sobj.put(fieldName,value);
+				}
+            }catch(System.SObjectException e){}
+        }
+        return old;
+    }
+    
+    global static Object getQuietly(SObject sobj, String fieldName){
+    	Object returnValue = null;
+        if(sobj != null && fieldName != null){
+            try{
+                returnValue = sobj.get(fieldName);
+            }catch(SObjectException e){}
+        }
+        return returnValue;
+    }
+    
+    
 }
