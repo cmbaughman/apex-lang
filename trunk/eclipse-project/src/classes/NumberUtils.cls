@@ -11,8 +11,13 @@
  */
 global class NumberUtils {
 
-    global static final Integer MAX_INTEGER = 2147483647;//Math.round(Math.pow(2.0,31.0)-1);
-    global static final Integer MIN_INTEGER = -2147483647;//Math.round(Math.pow(2.0,31.0));
+    global static final Integer MAX_INTEGER = 2147483647;
+    global static final Integer MIN_INTEGER = -2147483647;
+    global static final IntegerRange MAX_INTEGER_RANGE = new IntegerRange(NumberUtils.MIN_INTEGER,NumberUtils.MAX_INTEGER);
+    
+    global static final Long MAX_LONG = 9223372036854775807L;
+    global static final Long MIN_LONG = -9223372036854775807L;
+    global static final LongRange MAX_LONG_RANGE = new LongRange(NumberUtils.MIN_LONG,NumberUtils.MAX_LONG);
     
     global static Integer parseInt(String str, Integer radix){
         return parseLong(str,radix).intValue();

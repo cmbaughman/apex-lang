@@ -80,4 +80,24 @@ private class DoubleRangeTest {
         System.assert(actual==expected, 'DoubleRange(' + range1.toAString() 
             + ').getMaximum() returned ' + actual);
     }
+
+    private static testmethod void testNullsConstructor1(){
+        Boolean exceptionCaught = false;
+        try{ new DoubleRange(null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DoubleRange(null)\' did not throw IllegalArgumentException');
+    }
+    
+    private static testmethod void testNullsConstructor2(){
+        Boolean exceptionCaught = false;
+        try{ new DoubleRange(null,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DoubleRange(null,null)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new DoubleRange(null,0); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DoubleRange(null,0)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new DoubleRange(0,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DoubleRange(0,null)\' did not throw IllegalArgumentException');
+    }
 }

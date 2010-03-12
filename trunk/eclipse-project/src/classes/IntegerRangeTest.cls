@@ -79,4 +79,25 @@ private class IntegerRangeTest {
         System.assert(actual==expected, 'IntegerRange(' + range1.toAString() 
             + ').getMaximum() returned ' + actual);
     }
+
+    private static testmethod void testNullsConstructor1(){
+        Boolean exceptionCaught = false;
+        try{ new IntegerRange(null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new IntegerRange(null)\' did not throw IllegalArgumentException');
+    }
+    
+    private static testmethod void testNullsConstructor2(){
+        Boolean exceptionCaught = false;
+        try{ new IntegerRange(null,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new IntegerRange(null,null)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new IntegerRange(null,0); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new IntegerRange(null,0)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new IntegerRange(0,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new IntegerRange(0,null)\' did not throw IllegalArgumentException');
+    }
+    
 }

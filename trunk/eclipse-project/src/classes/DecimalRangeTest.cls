@@ -80,4 +80,24 @@ private class DecimalRangeTest {
         System.assert(actual==expected, 'DecimalRange(' + range1.toAString() 
             + ').getMaximum() returned ' + actual);
     }
+
+    private static testmethod void testNullsConstructor1(){
+        Boolean exceptionCaught = false;
+        try{ new DecimalRange(null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DecimalRange(null)\' did not throw IllegalArgumentException');
+    }
+    
+    private static testmethod void testNullsConstructor2(){
+        Boolean exceptionCaught = false;
+        try{ new DecimalRange(null,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DecimalRange(null,null)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new DecimalRange(null,0); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DecimalRange(null,0)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new DecimalRange(0,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new DecimalRange(0,null)\' did not throw IllegalArgumentException');
+    }
 }
