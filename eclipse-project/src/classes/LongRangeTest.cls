@@ -79,4 +79,24 @@ private class LongRangeTest {
         System.assert(actual==expected, 'LongRange(' + range1.toAString() 
             + ').getMaximum() returned ' + actual);
     }
+    
+    private static testmethod void testNullsConstructor1(){
+        Boolean exceptionCaught = false;
+        try{ new LongRange(null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new LongRange(null)\' did not throw IllegalArgumentException');
+    }
+    
+    private static testmethod void testNullsConstructor2(){
+        Boolean exceptionCaught = false;
+        try{ new LongRange(null,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new LongRange(null,null)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new LongRange(null,0); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new LongRange(null,0)\' did not throw IllegalArgumentException');
+        
+        exceptionCaught = false;
+        try{ new LongRange(0,null); }catch(IllegalArgumentException e){ exceptionCaught = true; }
+        System.assert(exceptionCaught,'Call to \'new LongRange(0,null)\' did not throw IllegalArgumentException');
+    }
 }

@@ -15,9 +15,15 @@ global class DecimalRange{
     private Decimal max;
     
     global DecimalRange(Decimal number1){
+        if(number1 == null){
+            throw new IllegalArgumentException('illegal argument: null number');
+        }
         min = max = number1;
     } 
     global DecimalRange(Decimal number1, Decimal number2){
+        if(number1 == null || number2 == null){
+            throw new IllegalArgumentException('illegal argument: null number');
+        }
         if(number1 < number2){
             min = number1;
             max = number2;    
