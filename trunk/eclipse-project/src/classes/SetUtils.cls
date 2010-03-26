@@ -314,5 +314,84 @@ global class SetUtils {
         }
         return '{' + returnValue + '}';
     }
+    
+    global static Set<String> listToSet(List<String> aList){
+        Set<String> returnValue = null;
+        if(aList != null){
+        	returnValue = new Set<String>();
+            if(aList.size() > 0){
+	        	for(String value : aList){
+	        		returnValue.add(value);
+	            }
+            }
+        }
+        return returnValue;
+    }
+
+    global static List<String> setToList(Set<String> aSet){
+        List<String> returnValue = null;
+        if(aSet != null){
+            returnValue = new List<String>();
+        	if(aSet.size() > 0){
+	            for(String value : aSet){
+	                returnValue.add(value);
+	            }
+        	}
+        }
+        return returnValue;
+    }
+
+
+    global static void assertEquals(Set<Blob> b1,Set<Blob> b2){ assertEquals(blobToObject(b1),blobToObject(b2)); }
+    global static void assertEquals(Set<Boolean> b1,Set<Boolean> b2){ assertEquals(booleanToObject(b1),booleanToObject(b2)); }
+    global static void assertEquals(Set<Date> d1,Set<Date> d2){ assertEquals(dateToObject(d1),dateToObject(d2)); }
+    global static void assertEquals(Set<Datetime> d1,Set<Datetime> d2){ assertEquals(datetimeToObject(d1),datetimeToObject(d2)); }
+    global static void assertEquals(Set<Decimal> d1,Set<Decimal> d2){ assertEquals(decimalToObject(d1),decimalToObject(d2)); }
+    global static void assertEquals(Set<Double> d1,Set<Double> d2){ assertEquals(doubleToObject(d1),doubleToObject(d2)); }
+    global static void assertEquals(Set<Integer> i1,Set<Integer> i2){ assertEquals(integerToObject(i1),integerToObject(i2)); }
+    global static void assertEquals(Set<Long> l1,Set<Long> l2){ assertEquals(longToObject(l1),longToObject(l2)); }
+    global static void assertEquals(Set<String> s1,Set<String> s2){ assertEquals(stringToObject(s1),stringToObject(s2)); }
+    global static void assertEquals(Set<Time> t1,Set<Time> t2){ assertEquals(timeToObject(t1),timeToObject(t2)); }
+
+    global static void assertEquals(Set<Object> expected, Set<Object> actual){
+    	System.assert(
+            equals(expected,actual),
+    	    'Assertion failed, the following two arrays are not equal.  Expected: ' 
+                + toString(expected) 
+                + ', Actual: ' 
+                + toString(actual));
+    }
+
+    global static Boolean equals(Set<Blob> b1,Set<Blob> b2){ return equals(blobToObject(b1),blobToObject(b2)); }
+    global static Boolean equals(Set<Boolean> b1,Set<Boolean> b2){ return equals(booleanToObject(b1),booleanToObject(b2)); }
+    global static Boolean equals(Set<Date> d1,Set<Date> d2){ return equals(dateToObject(d1),dateToObject(d2)); }
+    global static Boolean equals(Set<Datetime> d1,Set<Datetime> d2){ return equals(datetimeToObject(d1),datetimeToObject(d2)); }
+    global static Boolean equals(Set<Decimal> d1,Set<Decimal> d2){ return equals(decimalToObject(d1),decimalToObject(d2)); }
+    global static Boolean equals(Set<Double> d1,Set<Double> d2){ return equals(doubleToObject(d1),doubleToObject(d2)); }
+    global static Boolean equals(Set<Integer> i1,Set<Integer> i2){ return equals(integerToObject(i1),integerToObject(i2)); }
+    global static Boolean equals(Set<Long> l1,Set<Long> l2){ return equals(longToObject(l1),longToObject(l2)); }
+    global static Boolean equals(Set<String> s1,Set<String> s2){ return equals(stringToObject(s1),stringToObject(s2)); }
+    global static Boolean equals(Set<Time> t1,Set<Time> t2){ return equals(timeToObject(t1),timeToObject(t2)); }
+	
+    global static Boolean equals(Set<Object> expected, Set<Object> actual){
+        if(expected == null && actual == null){
+            return true;
+        }
+        if((expected == null && actual != null) || (expected != null && actual == null)){
+            return false;
+        }
+        if(expected.size() != actual.size()){
+        	return false;
+        }
+        for(Object obj : expected){
+            if(!actual.contains(obj)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+
+
 
 }

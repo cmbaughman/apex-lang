@@ -12,7 +12,7 @@ private class SoqlBuilderTest {
     }
 
     private static testmethod void testBasicSelect(){
-        System.assertEquals(
+        SoqlUtils.assertEquals(
             'SELECT id,name FROM account WHERE name like \'%acme%\'',
             new SoqlBuilder()
                 .columns(new List<String>{'id','name'})
@@ -22,7 +22,7 @@ private class SoqlBuilderTest {
     }
 
     private static testmethod void testNestedConditions(){
-        System.assertEquals(
+        SoqlUtils.assertEquals(
             'SELECT id,name FROM account WHERE ((name like \'%acme%\' OR description = \'yo\') AND ispartner = true) ORDER BY name desc LIMIT 500',
             new SoqlBuilder()
                 .columns(new List<String>{'id','name'})
