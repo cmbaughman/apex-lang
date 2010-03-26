@@ -261,4 +261,73 @@ private class SetUtilsTest {
     private static Blob generateRandomBlob(){
         return EncodingUtil.base64Decode(''+System.currentTimeMillis()+Math.roundToLong(Math.random()*10000));    
     }
+
+    private static testmethod void testListToSet_String(){
+        System.assertEquals(null,SetUtils.listToSet(null));
+        System.assertEquals(0,SetUtils.listToSet(new List<String>()).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{''}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a'}).size());
+        System.assertEquals(2,SetUtils.listToSet(new List<String>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a','a'}).size());
+    }
+	
+    private static testmethod void testSetToList_String(){
+        System.assertEquals(null,SetUtils.setToList(null));
+        System.assertEquals(0,SetUtils.setToList(new Set<String>()).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{''}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a'}).size());
+        System.assertEquals(2,SetUtils.setToList(new Set<String>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a','a'}).size());
+    }
+
+    private static testmethod void testAssertEquals(){
+    	final Blob blob1 = generateRandomBlob();
+        final Date date1 = Date.newInstance(2009,1,1);
+        final Datetime datetime1 = Datetime.newInstance(2009,1,1);
+        final Time time1 = Time.newInstance(18, 30, 2, 20);
+        SetUtils.assertEquals(new Set<Blob>{blob1},new Set<Blob>{blob1});
+        SetUtils.assertEquals(new Set<Boolean>{true},new Set<Boolean>{true});
+        SetUtils.assertEquals(new Set<Date>{date1},new Set<Date>{date1});
+        SetUtils.assertEquals(new Set<Datetime>{datetime1},new Set<Datetime>{datetime1});
+        SetUtils.assertEquals(new Set<Decimal>{1.1},new Set<Decimal>{1.1});
+        SetUtils.assertEquals(new Set<Double>{1.1},new Set<Double>{1.1});
+        SetUtils.assertEquals(new Set<Integer>{1},new Set<Integer>{1});
+        SetUtils.assertEquals(new Set<Long>{1L},new Set<Long>{1L});
+        SetUtils.assertEquals(new Set<String>{'a'},new Set<String>{'a'});
+        SetUtils.assertEquals(new Set<Time>{time1},new Set<Time>{time1});
+    }
+
+    private static testmethod void testEquals(){
+    	final Set<Object> NULL_SET = null;
+        System.assertEquals(true,SetUtils.equals(NULL_SET,NULL_SET));       
+        System.assertEquals(false,SetUtils.equals(null,new Set<Integer>{1}));       
+        System.assertEquals(false,SetUtils.equals(new Set<Integer>{1},null));       
+        System.assertEquals(true,SetUtils.equals(new Set<Integer>(),new Set<Integer>()));       
+        System.assertEquals(false,SetUtils.equals(new Set<Integer>{1},new Set<Integer>()));       
+        System.assertEquals(false,SetUtils.equals(new Set<Integer>{1},new Set<Integer>{2}));       
+        System.assertEquals(true,SetUtils.equals(new Set<Integer>{1},new Set<Integer>{1}));       
+
+        System.assertEquals(false,SetUtils.equals(null,new Set<String>{'abc'}));       
+        System.assertEquals(false,SetUtils.equals(new Set<String>{'abc'},null));       
+        System.assertEquals(true,SetUtils.equals(new Set<String>(),new Set<String>()));       
+        System.assertEquals(false,SetUtils.equals(new Set<String>{'abc'},new Set<String>()));       
+        System.assertEquals(false,SetUtils.equals(new Set<String>{'abc'},new Set<String>{'def'}));       
+        System.assertEquals(true,SetUtils.equals(new Set<String>{'abc'},new Set<String>{'abc'}));       
+
+        final Blob blob1 = generateRandomBlob();
+        final Date date1 = Date.newInstance(2009,1,1);
+        final Datetime datetime1 = Datetime.newInstance(2009,1,1);
+        final Time time1 = Time.newInstance(18, 30, 2, 20);
+        System.assertEquals(true,SetUtils.equals(new Set<Blob>{blob1},new Set<Blob>{blob1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Boolean>{true},new Set<Boolean>{true}));
+        System.assertEquals(true,SetUtils.equals(new Set<Date>{date1},new Set<Date>{date1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Datetime>{datetime1},new Set<Datetime>{datetime1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Decimal>{1.1},new Set<Decimal>{1.1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Double>{1.1},new Set<Double>{1.1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Integer>{1},new Set<Integer>{1}));
+        System.assertEquals(true,SetUtils.equals(new Set<Long>{1L},new Set<Long>{1L}));
+        System.assertEquals(true,SetUtils.equals(new Set<String>{'a'},new Set<String>{'a'}));
+        System.assertEquals(true,SetUtils.equals(new Set<Time>{time1},new Set<Time>{time1}));
+
+    }
 }

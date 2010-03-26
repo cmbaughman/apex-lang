@@ -62,4 +62,46 @@ private class SoqlUtilsTest {
         System.assertEquals('null',literals.get(4));
     }
 
+    private static testmethod void testEquals_1(){
+        System.assertEquals(false,SoqlUtils.equals(
+           'select id from account',
+           'SELECT id FROM contact'
+        ));
+    }
+
+    private static testmethod void testEquals_2(){
+        System.assertEquals(true,SoqlUtils.equals(
+           'select id from account',
+           'SELECT id FROM account'
+        ));
+    }
+
+    private static testmethod void testEquals_3(){
+        System.assertEquals(false,SoqlUtils.equals(
+           'select id,name from account',
+           'SELECT id FROM account'
+        ));
+    }
+
+    private static testmethod void testEquals_4(){
+        System.assertEquals(true,SoqlUtils.equals(
+           '  select    ispartner,rating,id, name    from   account  ',
+           ' SELECT  name,rating,  ispartner,id  FROM   account   '
+        ));
+    }
+
+    private static testmethod void testEquals_5(){
+        System.assertEquals(false,SoqlUtils.equals(
+           'xxx',
+           ' SELECT  name,rating,  ispartner,id  FROM   account   '
+        ));
+    }
+
+    private static testmethod void testAssertEquals(){
+        SoqlUtils.assertEquals(
+           'select id,name from account',
+           'SELECT id,name FROM account'
+        );
+    }
+
 }

@@ -767,4 +767,16 @@ private class StringUtils2Test {
         ArrayUtils.assertArraysAreEqual(new String[]{'a','b','c'},StringUtils.toCharArray('abc'));
     }
 
+    private static testmethod void testTrimAll_Set(){
+        Set<String> NULL_SET = null;
+        System.assertEquals(null,StringUtils.trimAll(NULL_SET));
+        SetUtils.assertEquals(new Set<String>{'a','b'},StringUtils.trimAll(new Set<String>{' a ',' b '}));
+    }
+
+    private static testmethod void testTrimAll_List(){
+        List<String> NULL_LIST = null;
+        System.assertEquals(null,StringUtils.trimAll(NULL_LIST));
+        ArrayUtils.assertArraysAreEqual(new List<String>{'a','b'},StringUtils.trimAll(new List<String>{' a ',' b '}));
+    }
+
 }

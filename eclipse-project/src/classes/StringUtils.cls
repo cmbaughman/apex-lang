@@ -1842,6 +1842,32 @@ global class StringUtils {
         return str.trim();
     }
     
+    global static List<String> trimAll(List<String> aList){
+        List<String> returnValue = null;
+        if(aList != null){
+            returnValue = new List<String>();
+            if(aList.size() > 0){
+                for(String value : aList){
+                    returnValue.add(trim(value));
+                }
+            }
+        }
+        return returnValue;
+    }
+    
+    global static Set<String> trimAll(Set<String> aList){
+        Set<String> returnValue = null;
+        if(aList != null){
+            returnValue = new Set<String>();
+            if(aList.size() > 0){
+                for(String value : aList){
+                    returnValue.add(trim(value));
+                }
+            }
+        }
+        return returnValue;
+    }
+    
     global static String trimToNull(String str) {
         String ts = trim(str);
         return isEmpty(ts) ? null : ts;

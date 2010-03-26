@@ -1,6 +1,6 @@
 global class SoqlBuilder {
 	
-    private List<String> columns = null;
+    private Set<String> columns = null;
     private String table = null;
     private Condition condition = null;
     private String orderBy = null;
@@ -9,7 +9,11 @@ global class SoqlBuilder {
     global SoqlBuilder(){}
     
     global SoqlBuilder columns(List<String> columns){
-    	this.columns = columns; 
+        return this.columns(SetUtils.listToSet(columns)); 
+    }
+    
+    global SoqlBuilder columns(Set<String> columns){
+        this.columns = columns; 
         return this;
     }
     
@@ -37,7 +41,7 @@ global class SoqlBuilder {
     	if(StringUtils.isBlank(table)){
     		throw new IllegalStateException('Illegal state!  You must invoke table() with valid object name before invoking toSoql().');
     	}
-    	String soql = 'SELECT ' + StringUtils.joinArray(columns,',') + ' FROM ' + table;
+    	String soql = 'SELECT ' + StringUtils.joinStrings(columns,',') + ' FROM ' + table;
         if(condition != null){
             soql += ' WHERE ' + condition.toSoql();
         }
@@ -47,6 +51,8 @@ global class SoqlBuilder {
         if(max != null){
             soql += ' LIMIT ' + max;
         }
+        System.debug('### soql: ' + soql);
     	return soql;
     }
+    
 }
