@@ -1,58 +1,157 @@
-global class SoqlBuilder {
+global class SoqlBuilder implements Soqlable{
 	
-    private Set<String> columns = null;
-    private String table = null;
-    private Condition condition = null;
-    private String orderBy = null;
-    private Integer max = null;
+    private Set<Object>     selectx     = null;
+    private Boolean         selectCount = false;
+    private String          fromx       = null;
+    private Condition       wherex      = null;
+    private List<OrderBy>   orderByx    = null;
+    private Integer         limitx      = null;
     
     global SoqlBuilder(){}
     
-    global SoqlBuilder columns(List<String> columns){
-        return this.columns(SetUtils.listToSet(columns)); 
+    global SoqlBuilder selectx(String field){ 
+    	return addToSelect(field);
     }
     
-    global SoqlBuilder columns(Set<String> columns){
-        this.columns = columns; 
-        return this;
+    global SoqlBuilder selectx(Field field){ 
+        return addToSelect(field);
     }
     
-    global SoqlBuilder table(String table){
-        this.table = table; 
-        return this;
+    global SoqlBuilder selectx(SoqlBuilder field){ 
+        return addToSelect(field);
     }
     
-    global SoqlBuilder condition(Condition condition){
-        this.condition = condition; 
-        return this;
+    global SoqlBuilder selectx(List<Object> fields){ 
+        return selectx(SetUtils.listToSet(fields));
     }
     
-    global SoqlBuilder order(String orderBy){
-        this.orderBy = orderBy; 
-        return this;
-    }
-    
-    global SoqlBuilder max(Integer max){
-        this.max = max; 
-        return this;
-    }
-    
-    global String toSoql(){
-    	if(StringUtils.isBlank(table)){
-    		throw new IllegalStateException('Illegal state!  You must invoke table() with valid object name before invoking toSoql().');
+    global SoqlBuilder selectx(Set<Object> fields){ 
+    	if(fields != null && fields.size() > 0){
+    		for(Object field : fields){
+    			addToSelect(field);
+    		}
     	}
-    	String soql = 'SELECT ' + StringUtils.joinStrings(columns,',') + ' FROM ' + table;
-        if(condition != null){
-            soql += ' WHERE ' + condition.toSoql();
-        }
-        if(StringUtils.isNotBlank(orderBy)){
-            soql += ' ORDER BY ' + orderBy;
-        }
-        if(max != null){
-            soql += ' LIMIT ' + max;
-        }
-        System.debug('### soql: ' + soql);
-    	return soql;
+        return this;
     }
+    
+    private SoqlBuilder addToSelect(Object field){
+        if(field == null){
+            throw new IllegalArgumentException('null field');
+        }
+        if(field instanceof String || field instanceof Field || field instanceof SoqlBuilder ){
+	        if(selectx == null){
+	            selectx = new Set<Object>();
+	        }
+	        selectx.add(field);
+        } else {
+            throw new IllegalArgumentException('Invalid field type.  A field must be either a String, Field, or SoqlBuilder.');
+        }
+        this.selectCount = false;
+        return this;
+    }
+
+    global SoqlBuilder selectCount(){ 
+        return selectCountx();
+    }
+
+    global SoqlBuilder selectCountx(){ 
+        this.selectCount = true;
+        return this;
+    }
+
+    global SoqlBuilder fromx(String fromx){
+        this.fromx = fromx; 
+        return this;
+    }
+
+    global SoqlBuilder wherex(Condition wherex){ 
+        this.wherex = wherex;
+    	return this;
+    }
+    
+    global SoqlBuilder orderByx(OrderBy orderByx){ 
+    	if(this.orderByx == null){
+    		this.orderByx = new List<OrderBy>();
+    	}
+    	this.orderByx.add(orderByx);
+        return this;
+    }
+
+    global SoqlBuilder orderByx(List<OrderBy> orderByx){ 
+        if(orderByx != null && orderByx.size() > 0){
+            for(OrderBy field : orderByx){
+                orderByx(field);
+            }
+        }
+        return this;
+    }
+
+    global SoqlBuilder limitx(Integer limitx){
+        this.limitx = limitx; 
+        return this;
+    }
+    
+    global String toSoql(){ return this.toSoql(null); }
+    
+    global String toSoql(SoqlOptions options){
+        if(options == null){
+            options = SoqlOptions.DEFAULT_OPTIONS;
+        }
+        if(StringUtils.isBlank(fromx)){
+            throw new IllegalStateException('Illegal state!  You must invoke fromx() with valid object name before invoking toSoql().');
+        }
+        Boolean isFirst = true;
+        String soql = 'SELECT ';
+        if(selectx == null){
+            selectx = new Set<Object>();
+        }
+        if(this.selectCount != null && this.selectCount){
+        	soql += 'count()';
+        } else {
+	        if(selectx.size() <= 0){
+	            selectx.add('id');
+	        }
+	        isFirst = true;
+	        for(Object value : selectx){
+	            if(isFirst){
+	                isFirst = false;
+	            } else {
+	                soql += ',';
+	            }
+	            if(value instanceof Field){
+	                soql += ((Field)value).toSoql(options);
+	            } else if(value instanceof SoqlBuilder){
+	                soql += '(' + ((SoqlBuilder)value).toSoql(options) + ')';
+	            } else {
+	                soql += value;
+	            }
+	        }
+        }
+        soql += ' FROM ' + fromx;
+        if(wherex != null){
+            soql += ' WHERE ' + wherex.toSoql(options);
+        }
+        
+        if(orderByx != null && orderByx.size() > 0){
+            isFirst = true;
+        	for(OrderBy orderBy : orderByx){
+        		if(orderBy == null){
+        			continue;
+        		}
+	            if(isFirst){
+	                isFirst = false;
+                    soql += ' ORDER BY ';
+	            } else {
+	                soql += ', ';
+	            }
+                soql += orderBy.toSoql(options);
+        	}
+        }
+        if(limitx != null){
+            soql += ' LIMIT ' + limitx;
+        }
+        return soql;
+    }
+    
     
 }

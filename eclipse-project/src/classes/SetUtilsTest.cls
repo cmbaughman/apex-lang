@@ -263,7 +263,8 @@ private class SetUtilsTest {
     }
 
     private static testmethod void testListToSet_String(){
-        System.assertEquals(null,SetUtils.listToSet(null));
+    	List<String> aList = null;
+        System.assertEquals(null,SetUtils.listToSet(aList));
         System.assertEquals(0,SetUtils.listToSet(new List<String>()).size());
         System.assertEquals(1,SetUtils.listToSet(new List<String>{''}).size());
         System.assertEquals(1,SetUtils.listToSet(new List<String>{'a'}).size());

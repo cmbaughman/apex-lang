@@ -5,6 +5,10 @@ private class AndConditionTest {
         System.assertEquals('',new AndCondition().toSoql());   
     }
 
+    private static testmethod void testNestedAndConditionEmpty(){
+        System.assertEquals('',new AndCondition().add(new AndCondition()).add(new AndCondition()).toSoql());   
+    }
+
     private static testmethod void testAndConditionWithOneConditionOnly(){
         System.assertEquals(
             'name = \'acme\'',

@@ -4,57 +4,65 @@ private class SoqlUtilsTest {
     private static testmethod void testInvalidValue(){
         Boolean exceptionCaught = false;
         try{
-            SoqlUtils.primitiveToSoqlLiteral(new FieldCondition('test','test'));
+            SoqlUtils.toLiteral(new DecimalRange(0,1));
         }catch(IllegalArgumentException e){
             exceptionCaught = true;
         }
         System.assert(exceptionCaught == true,'IllegalArgumentException not thrown');
     }
 
+    private static testmethod void testSoqlableValue(){
+        System.assertEquals(
+            'NEXT_N_FISCAL_QUARTERS:2',
+            SoqlUtils.toLiteral(new DateFormula().next(2,UnitOfTime.FiscalQuarter))
+        );
+    }
+
     private static testmethod void testNullValue(){
-        System.assertEquals('null',SoqlUtils.primitiveToSoqlLiteral(null));   
+    	Object value = null;
+        System.assertEquals('null',SoqlUtils.toLiteral(value));   
     }
 
     private static testmethod void testStringValue(){
-        System.assertEquals('\'acme\'',SoqlUtils.primitiveToSoqlLiteral('acme'));   
+        System.assertEquals('\'acme\'',SoqlUtils.toLiteral('acme'));   
     }
 
     private static testmethod void testBooleanValue(){
-        System.assertEquals('true',SoqlUtils.primitiveToSoqlLiteral(true));   
-        System.assertEquals('false',SoqlUtils.primitiveToSoqlLiteral(false));   
+        System.assertEquals('true',SoqlUtils.toLiteral(true));   
+        System.assertEquals('false',SoqlUtils.toLiteral(false));   
     }
 
     private static testmethod void testIntegerValue(){
         Integer i = 1;
-        System.assertEquals('1',SoqlUtils.primitiveToSoqlLiteral(i));   
+        System.assertEquals('1',SoqlUtils.toLiteral(i));   
     }
 
     private static testmethod void testLongValue(){
         Long l = 1;
-        System.assertEquals('1',SoqlUtils.primitiveToSoqlLiteral(l));   
+        System.assertEquals('1',SoqlUtils.toLiteral(l));   
     }
 
     private static testmethod void testDoubleValue(){
         Double d = 1.1;
-        System.assertEquals('1.1',SoqlUtils.primitiveToSoqlLiteral(d));   
+        System.assertEquals('1.1',SoqlUtils.toLiteral(d));   
     }
 
     private static testmethod void testDecimalValue(){
         Decimal d = 1.1;
-        System.assertEquals('1.1',SoqlUtils.primitiveToSoqlLiteral(d));   
+        System.assertEquals('1.1',SoqlUtils.toLiteral(d));   
     }
 
     private static testmethod void testDateValue(){
-        System.assertEquals('1960-02-17',SoqlUtils.primitiveToSoqlLiteral(Date.newinstance(1960, 2, 17)));   
+        System.assertEquals('1960-02-17',SoqlUtils.toLiteral(Date.newinstance(1960, 2, 17)));   
     }
 
     private static testmethod void testDatetimeValue(){
-        System.assertEquals('2008-12-01T12:00:00Z',SoqlUtils.primitiveToSoqlLiteral(Datetime.newInstance(2008, 12, 1)));   
+        System.assertEquals('2008-12-01T12:00:00Z',SoqlUtils.toLiteral(Datetime.newInstance(2008, 12, 1)));   
     }
     
     private static testmethod void testPrimitivesToSoqlLiterals(){
     	final List<Object> values = new List<Object>{1,'test123',1.1,true,null};
-    	final List<String> literals = SoqlUtils.primitivesToSoqlLiterals(values);
+    	final List<String> literals = SoqlUtils.toLiteral(values);
         System.assertEquals('1',literals.get(0));
         System.assertEquals('\'test123\'',literals.get(1));
         System.assertEquals('1.1',literals.get(2));

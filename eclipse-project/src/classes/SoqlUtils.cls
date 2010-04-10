@@ -1,34 +1,51 @@
 global class SoqlUtils {
 
-    global static String primitiveToSoqlLiteral(Object primitive){
+    global static String toLiteral(final Object value){
+    	return toLiteral(value,null);
+    }
+    
+    global static String toLiteral(final Object value, SoqlOptions options){
+        if(options == null){
+            options = SoqlOptions.DEFAULT_OPTIONS;
+        }
     	String literal = '';
-        if(         primitive == null){
+        if(         value == null){
             literal += 'null'; 
-        } else if(  primitive instanceof String  ||
-                    primitive instanceOf ID){
-            literal += '\''+ primitive + '\''; 
-        } else if(  primitive instanceOf Boolean ||
-                    primitive instanceOf Integer || 
-                    primitive instanceOf Long    || 
-                    primitive instanceOf Double  || 
-                    primitive instanceOf Decimal){
-            literal += primitive;
-        } else if(  primitive instanceOf Date){
-            literal += Datetime.newInstance(((Date)primitive).year(), ((Date)primitive).month(), ((Date)primitive).day()).format('yyyy-MM-dd');
-        } else if(  primitive instanceOf Datetime){
-            literal += ((Datetime) primitive).format('yyyy-MM-dd') + 'T' + ((Datetime) primitive).format('hh:mm:ss') + 'Z';
+        } else if(  value instanceof Soqlable ){
+        	return ((Soqlable)value).toSoql(options);
+        } else if(  value instanceof String  ||
+                    value instanceOf ID){
+            String manipulated = (String) value;
+            if(options.escapeSingleQuotes == true){
+                manipulated = String.escapeSingleQuotes(manipulated);
+            }
+            literal += '\'' + manipulated + '\''; 
+        } else if(  value instanceOf Boolean ||
+                    value instanceOf Integer || 
+                    value instanceOf Long    || 
+                    value instanceOf Double  || 
+                    value instanceOf Decimal){
+            literal += value;
+        } else if(  value instanceOf Date){
+            literal += Datetime.newInstance(((Date)value).year(), ((Date)value).month(), ((Date)value).day()).format('yyyy-MM-dd');
+        } else if(  value instanceOf Datetime){
+            literal += ((Datetime) value).format('yyyy-MM-dd') + 'T' + ((Datetime) value).format('hh:mm:ss') + 'Z';
         } else {
-            throw new IllegalArgumentException('invalid primitive; primitive can be null or one of the following primitive types: ' 
-                + '(String|ID|Boolean|Integer|Long|Double|Decimal|Date|Datetime');
+            throw new IllegalArgumentException('invalid value; value must be null, a primitive type ' 
+                + '(String|ID|Boolean|Integer|Long|Double|Decimal|Date|Datetime), or implement Soqlable interface');
         }
         return literal;
     }
 
-	global static List<String> primitivesToSoqlLiterals(List<Object> primitives){
+    global static List<String> toLiteral(final List<Object> values){
+    	return toLiteral(values,SoqlOptions.DEFAULT_OPTIONS);
+    }
+    
+    global static List<String> toLiteral(final List<Object> values, final SoqlOptions options){
 		final List<String> literals = new List<String>();
-		if(primitives != null && primitives.size() > 0){
-			for(Object obj : primitives){
-				literals.add(primitiveToSoqlLiteral(obj));
+		if(values != null && values.size() > 0){
+			for(Object obj : values){
+				literals.add(toLiteral(obj,options));
 			}
 		}
 		return literals;
@@ -56,15 +73,13 @@ global class SoqlUtils {
         }
         String afterSelect1 = StringUtils.trim(StringUtils.substringAfter(soql1,'select'));
         String afterSelect2 = StringUtils.trim(StringUtils.substringAfter(soql2,'select'));
-        Set<String> columns1 = StringUtils.trimAll(SetUtils.listToSet(StringUtils.split(StringUtils.trim(StringUtils.substringBefore(afterSelect1,'from')),',')));
-        Set<String> columns2 = StringUtils.trimAll(SetUtils.listToSet(StringUtils.split(StringUtils.trim(StringUtils.substringBefore(afterSelect2,'from')),',')));
-        System.debug('### columns1: ' + columns1);
-        System.debug('### columns2: ' + columns2);
+        Set<String> columns1 = StringUtils.trimAll(SetUtils.listToSet(StringUtils.split(StringUtils.trim(StringUtils.substringBeforeLast(afterSelect1,' from ')),',')));
+        Set<String> columns2 = StringUtils.trimAll(SetUtils.listToSet(StringUtils.split(StringUtils.trim(StringUtils.substringBeforeLast(afterSelect2,' from ')),',')));
         if(!SetUtils.equals(columns1,columns2)){
         	return false;
         }
-        String afterFrom1 = StringUtils.trim(StringUtils.substringAfter(soql1,'from'));
-        String afterFrom2 = StringUtils.trim(StringUtils.substringAfter(soql2,'from'));
+        String afterFrom1 = StringUtils.trim(StringUtils.substringAfterLast(soql1,' from '));
+        String afterFrom2 = StringUtils.trim(StringUtils.substringAfterLast(soql2,' from '));
         return StringUtils.equals(afterFrom1,afterFrom2);
     }
     

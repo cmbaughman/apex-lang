@@ -5,6 +5,10 @@ private class OrConditionTest {
         System.assertEquals('',new OrCondition().toSoql());   
     }
 
+    private static testmethod void testNestedOrConditionEmpty(){
+        System.assertEquals('',new OrCondition().add(new OrCondition()).add(new OrCondition()).toSoql());   
+    }
+
     private static testmethod void testOrConditionWithOneConditionOnly(){
         System.assertEquals(
             'name = \'acme\'',

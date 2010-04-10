@@ -73,7 +73,6 @@ private class TestUtilsTest {
         List<SObject> records = TestUtils.getObject(new Account(), 2, values);
         System.assertEquals(2,records.size());
         for(SObject record : records){
-            System.debug(record);
             System.assertEquals('Account xyz',record.get('name'));
         }
     }
@@ -84,7 +83,6 @@ private class TestUtilsTest {
         List<SObject> records = TestUtils.getObject(new Contact(), 2, values);
         System.assertEquals(2,records.size());
         for(SObject record : records){
-            System.debug(record);
             System.assertEquals('Account xyz',record.get('LastName'));
         }
     }

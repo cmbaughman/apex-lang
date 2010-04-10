@@ -169,11 +169,9 @@ global class SObjectUtils {
             sourceField = sourceFields.get(fieldName).getDescribe();
             if(destinationFields.get(fieldName) == null){
                 //destination doesn't have corresponding field so skip
-                //System.debug(sourceField.getName() + ': NO MATCH' );
                 continue;
             }
             destinationField = destinationFields.get(fieldName).getDescribe();
-            System.debug('sourceField = [' + sourceField + '], destinationField = [' + destinationField + ']');
             if( !sourceField.isAccessible()
                 || !destinationField.isAccessible()
                 || destinationField.isAutoNumber()
@@ -182,10 +180,8 @@ global class SObjectUtils {
                 || (StringUtils.isNotBlank((String)destination.get('id')) && !destinationField.isUpdateable())
                 || sourceField.getType() != destinationField.getType()){
                 //source or destination field either can't or shouldn't be read or written to    
-                //System.debug(sourceField.getName() + ': SOURCE OR DESTINATION NOT ACCESSIBLE OR TYPE MIS-MATCH' );
                 continue;
             }
-            //System.debug(sourceField.getName() + ': MATCH' );
             if(contains(STRING_TYPES,sourceField.getType())){
                 destination.put(sourceField.getName(),(String)source.get(sourceField.getName()));
             } else if(contains(INTEGER_TYPES,sourceField.getType())){

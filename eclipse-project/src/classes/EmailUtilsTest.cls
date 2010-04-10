@@ -15,14 +15,12 @@
 private class EmailUtilsTest {
 
     static testMethod void testsendEmail_test() {
-        system.debug('## Start the testSendSupportEmails_test');
         List<String> recepients=new String[]{'test@test.com','test2@test.com'};
         EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
         EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
     } 
     
     static testMethod void testsendEmailNoReceipients_test() {
-        system.debug('## Start the testSendSupportEmails_test');
         List<String> recepients=null;
         EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
         
@@ -31,7 +29,6 @@ private class EmailUtilsTest {
     }
     
     static testMethod void testsendEmailWithAttachment_test() {
-        system.debug('## Start the testSendSupportEmails_test');
         List<String> recepients=new String[]{'test@test.com','test2@test.com'};
         List<Attachment> stdAttachments = new List<Attachment>();
         Attachment a = new Attachment();
@@ -42,7 +39,6 @@ private class EmailUtilsTest {
     }
     
     static testMethod void testsendEmailWithAttachmentIDs_test() {
-        system.debug('## Start the testSendSupportEmails_test');
         List<String> recepients=new String[]{'test@test.com','test2@test.com'};
         List<ID> stdAttachments = new List<ID>();
         
