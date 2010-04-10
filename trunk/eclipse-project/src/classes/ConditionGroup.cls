@@ -1,4 +1,4 @@
-global abstract class ConditionGroup implements Condition{
+global abstract class ConditionGroup implements NestableCondition{
     
     global List<Condition> conditions {get;private set;}
     
@@ -9,27 +9,41 @@ global abstract class ConditionGroup implements Condition{
         this.conditions = new List<Condition>();
     }
     
-    global Condition add(Condition c){
+    global NestableCondition add(Condition c){
         if(c != null){
             this.conditions.add(c);
         }
         return this;
     }
     
-    global String toSoql(){
+    global String toSoql(){ return this.toSoql(null); }
+    
+    global String toSoql(SoqlOptions options){
+    	if(options == null){
+    		options = SoqlOptions.DEFAULT_OPTIONS;
+    	}
         String soql = '';
         if(conditions.size() == 1){
-            return conditions.get(0).toSoql();
+            return conditions.get(0).toSoql(options);
         } else if(conditions.size() > 1){
-            for(Integer i = 0; i < conditions.size(); i++){
-                if(i <= 0){
-                    soql = '(';
-                } else {
+        	Boolean hasOpenParenBeenAdded = false;
+        	String additionalSoql = null;
+        	for(Condition condition : conditions){
+        		additionalSoql = condition.toSoql(options);
+        		if(StringUtils.isBlank(additionalSoql)){
+        			continue;
+        		}
+        		if(hasOpenParenBeenAdded){
                     soql += ' ' + separator + ' ';
-                }
-                soql += conditions.get(i).toSoql();
+        		} else {
+                    soql = '(';
+                    hasOpenParenBeenAdded = true;
+        		}
+                soql += additionalSoql;
+        	}
+            if(hasOpenParenBeenAdded){
+                soql += ')';
             }
-            soql += ')';
         }
         return soql;
     }

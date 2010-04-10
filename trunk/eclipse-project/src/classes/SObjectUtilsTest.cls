@@ -50,11 +50,9 @@ private class SObjectUtilsTest {
     /*private static testmethod void testGetCachedDescribe(){
         //test: global static Schema.DescribeSObjectResult getCachedDescribe(SObject obj){
         Schema.DescribeSObjectResult desc1 = SObjectUtils.getCachedDescribe(new Account());
-        System.debug(desc1);
         SystemUtils.debugLimits();
 
         Schema.DescribeSObjectResult desc2 = SObjectUtils.getCachedDescribe(new Account());
-        System.debug(desc2);
         SystemUtils.debugLimits();
     }
     */

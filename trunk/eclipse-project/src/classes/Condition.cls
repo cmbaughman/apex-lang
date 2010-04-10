@@ -1,7 +1,1 @@
-global interface Condition {
-
-    String toSoql();
-    
-    Condition add(Condition c);
-
-}
+global virtual interface Condition extends Soqlable{}

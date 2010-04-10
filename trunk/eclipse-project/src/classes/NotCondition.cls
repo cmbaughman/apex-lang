@@ -1,4 +1,4 @@
-global class NotCondition implements Condition{
+global class NotCondition implements NestableCondition{
     
     global Condition condition {get;private set;}
     
@@ -12,15 +12,20 @@ global class NotCondition implements Condition{
         add(c);
     }
     
-    global Condition add(Condition c){
+    global NestableCondition add(Condition c){
     	this.condition = c;
         return this;
     }
     
-    global String toSoql(){
+    global String toSoql(){ return this.toSoql(null); }
+    
+    global String toSoql(SoqlOptions options){
+        if(options == null){
+            options = SoqlOptions.DEFAULT_OPTIONS;
+        }
         String soql = '';
         if(condition != null){
-        	soql += 'NOT(' + condition.toSoql() + ')';
+        	soql += 'NOT(' + condition.toSoql(options) + ')';
         }
         return soql;
     }

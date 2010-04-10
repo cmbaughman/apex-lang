@@ -318,11 +318,24 @@ global class SetUtils {
     global static Set<String> listToSet(List<String> aList){
         Set<String> returnValue = null;
         if(aList != null){
-        	returnValue = new Set<String>();
+            returnValue = new Set<String>();
             if(aList.size() > 0){
-	        	for(String value : aList){
-	        		returnValue.add(value);
-	            }
+                for(String value : aList){
+                    returnValue.add(value);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Set<Object> listToSet(List<Object> aList){
+        Set<Object> returnValue = null;
+        if(aList != null){
+            returnValue = new Set<Object>();
+            if(aList.size() > 0){
+                for(Object value : aList){
+                    returnValue.add(value);
+                }
             }
         }
         return returnValue;

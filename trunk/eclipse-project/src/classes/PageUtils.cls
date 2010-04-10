@@ -68,11 +68,9 @@ global class PageUtils {
     global static ApexPages.Message[] getMessagesAtLevel(ApexPages.Severity level,
         Boolean includeParents){
         final ApexPages.Message[] all = ApexPages.getMessages();
-        System.debug('getMessagesAtLevel(): all.size() = ' + ApexPages.getMessages().size());
         final List<ApexPages.Message> filtered = new List<ApexPages.Message>();
         if(all != null && all.size() > 0){
             for(ApexPages.Message message : all){
-                System.debug('getMessagesAtLevel(): message.getSeverity() = ' + message.getSeverity());
                 if(message.getSeverity() == level 
                     || (includeParents && isMessageAtLevelOrHigher(message,level))){
                     filtered.add(message);

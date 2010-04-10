@@ -177,7 +177,6 @@ global class WordUtils {
         //('i',{'S','I','J','o','1'})
         //str='i'
         //delimiters={'S','I','J','o','1'}
-        System.debug('### initials(\'' + str + '\',' + ArrayUtils.toString(delimiters) + ')');
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -207,12 +206,10 @@ global class WordUtils {
     private static boolean isDelimiter(String ch, String[] delimiters) {
         //ch='i'
         //delimiters={'S','I','J','o','1'}
-        System.debug('### isDelimiter(\'' + ch + '\',' + ArrayUtils.toString(delimiters) + ')');
         if (delimiters == null) {
             return Character.isWhitespace(ch);
         }
         for (Integer i = 0, isize = delimiters.size(); i < isize; i++) {
-            System.debug('### isDelimiter() \'' + ch + '\' == \'' + delimiters[i] + '\' : ' + ((ch == null && delimiters[i] == null) || (ch != null && ch.equals(delimiters[i]))));
             if ((ch == null && delimiters[i] == null) || (ch != null && ch.equals(delimiters[i]))) {
                 return true;
             }

@@ -784,8 +784,6 @@ private class StringUtilsTest {
         }
         Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
         Set<String> expectedAsSet = new Set<String>(StringUtils.split(expectedReturnValue,separator));
-        System.debug('actualAsSet.containsAll(expectedAsSet): ' + actualAsSet.containsAll(expectedAsSet));
-        System.debug('expectedAsSet.containsAll(actualAsSet): ' + expectedAsSet.containsAll(actualAsSet));
         System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
             'StringUtils.joinStrings(Set<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' + 
                 actual + '; expected: ' + expectedReturnValue);
@@ -807,8 +805,6 @@ private class StringUtilsTest {
         }
         Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
         Set<String> expectedAsSet = new Set<String>(StringUtils.split(expectedReturnValue,separator));
-        System.debug('actualAsSet.containsAll(expectedAsSet): ' + actualAsSet.containsAll(expectedAsSet));
-        System.debug('expectedAsSet.containsAll(actualAsSet): ' + expectedAsSet.containsAll(actualAsSet));
         System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
             'StringUtils.joinStrings(List<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' + 
                 actual + '; expected: ' + expectedReturnValue);

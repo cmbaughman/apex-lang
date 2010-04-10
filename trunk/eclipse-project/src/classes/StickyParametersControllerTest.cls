@@ -104,8 +104,6 @@ private class StickyParametersControllerTest {
     private static void assertValidPageReference(PageReference thePage, String expectedUrl){
         System.assertNotEquals(null, thePage);
         System.assertNotEquals(null, thePage.getUrl());
-        System.debug('### expectedURL: ' + expectedUrl);
-        System.debug('### actualURL  : ' + thePage.getUrl());
         
         System.assertEquals(true, thePage.getRedirect());
         

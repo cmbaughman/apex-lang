@@ -1,56 +1,98 @@
 global class SetCondition implements Condition{
     
-    private String name;
-    private String operator;
-    private List<String> values;
+    private static final Operator INCLUDES  = Operator.INCLUDES;
+    private static final Operator EXCLUDES  = Operator.EXCLUDES;
+    private static final Operator INX       = Operator.INX;
+    private static final Operator NOT_IN    = Operator.NOT_IN;
 
-    global SetCondition(){
-        this(null);
+    global String       field    {get; private set;}
+    global Operator     operator {get; private set;}
+    global List<Object> values   {get; private set;}
+    global SoqlBuilder  builder  {get; private set;}
+    
+    global SetCondition(){}
+    
+    global SetCondition(String field){
+        this.field(field);
     }
     
-    global SetCondition(String name){
-        this.name(name);
+    global SetCondition(String field, Operator operator, List<Object> values){
+        this.field(field);
+        this.setOperation(operator,values);
     }
     
-    global SetCondition name(String name){
-    	this.name = name;
+    global SetCondition(String field, Operator operator, SoqlBuilder builder){
+        this.field(field);
+        this.setOperation(operator,builder);
+    }
+    
+    global SetCondition field(String field){
+        if(StringUtils.isBlank(field)){
+            throw new IllegalArgumentException('illegal argument:  field is empty');
+        }
+        this.field = StringUtils.trim(field);
     	return this;
     }
     
-    global SetCondition includes(List<Object> values){
-    	return setOperation('includes',values);
-    }
+    global SetCondition includes(List<Object> values){ return setOperation(INCLUDES,values); }
+    global SetCondition excludes(List<Object> values){ return setOperation(EXCLUDES,values); }
+    global SetCondition inx     (List<Object> values){ return setOperation(INX,     values); }
+    global SetCondition notIn   (List<Object> values){ return setOperation(NOT_IN,  values); }
 
-    global SetCondition excludes(List<Object> values){
-        return setOperation('excludes',values);
-    }
-    
-    global SetCondition inn(List<Object> values){
-        return setOperation('in',values);
-    }
+    global SetCondition includes(SoqlBuilder builder){ return setOperation(INCLUDES,builder); }
+    global SetCondition excludes(SoqlBuilder builder){ return setOperation(EXCLUDES,builder); }
+    global SetCondition inx     (SoqlBuilder builder){ return setOperation(INX,     builder); }
+    global SetCondition notIn   (SoqlBuilder builder){ return setOperation(NOT_IN,  builder); }
 
-    global SetCondition notIn(List<Object> values){
-        return setOperation('not in',values);
-    }
-    
-    private SetCondition setOperation(String operator, List<Object> values){
-        this.operator = operator;
+    private SetCondition setOperation(Operator operator, List<Object> values){
         if(values == null || values.size() <= 0){
-        	throw new IllegalArgumentException('No values found!');
+            throw new IllegalArgumentException('illegal argument:  values is empty');
         }
-        this.values = SoqlUtils.primitivesToSoqlLiterals(values);
+        this.values = values;
+        return setOperator(operator);
+    }
+
+    private SetCondition setOperation(Operator operator, SoqlBuilder builder){
+        if(builder == null){
+            throw new IllegalArgumentException('illegal argument:  builder is null');
+        }
+        this.builder = builder;
+        return setOperator(operator);
+    }
+    
+    private SetCondition setOperator(Operator operator){
+        if(operatorToString(operator) == null){
+            throw new IllegalArgumentException('illegal operator: ' + operator);
+        }
+        this.operator = operator;
         return this;
     }
+
+    global String toSoql(){ return this.toSoql(null); }
     
-    global String toSoql(){
-        if(StringUtils.isBlank(operator)){
-        	throw new IllegalStateException('Illegal state!  One of the following operations must be invoked on SetCondition prior to invoke toSoql(): (includes|excludes|inn|notIn)');
+    global String toSoql(SoqlOptions options){
+        if(options == null){
+            options = SoqlOptions.DEFAULT_OPTIONS;
         }
-        return name + ' ' + operator + ' (' + StringUtils.joinArray(values,',') + ')'; 
+        if(this.operator== null){
+        	throw new IllegalStateException(
+        	   'Illegal state!  One of the following operations must be invoked on SetCondition prior to invoke toSoql(): (includes|excludes|inn|notIn)');
+        }
+        return field 
+            + ' ' 
+            + operatorToString(operator) 
+            + ' (' 
+            + (builder == null ? StringUtils.joinArray(SoqlUtils.toLiteral(this.values),',') : builder.toSoql(options)) 
+            + ')'; 
     }
 
-    global Condition add(Condition c){
-        throw new IllegalStateException('conditions cannot be added to SetCondition type!');
+    global static String operatorToString(Operator operator){
+        String returnValue = null;
+        if(operator == INCLUDES){ returnValue = 'INCLUDES'; }       
+        else if(operator == EXCLUDES){ returnValue = 'EXCLUDES'; }       
+        else if(operator == INX){ returnValue = 'IN'; }       
+        else if(operator == NOT_IN){ returnValue = 'NOT IN'; }       
+        return returnValue;
     }
-    
+
 }
