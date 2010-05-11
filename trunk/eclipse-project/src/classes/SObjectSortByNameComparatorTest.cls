@@ -30,15 +30,11 @@ private class SObjectSortByNameComparatorTest {
     }
     
     private static testmethod void testCompareWithContacts(){
-        Contact a1 = new Contact(lastname='abc',phone='3213213211');
-        insert a1;
-        a1 = [select name from Contact where id = :a1.id];
-        Contact a2 = new Contact(lastname='efg',phone='3213213211');
-        insert a2;
-        a2 = [select name from Contact where id = :a2.id];
+        Opportunity o1 = new Opportunity(name='abc');
+        Opportunity o2 = new Opportunity(name='efg');
         ISObjectComparator comparator = new SObjectSortByNameComparator();
-        System.assert(0 > comparator.compare(a1,a2)); 
-        System.assert(0 == comparator.compare(a1,a1)); 
-        System.assert(0 < comparator.compare(a2,a1)); 
+        System.assert(0 > comparator.compare(o1,o2)); 
+        System.assert(0 == comparator.compare(o1,o1)); 
+        System.assert(0 < comparator.compare(o2,o1)); 
     }
 }

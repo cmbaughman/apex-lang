@@ -20,7 +20,7 @@ private class SoqlBuilderTest {
     private static testmethod void testBadField1(){
         Boolean exceptionCaught = false;
         try{
-        	String aNull = null;
+            String aNull = null;
             new SoqlBuilder().selectx(aNull);
         }catch(IllegalArgumentException e){
             exceptionCaught = true;
@@ -31,7 +31,7 @@ private class SoqlBuilderTest {
     private static testmethod void testBadField2(){
         Boolean exceptionCaught = false;
         try{
-        	List<Object> anObjectList = new List<Object>{new DecimalRange(0,1)};
+            List<Object> anObjectList = new List<Object>{new DecimalRange(0,1)};
             new SoqlBuilder().selectx(anObjectList);
         }catch(IllegalArgumentException e){
             exceptionCaught = true;
@@ -340,6 +340,16 @@ private class SoqlBuilderTest {
                     .selectx('AccountId')
                     .fromx('Opportunity')
                     .wherex(new FieldCondition('StageName','Closed Lost'))))
+                .toSoql());
+    }
+    
+    private static testmethod void testDuplicateFields(){
+        System.assertEquals(
+            'SELECT name FROM Account',
+            new SoqlBuilder()
+                .selectx('name')
+                .selectx(new Field('name'))
+                .fromx('Account')
                 .toSoql());
     }
     

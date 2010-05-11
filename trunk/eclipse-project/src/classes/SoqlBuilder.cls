@@ -111,21 +111,20 @@ global class SoqlBuilder implements Soqlable{
 	        if(selectx.size() <= 0){
 	            selectx.add('id');
 	        }
-	        isFirst = true;
-	        for(Object value : selectx){
-	            if(isFirst){
-	                isFirst = false;
-	            } else {
-	                soql += ',';
-	            }
-	            if(value instanceof Field){
-	                soql += ((Field)value).toSoql(options);
-	            } else if(value instanceof SoqlBuilder){
-	                soql += '(' + ((SoqlBuilder)value).toSoql(options) + ')';
-	            } else {
-	                soql += value;
-	            }
-	        }
+	        String distinctField = null;
+	        Map<String,String> distinctFields = new Map<String,String>();
+            for(Object value : selectx){
+                if(value instanceof Field){
+                    distinctField = ((Field)value).toSoql(options);
+                } else if(value instanceof SoqlBuilder){
+                    distinctField = '(' + ((SoqlBuilder)value).toSoql(options) + ')';
+                } else {
+                    distinctField = ''+value;
+                }
+                distinctField = StringUtils.trim(distinctField);
+                distinctFields.put(StringUtils.lowerCase(distinctField),distinctField);
+            }
+            soql += StringUtils.joinStrings(distinctFields.values(),',');
         }
         soql += ' FROM ' + fromx;
         if(wherex != null){
