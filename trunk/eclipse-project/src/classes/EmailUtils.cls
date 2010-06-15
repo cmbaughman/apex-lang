@@ -11,14 +11,14 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
-public class EmailUtils {
+global class EmailUtils {
     
-    public static void sendEmailWithStandardAttachments(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Id> attachmentIDs) {
+    global static void sendEmailWithStandardAttachments(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Id> attachmentIDs) {
         List<Attachment> stdAttachments = [SELECT id, name, body FROM Attachment WHERE Id IN:attachmentIDs];
         sendEmailWithStandardAttachments(recipients, emailSubject, body, useHTML, stdAttachments);
     }
     
-    public static void sendEmailWithStandardAttachments(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Attachment> stdAttachments) {
+    global static void sendEmailWithStandardAttachments(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Attachment> stdAttachments) {
         List<Messaging.EmailFileAttachment> fileAttachments = new List<Messaging.EmailFileAttachment>();
         
         for(Attachment attachment : stdAttachments) {
@@ -30,15 +30,15 @@ public class EmailUtils {
         sendEmail(recipients, emailSubject, body, useHTML, fileAttachments);
     }
      
-    public static void sendTextEmail(List<String> recipients,String emailSubject,String textBody) { 
+    global static void sendTextEmail(List<String> recipients,String emailSubject,String textBody) { 
         sendEmail(recipients, emailSubject, textBody, false, null);
     }
     
-    public static void sendHTMLEmail(List<String> recipients,String emailSubject,String htmlBody) { 
+    global static void sendHTMLEmail(List<String> recipients,String emailSubject,String htmlBody) { 
         sendEmail(recipients, emailSubject, htmlBody, true, null);
     }
     
-    public static void sendEmail(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Messaging.EmailFileAttachment> fileAttachments) { 
+    global static void sendEmail(List<String> recipients,String emailSubject,String body,Boolean useHTML,List<Messaging.EmailFileAttachment> fileAttachments) { 
         if(recipients == null) return;
         if(recipients.size() == 0) return;
         // Create a new single email message object

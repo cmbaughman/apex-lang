@@ -701,37 +701,22 @@ global class StringUtils {
         if(startIndex < 0){
             startIndex = 0;
         }
+        Boolean isFirst = true;
         for (Integer i = startIndex; i < endIndex && i < objectArray.size(); i++) {
-            if (i > startIndex) {
-                buf += separator;
-            }
-            if (objectArray[i] != null) {
-                buf += objectArray[i];
+            if(objectArray[i] != null) {
+	            if(isFirst){
+	                isFirst = false;
+	            } else {
+	                buf += separator;
+	            }
+	            buf += objectArray[i];
             }
         }
         return buf;
     }
 
     global static String joinStrings(Set<String> strings, String separator){
-        if(strings == null || strings.size() == 0){
-            return null;
-        }
-        Boolean isFirst = true;
-        String returnString = '';
-        for(String aString : strings){
-            if(StringUtils.isBlank(aString)){
-                continue;
-            }
-            if(isFirst){
-                isFirst = false;
-            }else{
-                if(separator != null){
-                    returnString += separator;
-                }
-            }
-            returnString += aString;
-        }    
-        return returnString;
+    	return joinSet(strings,separator);
     }
 
     global static String joinSet(Set<Blob> blobSet, String separator){ 

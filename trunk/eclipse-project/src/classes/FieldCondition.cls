@@ -62,10 +62,6 @@ global class FieldCondition implements Condition{
     		options = SoqlOptions.DEFAULT_OPTIONS;
     	}
     	Object manipulated = value;
-        system.debug('### manipulated != null = ' + (manipulated != null));
-        system.debug('### manipulated instanceof String = ' + (manipulated instanceof String));
-        system.debug('### operator == LIKEX = ' + (operator == LIKEX));
-        system.debug('### options.wildcardStringsInLikeOperators = ' + (options.wildcardStringsInLikeOperators));
     	if(    manipulated != null 
     	       && manipulated instanceof String 
                && operator == LIKEX
