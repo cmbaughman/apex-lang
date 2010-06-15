@@ -1365,7 +1365,7 @@ private class StringUtilsTest {
         assertJoinArrayTwoArgs(new String[]{null}, null, '');
         assertJoinArrayTwoArgs(new String[]{'a', 'b', 'c'}, ';', 'a;b;c');
         assertJoinArrayTwoArgs(new String[]{'a', 'b', 'c'}, null, 'abc');
-        assertJoinArrayTwoArgs(new String[]{null, '', 'a'}, ';', ';;a');
+        assertJoinArrayTwoArgs(new String[]{null, '', 'a'}, ';', ';a');
     }
     
     private static void assertJoinArrayTwoArgs(Object[] objectArray, String separator, String expected){
@@ -1391,7 +1391,7 @@ private class StringUtilsTest {
         assertJoinArrayFourArgs(new String[]{'a', 'b', 'c'}, '', 1, 3, 'bc');
         assertJoinArrayFourArgs(new String[]{'a', 'b', 'c'}, '', 2, 2, '');
         assertJoinArrayFourArgs(new String[]{'a', 'b', 'c'}, '', 2, 3, 'c');
-        assertJoinArrayFourArgs(new String[]{null, '', 'a'}, ',', 0, 3, ',,a');
+        assertJoinArrayFourArgs(new String[]{null, '', 'a'}, ',', 0, 3, ',a');
         assertJoinArrayFourArgs(new Long[]{3, 4, -1}, 'xyz', 0, 3, '3xyz4xyz-1');
     }
 
