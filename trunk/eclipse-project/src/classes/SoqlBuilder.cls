@@ -192,10 +192,10 @@ global class SoqlBuilder implements Soqlable{
         }
         soql += ' FROM ' + fromx;
         if(wherex != null){
-			soql += ' WHERE ' + wherex.toSoql(options);
-			String wherexs = wherex.toSoql(options);
-			if(wherexs != null && wherexs != '')  
-				soql += ' AND ' + wherex.toSoql(options); 
+			final String wherexs = wherex.toSoql(options);
+			if(StringUtils.isNotBlank(wherexs)){  
+				soql += ' WHERE ' + wherexs;
+			} 
         }
           
         if(groupByx != null && groupByx != ''){
