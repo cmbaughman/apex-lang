@@ -42,4 +42,21 @@ global class UrlUtils {
         return returnMap;
     }
 
+    global static String ensureUrlBeginsWithHttp(String url){
+        if(StringUtils.isNotEmpty(url)){
+            final String lowerCaseUrl = StringUtils.lowerCase(url);
+            if(    !StringUtils.startsWith(lowerCaseUrl, 'http://') 
+              &&   !StringUtils.startsWith(lowerCaseUrl, 'https://')){
+                url = 'http://' 
+                    + StringUtils.stripStart(
+                        (StringUtils.contains(lowerCaseUrl, '//') 
+                            ? StringUtils.substringAfter(url, '//') 
+                            : url)
+                        ,'/:'
+                    );
+            }
+        }
+        return url;
+    }
+
 }

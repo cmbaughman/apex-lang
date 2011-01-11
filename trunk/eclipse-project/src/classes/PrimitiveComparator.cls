@@ -12,7 +12,9 @@
 global class PrimitiveComparator implements ObjectComparator{
     
     global Integer compare(Object object1, Object object2){
-        if(object1==null){
+        if(object1==null && object2 == null){
+            return 0;
+        } else if(object1==null){
             return -1;
         } else if(object2==null){
             return 1;

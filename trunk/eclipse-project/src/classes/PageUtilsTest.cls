@@ -195,4 +195,26 @@ private class PageUtilsTest {
         Boolean actual = PageUtils.isMessageAtLevelOrHigher((messageLevel==null ? null : new ApexPages.message(messageLevel,'test')),level);
         System.assert(actual==expected,'PageUtils.isMessageAtLevelOrHigher(' + (messageLevel == null ? 'null' : ''+messageLevel) + ',' + level + ') returned ' + actual);
     }
+    
+    private static testmethod void testHasErrorMessages(){
+        //test: global static Boolean hasErrorMessages(){
+        System.assertEquals(false,PageUtils.hasErrorMessages());
+        PageUtils.addError('x');
+        System.assertEquals(true,PageUtils.hasErrorMessages());
+        PageUtils.addInfo('x');
+        System.assertEquals(true,PageUtils.hasErrorMessages());
+        PageUtils.addFatal('x');
+        System.assertEquals(true,PageUtils.hasErrorMessages());
+    }
+    
+    private static testmethod void testHasErrorMessagesOnly(){
+        //test: global static Boolean hasErrorMessagesOnly()
+        System.assertEquals(false,PageUtils.hasErrorMessagesOnly());
+        PageUtils.addError('x');
+        System.assertEquals(true,PageUtils.hasErrorMessagesOnly());
+        PageUtils.addInfo('x');
+        System.assertEquals(true,PageUtils.hasErrorMessagesOnly());
+        PageUtils.addFatal('x');
+        System.assertEquals(true,PageUtils.hasErrorMessagesOnly());
+    }
 }

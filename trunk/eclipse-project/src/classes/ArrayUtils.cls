@@ -48,6 +48,45 @@ global class ArrayUtils {
         return anArray;
     }
     
+    global static List<String> lowerCase(List<String> strs){
+        List<String> returnValue = null;
+        if(strs != null){
+            returnValue = new List<String>();
+        	if(strs.size() > 0){
+	            for(String str : strs){
+	                returnValue.add(str == null ? null : str.toLowerCase());
+	            }
+            }
+        }
+        return returnValue;
+    }
+    
+    global static List<String> upperCase(List<String> strs){
+        List<String> returnValue = null;
+        if(strs != null){
+            returnValue = new List<String>();
+            if(strs.size() > 0){
+	            for(String str : strs){
+	                returnValue.add(str == null ? null : str.toUpperCase());
+	            }
+            }
+        }
+        return returnValue;
+    }
+    
+    global static List<String> trim(List<String> strs){
+        List<String> returnValue = null;
+        if(strs != null){
+            returnValue = new List<String>();
+            if(strs.size() > 0){
+	            for(String str : strs){
+	                returnValue.add(str == null ? null : str.trim());
+	            }
+            }
+        }
+        return returnValue;
+    }
+    
     global static Object[] mergex(Object[] array1, Object[] array2){
         if(array1 == null){ return array2; }
         if(array2 == null){ return array1; }

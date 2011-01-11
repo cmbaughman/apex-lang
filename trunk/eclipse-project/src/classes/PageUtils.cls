@@ -84,8 +84,18 @@ global class PageUtils {
         return PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR, true);
     }
 
+    global static Boolean hasErrorMessages(){
+        final ApexPages.Message[] errorMessages = getErrorMessages();
+        return errorMessages != null && errorMessages.size() > 0;
+    }
+    
     global static ApexPages.Message[] getErrorMessagesOnly(){
         return PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR, false);
+    }
+    
+    global static Boolean hasErrorMessagesOnly(){
+    	final ApexPages.Message[] errorMessagesOnly = getErrorMessagesOnly();
+        return errorMessagesOnly != null && errorMessagesOnly.size() > 0;
     }
     
     global static String messagesToString(){

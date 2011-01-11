@@ -53,4 +53,15 @@ private class EmailUtilsTest {
         stdAttachments.add(a.Id);
         EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
     }
+
+    private static testmethod void testIsNotValidEmailAddress(){
+        //test:  global static Boolean isNotValidEmailAddress(String str)
+        System.assertEquals(true,EmailUtils.isNotValidEmailAddress(null));
+        System.assertEquals(true,EmailUtils.isNotValidEmailAddress('  '));
+        System.assertEquals(true,EmailUtils.isNotValidEmailAddress('x'));
+        System.assertEquals(true,EmailUtils.isNotValidEmailAddress('x@'));
+        System.assertEquals(false,EmailUtils.isNotValidEmailAddress('x@x'));
+    }
+    
+    
 }
