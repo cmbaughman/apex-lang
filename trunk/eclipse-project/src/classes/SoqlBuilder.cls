@@ -2,11 +2,17 @@ global class SoqlBuilder implements Soqlable{
 	
     private Set<Object>     selectx     = null;
     private Boolean         selectCount = false;
+    private Boolean         selectAverage = false;
+    private Boolean         selectSum = false;
+    private Boolean         selectMin = false;
+    private Boolean         selectMax = false;
+	private String 			aggx		= null;  
     private String          fromx       = null;
     private Condition       wherex      = null;
     private List<OrderBy>   orderByx    = null;
+    private String          groupByx    = null;
     private Integer         limitx      = null;
-    
+        
     global SoqlBuilder(){}
     
     global SoqlBuilder selectx(String field){ 
@@ -59,6 +65,35 @@ global class SoqlBuilder implements Soqlable{
         return this;
     }
 
+    global SoqlBuilder selectCount(String aggx){ 
+		this.aggx = aggx;
+        return selectCountx();
+    }
+
+    global SoqlBuilder selectAveragex(String aggx){ 
+        this.selectAverage = true;
+		this.aggx = aggx;
+        return this;
+    }
+
+    global SoqlBuilder selectSumx(String aggx){ 
+        this.selectSum = true;
+		this.aggx = aggx;
+        return this;
+    }
+
+    global SoqlBuilder selectMinx(String aggx){ 
+        this.selectMin = true;
+		this.aggx = aggx;
+        return this;
+    }
+
+    global SoqlBuilder selectMaxx(String aggx){ 
+        this.selectMax = true;
+		this.aggx = aggx;
+        return this;
+    }
+
     global SoqlBuilder fromx(String fromx){
         this.fromx = fromx; 
         return this;
@@ -85,15 +120,21 @@ global class SoqlBuilder implements Soqlable{
         }
         return this;
     }
+    
+   global SoqlBuilder groupByx(String groupByx){
+        this.groupByx = groupByx; 
+        return this;
+    }
 
     global SoqlBuilder limitx(Integer limitx){
         this.limitx = limitx; 
         return this;
-    }
+    }    
     
     global String toSoql(){ return this.toSoql(null); }
     
     global String toSoql(SoqlOptions options){
+        
         if(options == null){
             options = SoqlOptions.DEFAULT_OPTIONS;
         }
@@ -102,13 +143,25 @@ global class SoqlBuilder implements Soqlable{
         }
         Boolean isFirst = true;
         String soql = 'SELECT ';
+       
+        
         if(selectx == null){
             selectx = new Set<Object>();
         }
-        if(this.selectCount != null && this.selectCount){
-        	soql += 'count()';
+        if(this.selectCount != null && this.selectCount && aggx == null){
+        	soql += 'COUNT()';
+        } else if (this.selectCount != null && this.selectCount) {  
+        		soql += 'COUNT(' + aggx + ')';
+        } else if (this.selectAverage != null && this.selectAverage){
+ 				soql += 'AVG(' + aggx + ')';
+	    } else if (this.selectSum != null && this.selectSum){
+ 				soql += 'SUM(' + aggx + ')';
+        } else if (this.selectMin != null && this.selectMin) {
+ 				soql += 'MIN(' + aggx + ')';
+        } else if (this.selectMax != null && this.selectMax) {
+ 				soql += 'MAX(' + aggx + ')';
         } else {
-	        if(selectx.size() <= 0){
+        	if (selectx.size() <= 0){
 	            selectx.add('id');
 	        }
 	        String distinctField = null;
@@ -128,16 +181,23 @@ global class SoqlBuilder implements Soqlable{
         }
         soql += ' FROM ' + fromx;
         if(wherex != null){
-            soql += ' WHERE ' + wherex.toSoql(options);
+			soql += ' WHERE ' + wherex.toSoql(options);
+			String wherexs = wherex.toSoql(options);
+			if(wherexs != null && wherexs != '')  
+				soql += ' AND ' + wherex.toSoql(options); 
         }
-        
+          
+        if(groupByx != null && groupByx != ''){
+           soql += ' GROUP BY ' + groupByx + ' ';
+        }
+          
         if(orderByx != null && orderByx.size() > 0){
             isFirst = true;
         	for(OrderBy orderBy : orderByx){
         		if(orderBy == null){
         			continue;
         		}
-	            if(isFirst){
+	            if(isFirst){  
 	                isFirst = false;
                     soql += ' ORDER BY ';
 	            } else {
