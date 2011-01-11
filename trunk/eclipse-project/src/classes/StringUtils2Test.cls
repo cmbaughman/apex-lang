@@ -780,4 +780,12 @@ private class StringUtils2Test {
         ArrayUtils.assertArraysAreEqual(new List<String>{'a','b'},StringUtils.trimAll(new List<String>{' a ',' b '}));
     }
 
+    private static testmethod void test_trimLower(){
+    	//test: global static String trimLower(String str)
+        System.assertEquals(null,StringUtils.trimLower(null));
+        System.assertEquals('',StringUtils.trimLower(''));
+        System.assertEquals('abc',StringUtils.trimLower('  abc  '));
+        System.assertEquals('abc',StringUtils.trimLower('  ABC  '));
+    }
+
 }
