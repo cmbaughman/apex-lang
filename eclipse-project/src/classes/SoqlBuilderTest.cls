@@ -156,6 +156,16 @@ private class SoqlBuilderTest {
                 .toSoql());   
     }
 
+
+    private static testmethod void testGroupBy(){
+        SoqlUtils.assertEquals(
+            'SELECT id FROM account GROUP BY name',
+            new SoqlBuilder()
+                .fromx('account')
+                .groupByx('name')
+                .toSoql());   
+    }
+
     private static testmethod void testParentToChildQuery1(){
         SoqlUtils.assertEquals(
             'SELECT ID, Name, toLabel(Rating), (SELECT FirstName, LastName FROM Contacts) FROM Account',
@@ -200,7 +210,7 @@ private class SoqlBuilderTest {
                 .wherex(new FieldCondition('a.name','MyriadPubs'))
                 .toSoql());   
     }
-    
+
     private static testmethod void testSelectCount2(){
         SoqlUtils.assertEquals(
             'SELECT count() FROM Account WHERE Name LIKE \'a%\'',
@@ -210,9 +220,60 @@ private class SoqlBuilderTest {
                 .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
                 .toSoql());   
     }
-    
-    
-    
+
+
+    private static testmethod void testSelectCountWithArg(){
+        SoqlUtils.assertEquals(
+            'SELECT count(Id) FROM Account WHERE Name LIKE \'a%\'',
+            new SoqlBuilder()
+                .selectCount('Id')
+                .fromx('Account')
+                .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
+                .toSoql());     
+    }  
+
+    private static testmethod void testSelectAverage(){
+        SoqlUtils.assertEquals(
+            'SELECT AVG(Amount) FROM Account WHERE Name LIKE \'a%\'',
+            new SoqlBuilder()
+                .selectAveragex('Amount')
+                .fromx('Account')
+                .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
+                .toSoql());     
+    }    
+
+
+    private static testmethod void testSelectMax(){  
+        SoqlUtils.assertEquals(
+            'SELECT Max(Amount) FROM Account WHERE Name LIKE \'a%\'',
+            new SoqlBuilder()
+                .selectMaxx('Amount')
+                .fromx('Account')
+                .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
+                .toSoql());     
+    }  
+
+    private static testmethod void testSelectMin(){
+        SoqlUtils.assertEquals(
+            'SELECT Min(Amount) FROM Account WHERE Name LIKE \'a%\'',
+            new SoqlBuilder()
+                .selectMinx('Amount')
+                .fromx('Account')
+                .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
+                .toSoql());     
+    }  
+
+    private static testmethod void testSelectSumx(){
+        SoqlUtils.assertEquals(
+            'SELECT Sum(Amount) FROM Account WHERE Name LIKE \'a%\'',
+            new SoqlBuilder()
+                .selectSumx('Amount')
+                .fromx('Account')
+                .wherex(new FieldCondition('Name',Operator.LIKEX,'a%'))
+                .toSoql());     
+    }  
+
+
     private static testmethod void testSelectNullCondition(){
         SoqlUtils.assertEquals(
             'SELECT Id FROM Case WHERE Contact.Lastname = null',
@@ -221,7 +282,7 @@ private class SoqlBuilderTest {
                 .wherex(new FieldCondition('Contact.Lastname',null))
                 .toSoql());   
     }
-    
+
     private static testmethod void testIncludes(){
         SoqlUtils.assertEquals(
             'SELECT Id, MSP1__c from CustObj__c WHERE MSP1__c INCLUDES (\'AAA;BBB\',\'CCC\')',
@@ -231,7 +292,7 @@ private class SoqlBuilderTest {
                 .wherex(new SetCondition('MSP1__c').includes(new List<String>{'AAA;BBB','CCC'}))
                 .toSoql());   
     }
-    
+
     private static testmethod void testExcludes(){
         SoqlUtils.assertEquals(
             'SELECT Id, MSP1__c from CustObj__c WHERE MSP1__c EXCLUDES (\'AAA;BBB\',\'CCC\')',
@@ -241,7 +302,7 @@ private class SoqlBuilderTest {
                 .wherex(new SetCondition('MSP1__c').excludes(new List<String>{'AAA;BBB','CCC'}))
                 .toSoql());   
     }
-    
+
     private static testmethod void testIn(){
         SoqlUtils.assertEquals(
             'SELECT id FROM ACCOUNT WHERE BillingState IN (\'California\',\'New York\')',
@@ -250,7 +311,7 @@ private class SoqlBuilderTest {
                 .wherex(new SetCondition('BillingState').inx(new List<String>{'California','New York'}))
                 .toSoql());   
     }
-    
+
     private static testmethod void testNotIn(){
         SoqlUtils.assertEquals(
             'SELECT id FROM ACCOUNT WHERE BillingState NOT IN (\'California\',\'New York\')',
@@ -259,7 +320,7 @@ private class SoqlBuilderTest {
                 .wherex(new SetCondition('BillingState').notIn(new List<String>{'California','New York'}))
                 .toSoql());   
     }
-    
+
     private static testmethod void testDateFormula_NEXT_N_FISCAL_QUARTERS(){
         SoqlUtils.assertEquals(
             'SELECT Id FROM Account WHERE CreatedDate < NEXT_N_FISCAL_QUARTERS:6',
@@ -353,7 +414,7 @@ private class SoqlBuilderTest {
                     .wherex(new FieldCondition('StageName','Closed Lost'))))
                 .toSoql());
     }
-    
+
     private static testmethod void testDuplicateFields(){
         System.assertEquals(
             'SELECT name FROM Account',
@@ -363,7 +424,7 @@ private class SoqlBuilderTest {
                 .fromx('Account')
                 .toSoql());
     }
-    
+
 
 
 }
