@@ -955,7 +955,11 @@ global class StringUtils {
             return str;
         }
         if (str.startsWith(remove)){
-            return str.substring(remove.length());
+        	if(remove.length() >= str.length()){
+                return '';        		
+        	} else {
+                return str.substring(remove.length());
+        	}
         }
         return str;
     }
@@ -1895,5 +1899,8 @@ global class StringUtils {
         return strs;
     }
     
+    global static String trimLower(String str){
+        return StringUtils.lowerCase(StringUtils.trim(str));
+    }
 
 }

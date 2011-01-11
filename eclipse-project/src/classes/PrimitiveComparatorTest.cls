@@ -17,6 +17,7 @@ private class PrimitiveComparatorTest {
         Object aNullO = aNull;
         Object xyz = 'xyz';
         System.assertEquals(-1,(new PrimitiveComparator()).compare(aNullO,xyz));
+        System.assertEquals(0,(new PrimitiveComparator()).compare(aNullO,aNullO));
         System.assertEquals(1,(new PrimitiveComparator()).compare(xyz,aNullO));
     }
     

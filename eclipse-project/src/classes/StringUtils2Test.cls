@@ -110,6 +110,7 @@ private class StringUtils2Test {
         assertRemoveStart(null, null, null);
         assertRemoveStart('', null, '');
         assertRemoveStart('xyz', null, 'xyz');
+        assertRemoveStart('/', '/', '');
         assertRemoveStart('www.domain.com', 'www.', 'domain.com');
         assertRemoveStart('domain.com', 'www.', 'domain.com');
         assertRemoveStart('www.domain.com', 'domain', 'www.domain.com');

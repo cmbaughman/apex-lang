@@ -11,7 +11,34 @@
  */
 @IsTest
 private class ArrayUtilsTest {
-    
+
+    private static testmethod void testLowerCase(){
+        //test:  global static List<String> lowerCase(List<String> strs)
+        ArrayUtils.assertArraysAreEqual(null,ArrayUtils.lowerCase(null)); 
+        ArrayUtils.assertArraysAreEqual(new String[]{null},ArrayUtils.lowerCase(new String[]{null})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{' '},ArrayUtils.lowerCase(new String[]{' '})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'abc','xyz'},ArrayUtils.lowerCase(new String[]{'abc','xyz'})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'abc','xyz'},ArrayUtils.lowerCase(new String[]{'Abc','xYz'})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'abc','xyz'},ArrayUtils.lowerCase(new String[]{'ABC','XYZ'})); 
+    }
+
+    private static testmethod void testUpperCase(){
+        //test:  global static List<String> upperCase(List<String> strs)
+        ArrayUtils.assertArraysAreEqual(null,ArrayUtils.lowerCase(null)); 
+        ArrayUtils.assertArraysAreEqual(new String[]{null},ArrayUtils.upperCase(new String[]{null})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{' '},ArrayUtils.upperCase(new String[]{' '})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'ABC','XYZ'},ArrayUtils.upperCase(new String[]{'abc','xyz'})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'ABC','XYZ'},ArrayUtils.upperCase(new String[]{'Abc','xYz'})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{'ABC','XYZ'},ArrayUtils.upperCase(new String[]{'ABC','XYZ'})); 
+    }
+	
+    private static testmethod void testTrim(){
+        //test:  global static List<String> trim(List<String> strs)
+        ArrayUtils.assertArraysAreEqual(null,ArrayUtils.trim(null)); 
+        ArrayUtils.assertArraysAreEqual(new String[]{null},ArrayUtils.trim(new String[]{null})); 
+        ArrayUtils.assertArraysAreEqual(new String[]{''},ArrayUtils.trim(new String[]{' \n\t '})); 
+    }
+
     private static testmethod void testReverseObject(){
         //test: global static Object[] reverse(Object[] anArray) 
         Object[] nullArray = null;

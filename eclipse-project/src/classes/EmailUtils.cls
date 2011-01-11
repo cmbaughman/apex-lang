@@ -68,4 +68,27 @@ global class EmailUtils {
         // Send the email you have created.
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
     }
+
+    /**
+     * null     => false
+     * ''       => false
+     * ' '      => false
+     * 'x'      => false
+     * 'x@'     => false
+     * 'x@x'    => true
+     */
+    global static Boolean isValidEmailAddress(String str){
+        if(str != null && str.trim() != null && str.trim().length() > 0){
+            final String[] split = str.split('@');
+            if(split != null && split.size() == 2){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    global static Boolean isNotValidEmailAddress(String str){
+    	return !isValidEmailAddress(str);
+    }
+
 }

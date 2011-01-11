@@ -43,7 +43,10 @@ private class UrlUtilsTest {
             + MapUtils.toString(actual) + '\'; expected \'' + MapUtils.toString(expected) + '\'');
     }
 
-    
-  
+    private static testmethod void testEnsureUrlBeginsWithHttp(){
+        //test: global static String ensureUrlBeginsWithHttp(String url)
+        System.assertEquals('http://xyz.com', UrlUtils.ensureUrlBeginsWithHttp('xyz.com'));
+        System.assertEquals('http://xyz.com', UrlUtils.ensureUrlBeginsWithHttp('http://xyz.com'));
+    }
 
 }
