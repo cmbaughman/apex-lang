@@ -60,6 +60,16 @@ private class SoqlBuilderTest {
                 .toSoql());   
     }
 
+    private static testmethod void testBasicSelectStringListSelectx(){
+        SoqlUtils.assertEquals(
+            'SELECT id,name FROM account WHERE name like \'%acme%\'',
+            new SoqlBuilder()
+                .selectx(new List<String>{'id','name'})
+                .fromx('account')
+                .wherex(new FieldCondition('name',Operator.LIKEX,'%acme%'))
+                .toSoql());   
+    }
+
     private static testmethod void testOption_wildcardStringsInLikeOperators(){
         SoqlUtils.assertEquals(
             'SELECT id FROM account WHERE name like \'%acme%\'',
@@ -350,6 +360,17 @@ private class SoqlBuilderTest {
                 .toSoql());
     }
 
+    private static testmethod void test_EQUALS_1_SetString(){
+        SoqlUtils.assertEquals(
+            'SELECT name,employees FROM account WHERE employees = 10',
+            new SoqlBuilder()
+                .selectx('name')
+                .selectx(new Set<String>{'employees'})
+                .fromx('account')
+                .wherex(new FieldCondition('employees', 10))
+                .toSoql());
+    }
+
     private static testmethod void test_EQUALS_2(){
         SoqlUtils.assertEquals(
             'SELECT name,employees FROM account WHERE employees = 10',
@@ -371,11 +392,31 @@ private class SoqlBuilderTest {
                 .toSoql());
     }
 
+    private static testmethod void test_EQUALS_3_SetString(){
+        SoqlUtils.assertEquals(
+            'SELECT name,employees FROM account WHERE employees = 10',
+            new SoqlBuilder()
+                .selectx(new Set<String>{'name','employees'})
+                .fromx('account')
+                .wherex(new FieldCondition().field('employees').equals(10))
+                .toSoql());
+    }
+
     private static testmethod void test_INX_1(){
         SoqlUtils.assertEquals(
             'SELECT id,industry FROM account WHERE industry in (\'Agriculture\',\'Apparel\')',
             new SoqlBuilder()
                 .selectx(new List<Object>{'industry','id'})
+                .fromx('account')
+                .wherex(new SetCondition('industry', Operator.INX, new List<Object>{'Agriculture','Apparel'}))
+                .toSoql());
+    }
+
+    private static testmethod void test_INX_1_ListString(){
+        SoqlUtils.assertEquals(
+            'SELECT id,industry FROM account WHERE industry in (\'Agriculture\',\'Apparel\')',
+            new SoqlBuilder()
+                .selectx(new List<String>{'industry','id'})
                 .fromx('account')
                 .wherex(new SetCondition('industry', Operator.INX, new List<Object>{'Agriculture','Apparel'}))
                 .toSoql());
@@ -402,7 +443,7 @@ private class SoqlBuilderTest {
     }
 
     private static testmethod void testBasicSemiJoin(){
-        System.assertEquals(
+        SoqlUtils.assertEquals(
             'SELECT id FROM Account WHERE ID IN '
             +'(SELECT AccountId FROM Opportunity WHERE StageName = \'Closed Lost\')',
             new SoqlBuilder()
@@ -416,13 +457,29 @@ private class SoqlBuilderTest {
     }
 
     private static testmethod void testDuplicateFields(){
-        System.assertEquals(
+        SoqlUtils.assertEquals(
             'SELECT name FROM Account',
             new SoqlBuilder()
                 .selectx('name')
                 .selectx(new Field('name'))
                 .fromx('Account')
                 .toSoql());
+    }
+
+    private static testmethod void testSelectAll_ApexClass(){
+    	final String actualSoql = 
+            new SoqlBuilder()
+                .selectAll()
+                .fromx('ApexClass')
+                .toSoql();
+        Set<String> fieldsActual = SetUtils.listToSet(ArrayUtils.lowerCase(ArrayUtils.trim(StringUtils.split(StringUtils.substringAfter(StringUtils.substringBefore(actualSoql, ' FROM'), 'SELECT '),','))));
+        System.assertNotEquals(null,fieldsActual);
+        final Set<String> fieldsExpected = new Set<String>{'id','createdbyid','body','name'};
+        for(String fieldExpected : fieldsExpected){
+            System.assert(fieldsActual.contains(fieldExpected), 'expected soql to contain column ' + fieldExpected + ': ' + actualSoql);
+        }
+        final String fromObjectNameActual = StringUtils.substringAfter(actualSoql, 'FROM ');
+        System.assertEquals('ApexClass',fromObjectNameActual);
     }
 
 

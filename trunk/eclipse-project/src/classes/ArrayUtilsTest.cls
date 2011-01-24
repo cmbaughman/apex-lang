@@ -12,6 +12,20 @@
 @IsTest
 private class ArrayUtilsTest {
 
+    private static testmethod void testObjectToString(){ 
+        //test: global static List<String> objectToString(List<Object> objectList){ 
+        assertObjectToString(null, null);
+        assertObjectToString(new List<Object>{}, new List<String>{});
+        final String str1 = 'xyz';
+        final String str2 = 'abc';
+        assertObjectToString(new List<Object>{str1}, new List<String>{str1});
+        assertObjectToString(new List<Object>{str1,str2}, new List<String>{str1,str2});
+    }
+    
+    private static void assertObjectToString(List<Object> objectList, List<String> expected){
+    	ArrayUtils.assertArraysAreEqual(expected, ArrayUtils.objectToString(objectList));
+    }
+
     private static testmethod void testLowerCase(){
         //test:  global static List<String> lowerCase(List<String> strs)
         ArrayUtils.assertArraysAreEqual(null,ArrayUtils.lowerCase(null)); 
@@ -31,7 +45,7 @@ private class ArrayUtilsTest {
         ArrayUtils.assertArraysAreEqual(new String[]{'ABC','XYZ'},ArrayUtils.upperCase(new String[]{'Abc','xYz'})); 
         ArrayUtils.assertArraysAreEqual(new String[]{'ABC','XYZ'},ArrayUtils.upperCase(new String[]{'ABC','XYZ'})); 
     }
-	
+    
     private static testmethod void testTrim(){
         //test:  global static List<String> trim(List<String> strs)
         ArrayUtils.assertArraysAreEqual(null,ArrayUtils.trim(null)); 

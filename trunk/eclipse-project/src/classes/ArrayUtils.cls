@@ -14,6 +14,21 @@ global class ArrayUtils {
     global static String[] EMPTY_STRING_ARRAY = new String[]{};
     global static Integer MAX_NUMBER_OF_ELEMENTS_IN_LIST {get{return 1000;}}
     
+    global static List<String> objectToString(List<Object> objects){
+        List<String> strings = null;
+        if(objects != null){
+        	strings = new List<String>();
+        	if(objects.size() > 0){
+	            for(Object obj : objects){
+	                if(obj instanceof String){
+	                    strings.add((String)obj);
+	                }
+	            }
+        	}
+        }
+        return strings;
+    }
+
     global static Object[] reverse(Object[] anArray) {
         if (anArray == null) {
             return null;
