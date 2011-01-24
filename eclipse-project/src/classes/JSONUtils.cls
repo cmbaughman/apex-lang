@@ -19,7 +19,33 @@ global class JSONUtils {
                     '\\"','\\\\','\\n','\\t','\\f','\\r','\\/'
             }) 
             + '"';
-    }    
+    }  
+    /*
+    
+    private static Map<String,Pattern> PATTERNS = new Map<String,Pattern>{
+    	 '\\\"' => Pattern.compile('"')  
+		,'\\/'  => Pattern.compile('/')  
+		,'\\b'  => Pattern.compile('\b')    
+		,'\\f'  => Pattern.compile('\f') 
+		,'\\n'  => Pattern.compile('\n') 
+		,'\\r'  => Pattern.compile('\r') 
+		,'\\t'  => Pattern.compile('\t') 
+      //,'\\\\\\' => Pattern.compile('\\\\')    
+    };
+
+    
+    global static String encode(String str){
+        String returnValue = 'null';
+        if(str != null){
+        	returnValue = str;
+        	for(String replacement : PATTERNS.keySet()){
+	            returnValue = PATTERNS.get(replacement).matcher(returnValue).replaceAll(replacement);
+        	}
+        	returnValue = '"' + returnValue + '"';
+        }
+        return returnValue;
+    }
+    */
 
     global static List<String> encode(List<String> strs){
         List<String> returnValue = null;
@@ -32,6 +58,24 @@ global class JSONUtils {
             }
         }
         return returnValue;
+    }
+
+    global static void encodeFields(List<SObject> sobjects, Map<String,String> mapping){
+    	if(sobjects != null && sobjects.size() > 0 && mapping != null && mapping.size() > 0){
+            Object valueObject = null;
+            String valueString = null;
+    		for(SObject sobj : sobjects){
+    			for(String sourceFieldName : mapping.keySet()){
+    				valueObject = SObjectUtils.getQuietly(sobj, sourceFieldName);
+    				if(valueObject != null && valueObject instanceof String){
+    					valueString = (String) valueObject;
+    				} else {
+                        valueString = null;
+    				}
+    				SObjectUtils.putQuietly(sobj, mapping.get(sourceFieldName), encode(valueString));
+    			}
+    		}
+    	}
     }
 
 }

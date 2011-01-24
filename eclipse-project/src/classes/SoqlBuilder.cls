@@ -12,11 +12,12 @@
 global class SoqlBuilder implements Soqlable{
 	
     private Set<Object>     selectx     = null;
+    private Boolean         selectAll   = false;
     private Boolean         selectCount = false;
-    private Boolean         selectAverage = false;
-    private Boolean         selectSum = false;
-    private Boolean         selectMin = false;
-    private Boolean         selectMax = false;
+    private Boolean         selectAvg   = false;
+    private Boolean         selectSum   = false;
+    private Boolean         selectMin   = false;
+    private Boolean         selectMax   = false;
 	private String 			aggx		= null;  
     private String          fromx       = null;
     private Condition       wherex      = null;
@@ -26,8 +27,13 @@ global class SoqlBuilder implements Soqlable{
         
     global SoqlBuilder(){}
     
+    global SoqlBuilder selectAll(){
+    	selectAll = true;
+        return this;
+    }
+    
     global SoqlBuilder selectx(String field){ 
-    	return addToSelect(field);
+        return addToSelect(field);
     }
     
     global SoqlBuilder selectx(Field field){ 
@@ -43,14 +49,27 @@ global class SoqlBuilder implements Soqlable{
     }
     
     global SoqlBuilder selectx(Set<Object> fields){ 
-    	if(fields != null && fields.size() > 0){
-    		for(Object field : fields){
-    			addToSelect(field);
-    		}
-    	}
+        if(fields != null && fields.size() > 0){
+            for(Object field : fields){
+                addToSelect(field);
+            }
+        }
         return this;
     }
+
+    global SoqlBuilder selectx(List<String> fields){ 
+        return selectx(SetUtils.listToSet(fields));
+    }
     
+    global SoqlBuilder selectx(Set<String> fields){ 
+        if(fields != null && fields.size() > 0){
+            for(String field : fields){
+                addToSelect(field);
+            }
+        }
+        return this;
+    }
+
     private SoqlBuilder addToSelect(Object field){
         if(field == null){
             throw new IllegalArgumentException('null field');
@@ -82,7 +101,7 @@ global class SoqlBuilder implements Soqlable{
     }
 
     global SoqlBuilder selectAveragex(String aggx){ 
-        this.selectAverage = true;
+        this.selectAvg = true;
 		this.aggx = aggx;
         return this;
     }
@@ -154,8 +173,6 @@ global class SoqlBuilder implements Soqlable{
         }
         Boolean isFirst = true;
         String soql = 'SELECT ';
-       
-        
         if(selectx == null){
             selectx = new Set<Object>();
         }
@@ -163,7 +180,7 @@ global class SoqlBuilder implements Soqlable{
         	soql += 'COUNT()';
         } else if (this.selectCount != null && this.selectCount) {  
         		soql += 'COUNT(' + aggx + ')';
-        } else if (this.selectAverage != null && this.selectAverage){
+        } else if (this.selectAvg != null && this.selectAvg){
  				soql += 'AVG(' + aggx + ')';
 	    } else if (this.selectSum != null && this.selectSum){
  				soql += 'SUM(' + aggx + ')';
@@ -172,7 +189,10 @@ global class SoqlBuilder implements Soqlable{
         } else if (this.selectMax != null && this.selectMax) {
  				soql += 'MAX(' + aggx + ')';
         } else {
-        	if (selectx.size() <= 0){
+        	if(this.selectAll){
+                selectx.addAll(getAllFieldNames(fromx));
+        	}
+        	if(selectx.size() <= 0){
 	            selectx.add('id');
 	        }
 	        String distinctField = null;
@@ -188,18 +208,18 @@ global class SoqlBuilder implements Soqlable{
                 distinctField = StringUtils.trim(distinctField);
                 distinctFields.put(StringUtils.lowerCase(distinctField),distinctField);
             }
-            soql += StringUtils.joinStrings(distinctFields.values(),',');
+            soql += StringUtils.joinStrings(distinctFields.values(),'\n,');
         }
-        soql += ' FROM ' + fromx;
+        soql += ' \nFROM ' + fromx;
         if(wherex != null){
 			final String wherexs = wherex.toSoql(options);
 			if(StringUtils.isNotBlank(wherexs)){  
-				soql += ' WHERE ' + wherexs;
+				soql += ' \nWHERE ' + wherexs;
 			} 
         }
           
         if(groupByx != null && groupByx != ''){
-           soql += ' GROUP BY ' + groupByx + ' ';
+           soql += ' \nGROUP BY ' + groupByx + ' ';
         }
           
         if(orderByx != null && orderByx.size() > 0){
@@ -210,7 +230,7 @@ global class SoqlBuilder implements Soqlable{
         		}
 	            if(isFirst){  
 	                isFirst = false;
-                    soql += ' ORDER BY ';
+                    soql += ' \nORDER BY ';
 	            } else {
 	                soql += ', ';
 	            }
@@ -218,9 +238,27 @@ global class SoqlBuilder implements Soqlable{
         	}
         }
         if(limitx != null){
-            soql += ' LIMIT ' + limitx;
+            soql += ' \nLIMIT ' + limitx;
         }
         return soql;
+    }
+    
+    private static Set<Object> getAllFieldNames(String objectName){
+        final Set<Object> returnValue = new Set<Object>();
+        objectName = StringUtils.lowerCase(StringUtils.trim(objectName));
+        final Map<String, Schema.SObjectType> globalDescribe = Schema.getGlobalDescribe();
+        if(globalDescribe != null && globalDescribe.containsKey(objectName)){
+            final Schema.SObjectType objectToken = globalDescribe.get(objectName);
+	        if(objectToken != null){
+	            final Map<String,Schema.SObjectField> fieldNameToFieldIndex = objectToken.getDescribe().fields.getMap();
+                if(fieldNameToFieldIndex != null && fieldNameToFieldIndex.size() > 0){
+                    for(String fieldName : fieldNameToFieldIndex.keySet()){
+                        returnValue.add(fieldNameToFieldIndex.get(fieldName).getDescribe().getName());
+                    }
+                }
+	        }
+        }
+        return returnValue;
     }
     
     
