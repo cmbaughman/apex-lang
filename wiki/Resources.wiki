@@ -5,4 +5,4 @@
   * [http://d3developer.com/2011/01/11/soql-builder-enhancements SOQL Builder Aggregate enhancements]
 
 =Videos=
-* [http://www.youtube.com/watch?v=0FW_msmoa8k Using Force.com Code Share Projects]
+  * [http://www.youtube.com/watch?v=0FW_msmoa8k Using Force.com Code Share Projects]
