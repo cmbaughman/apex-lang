@@ -1,1 +1,7 @@
-* [http://richardvanhook.com/2009/05/05/getting-started-with-apex-lang/ Getting started]
+=Articles=
+* [http://richardvanhook.com/2009/05/05/getting-started-with-apex-lang/ Getting started with apex-lang]
+* [http://richardvanhook.com/2009/08/03/visualforce-pagination-with-apex-lang/ SOQL Builder]
+* [http://d3developer.com/2011/01/11/soql-builder-enhancements SOQL Builder Aggregate enhancements]
+
+=Videos=
+* [http://www.youtube.com/watch?v=0FW_msmoa8k Using Force.com Code Share Projects]
