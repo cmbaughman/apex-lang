@@ -110,10 +110,8 @@ public with sharing class CSVParser {
 				
 			}
 			
-			if(currentField.length() > 0){
-				// the last field
-				lineFields.add(currentField);
-			}
+			// the last field
+			lineFields.add(currentField);
 			
 			if(! lineFields.isEmpty()){
 				allFields.add(lineFields);
