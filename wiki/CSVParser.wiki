@@ -2,13 +2,13 @@
 
 CSVParser is useful class to parse CSV file, the result will store in a `List<List<String>>` variable.
 
+To use the CSVParser, you need to new a CSVParser instance first. Then set the properties to satisfy you requirement. Then call the parse method to get the result.
+
 = Properties =
 
-Add your content here.  Format your content with:
-
-  * *textQualifier*
-  * *delimiter*
-  * *escapeMode*
+  * *textQualifier* The character to use as a text qualifier in the data. for example, you can use the ' and ".
+  * *delimiter* The character to use as the column delimiter.
+  * *escapeMode* The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
 
 = Methods =
 
