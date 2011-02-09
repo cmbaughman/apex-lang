@@ -59,7 +59,7 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 CSVParser parser = new CSVParser();
 parser.textQualifier = '\'';
 parser. delimiter = ',';
-parser. escapeMode = CSVParser. ESCAPE_MODE_DOUBLED;
+parser. escapeMode = CSVParser.ESCAPE_MODE_DOUBLED;
 String contents = 'Mode,Price,Count\nFerrari 458 Italia,$225,325,5\nFerrari 599 GTB Fiorano,$336,541,2';
 List<List<String>> result = parser.parse(contents);
 }}}
