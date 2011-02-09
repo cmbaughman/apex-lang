@@ -30,7 +30,7 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   The way to escape an occurance of the text qualifier inside qualified data. You can use `CSVParser.ESCAPE_MODE_DOUBLED` or `CSVParser.ESCAPE_MODE_BACKSLASH`.
 
-  Default value is [#ESCAPE_MODE_DOUBLED] `CSVParser.ESCAPE_MODE_DOUBLED`.
+  Default value is [#ESCAPE_MODE_DOUBLED `CSVParser.ESCAPE_MODE_DOUBLED`].
 
 = Methods =
 
