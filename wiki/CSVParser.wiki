@@ -1,3 +1,5 @@
+#summary The document of CSVParser
+
 = Introduction =
 
 CSVParser is useful class to parse CSV file, the result will store in a `List<List<String>>` variable.
@@ -6,7 +8,7 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
 = Properties =
 
-  * *textQualifier* 
+  * == textQualifier ==
 
   `public String textQualifier {get; set;}`
 
@@ -14,7 +16,7 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   Default value is the double quotes (").
 
-  * *delimiter* 
+  * == delimiter==
 
   `public String delimiter {get; set;}` 
 
@@ -22,30 +24,30 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   Default value is the comma (,).
 
-  * *escapeMode*
+  * == escapeMode ==
 
   `public String escapeMode {get; set;}`
 
   The way to escape an occurance of the text qualifier inside qualified data. You can use `CSVParser.ESCAPE_MODE_DOUBLED` or `CSVParser.ESCAPE_MODE_BACKSLASH`.
 
-  Default value is `CSVParser.ESCAPE_MODE_BACKSLASH`.
+  Default value is [CSVParser#ESCAPE_MODE_DOUBLED] `CSVParser.ESCAPE_MODE_DOUBLED`.
 
 = Methods =
 
-  * *parse*
+  * == parse ==
   `public List<List<String>> parse(String contents)`
 
   Parse the `contents` in the CSV format to `List<List<String>>`
 
 = Constants =
 
-  * *ESCAPE_MODE_DOUBLED*
+  * == ESCAPE_MODE_DOUBLED ==
 
   `public static String ESCAPE_MODE_DOUBLED`
 
   Double up the text qualifier to represent an occurance of the text qualifier.
   
-  * *ESCAPE_MODE_BACKSLASH*
+  * == ESCAPE_MODE_BACKSLASH ==
 
   `public static String ESCAPE_MODE_BACKSLASH`
 
