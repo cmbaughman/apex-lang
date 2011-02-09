@@ -1,6 +1,6 @@
 = Introduction =
 
-CSVParser is useful class to parse the CSV file to a List&lt;List&lt;String&gt;&gt; variable.
+CSVParser is useful class to parse CSV file, the result will store in a `List<List<String>>` variable.
 
 = Properties =
 
