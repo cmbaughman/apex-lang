@@ -28,11 +28,29 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   * *parse*
   `public List<List<String>> parse(String contents)`
+
   Parse the `contents` in the CSV format to `List<List<String>>`
 
 = Constants =
 
-  * *ESCAPE_MODE_DOUBLED* _static_
-  * *ESCAPE_MODE_BACKSLASH* _static_
+  * *ESCAPE_MODE_DOUBLED*
+
+  `public static String ESCAPE_MODE_DOUBLED`
+
+  Double up the text qualifier to represent an occurance of the text
+  
+  * *ESCAPE_MODE_BACKSLASH*
+
+  `public static String ESCAPE_MODE_BACKSLASH`
+
+  Use a backslash character before the text qualifier to represent an
 
 = Example =
+
+{{{
+CSVParser parser = new CSVParser();
+parser.textQualifier = '\'';
+parser. delimiter = ',';
+parser. escapeMode = CSVParser. ESCAPE_MODE_DOUBLED;
+String contents = 'Mode,Price,Count\n430,$';
+}}}
