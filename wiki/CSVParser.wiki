@@ -6,13 +6,13 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
 = Properties =
 
-  * *textQualifier* The character to use as a text qualifier in the data. for example, you can use the ' and ".
-  * *delimiter* The character to use as the column delimiter.
-  * *escapeMode* The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
+  * *textQualifier* _String_ The character to use as a text qualifier in the data. for example, you can use the ' and ".
+  * *delimiter* _String_  The character to use as the column delimiter.
+  * *escapeMode* _String_  The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
 
 = Methods =
 
-  * *parse*
+  * *parse* `public List<List<String>> parse(String contents)`
 
 = Constants =
 
