@@ -6,9 +6,23 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
 = Properties =
 
-  * *textQualifier* `public String textQualifier {get; set;}` The character to use as a text qualifier in the data. for example, you can use the ' and ".
-  * *delimiter* `public String delimiter {get; set;}`  The character to use as the column delimiter.
-  * *escapeMode* `public String escapeMode {get; set;}`  The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
+  * *textQualifier* 
+
+`public String textQualifier {get; set;}`
+
+The character to use as a text qualifier in the data. for example, you can use the ' and ".
+
+  * *delimiter* 
+
+`public String delimiter {get; set;}` 
+
+The character to use as the column delimiter.
+
+  * *escapeMode*
+
+`public String escapeMode {get; set;}`
+
+The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
 
 = Methods =
 
