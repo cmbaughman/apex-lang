@@ -1,6 +1,6 @@
 = Introduction =
 
-CSVParser is useful class to parse the CSV file to a List<List<String>> variable.
+CSVParser is useful class to parse the CSV file to a List&lt;List&lt;String&gt;&gt; variable.
 
 = Properties =
 
@@ -12,9 +12,11 @@ Add your content here.  Format your content with:
 
 = Methods =
 
+  * *parse*
+
 = Constants =
 
-  * _static_ *ESCAPE_MODE_DOUBLED*
-  * _static_ *ESCAPE_MODE_BACKSLASH*
+  * *ESCAPE_MODE_DOUBLED* _static_
+  * *ESCAPE_MODE_BACKSLASH* _static_
 
 = Example =
