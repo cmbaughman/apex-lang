@@ -8,25 +8,27 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   * *textQualifier* 
 
-`public String textQualifier {get; set;}`
+  `public String textQualifier {get; set;}`
 
-The character to use as a text qualifier in the data. for example, you can use the ' and ".
+  The character to use as a text qualifier in the data. for example, you can use the ' and ".
 
   * *delimiter* 
 
-`public String delimiter {get; set;}` 
+  `public String delimiter {get; set;}` 
 
-The character to use as the column delimiter.
+  The character to use as the column delimiter.
 
   * *escapeMode*
 
-`public String escapeMode {get; set;}`
+  `public String escapeMode {get; set;}`
 
-The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
+  The way to escape an occurance of the text qualifier inside qualified data. You can use CSVParser.ESCAPE_MODE_DOUBLED or CSVParser.ESCAPE_MODE_BACKSLASH.
 
 = Methods =
 
-  * *parse* `public List<List<String>> parse(String contents)`
+  * *parse*
+  `public List<List<String>> parse(String contents)`
+  Parse the `contents` in the CSV format to `List<List<String>>`
 
 = Constants =
 
