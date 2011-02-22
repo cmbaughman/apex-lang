@@ -31,5 +31,19 @@ global class UserUtils {
             where id = :UserInfo.getUserId()];
         return usr.Contact.AccountId;
     }
+
+    global static Boolean isCurrentUserGuest(){
+    	User user = null;
+    	try{
+	        user = [
+	           select id 
+	           from User 
+	           where id = :UserInfo.getUserId() 
+	           and profile.UserLicense.LicenseDefinitionKey = 'PID_Guest_User'
+            ]; 
+    	}catch(QueryException e){}
+        return user != null;
+    }
+
     
 }

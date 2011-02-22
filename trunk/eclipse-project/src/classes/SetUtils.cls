@@ -315,45 +315,6 @@ global class SetUtils {
         return '{' + returnValue + '}';
     }
     
-    global static Set<String> listToSet(List<String> aList){
-        Set<String> returnValue = null;
-        if(aList != null){
-            returnValue = new Set<String>();
-            if(aList.size() > 0){
-                for(String value : aList){
-                    returnValue.add(value);
-                }
-            }
-        }
-        return returnValue;
-    }
-
-    global static Set<Object> listToSet(List<Object> aList){
-        Set<Object> returnValue = null;
-        if(aList != null){
-            returnValue = new Set<Object>();
-            if(aList.size() > 0){
-                for(Object value : aList){
-                    returnValue.add(value);
-                }
-            }
-        }
-        return returnValue;
-    }
-
-    global static List<String> setToList(Set<String> aSet){
-        List<String> returnValue = null;
-        if(aSet != null){
-            returnValue = new List<String>();
-        	if(aSet.size() > 0){
-	            for(String value : aSet){
-	                returnValue.add(value);
-	            }
-        	}
-        }
-        return returnValue;
-    }
-
 
     global static void assertEquals(Set<Blob> b1,Set<Blob> b2){ assertEquals(blobToObject(b1),blobToObject(b2)); }
     global static void assertEquals(Set<Boolean> b1,Set<Boolean> b2){ assertEquals(booleanToObject(b1),booleanToObject(b2)); }
@@ -403,8 +364,108 @@ global class SetUtils {
         }
         return true;
     }
+
+    global static Set<Object> pluck(List<SObject> records, String fieldName){
+        return pluck(listToSet(records),fieldName);
+    }   
+     
+    global static Set<Object> pluck(Set<SObject> records, String fieldName){
+    	Set<Object> returnValue = null;
+    	if(records != null){
+    		returnValue = new Set<Object>();
+    		if(records.size() > 0 && StringUtils.isNotBlank(fieldName)){
+	            for(SObject record : records){
+	                returnValue.add(record.get(fieldName));
+	            }
+    		}
+    	}
+        return returnValue;
+    }
     
+    global static Set<String> pluckString(List<SObject> records, String fieldName){
+        return pluckString(listToSet(records),fieldName);
+    }
 
+    global static Set<String> pluckString(Set<SObject> records, String fieldName){
+        return objectToString(pluck(records,fieldName));
+    }
 
+    global static List<String> setToList(Set<String> aSet){
+        List<String> returnValue = null;
+        if(aSet != null){
+            returnValue = new List<String>();
+            if(aSet.size() > 0){
+                for(String value : aSet){
+                    returnValue.add(value);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static List<Object> setToList(Set<Object> records){
+        List<Object> returnValue = null;
+        if(records != null){
+            returnValue = new List<Object>();
+            if(records.size() > 0){
+                for(Object record : records){
+                    returnValue.add(record);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static List<SObject> setToList(Set<SObject> records){
+        List<SObject> returnValue = null;
+        if(records != null){
+            returnValue = new List<SObject>();
+            if(records.size() > 0){
+                for(SObject record : records){
+                    returnValue.add(record);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Set<String> listToSet(List<String> aList){
+        Set<String> returnValue = null;
+        if(aList != null){
+            returnValue = new Set<String>();
+            if(aList.size() > 0){
+                for(String value : aList){
+                    returnValue.add(value);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Set<Object> listToSet(List<Object> aList){
+        Set<Object> returnValue = null;
+        if(aList != null){
+            returnValue = new Set<Object>();
+            if(aList.size() > 0){
+                for(Object value : aList){
+                    returnValue.add(value);
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Set<SObject> listToSet(List<SObject> records){
+        Set<SObject> returnValue = null;
+        if(records != null){
+            returnValue = new Set<SObject>();
+            if(records.size() > 0){
+                for(SObject record : records){
+                    returnValue.add(record);
+                }
+            }
+        }
+        return returnValue;
+    }
 
 }

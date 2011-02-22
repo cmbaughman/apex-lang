@@ -14,6 +14,18 @@ global class DatabaseUtils {
     global final static List<String> NULL_LIST_OF_STRINGS = null;
     global final static Set<String> NULL_SET_OF_STRINGS = null;
 
+    global static SObject query(String id){
+        return first(query(new Set<String>{id}, NULL_SET_OF_STRINGS));
+    }
+
+    global static SObject query(String id, List<String> fields){
+        return first(query(new Set<String>{id}, fields));
+    }
+
+    global static SObject query(String id, Set<String> fields){
+        return first(query(new Set<String>{id}, fields));
+    }
+
     global static List<SObject> query(List<String> ids){
         return query(ids, NULL_SET_OF_STRINGS);
     }
@@ -90,5 +102,14 @@ global class DatabaseUtils {
         }
         return returnValue;
     }
+
+    global static SObject first(List<SObject> records){
+        SObject returnValue = null;
+        if(records != null && records.size() > 0){
+            returnValue = records.get(0);
+        }
+        return returnValue;
+    }
+
 
 }

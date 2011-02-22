@@ -21,6 +21,11 @@ private class UserUtilsTest {
         UserUtils.isCurrentUserSysAdmin();
         
     }
+
+    private static testmethod void testIsCurrentUserGuest(){
+        UserUtils.isCurrentUserGuest();
+        
+    }
     /*
     private static testmethod void testIsCurrentUserSysAdminNegative(){
         //test: global static Boolean isCurrentUserSysAdmin(){

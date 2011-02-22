@@ -147,7 +147,7 @@ global class ArrayUtils {
         return !isEmpty(objectArray);
     }
     
-       global static Object[] pluck(SObject[] objectArray, String fieldName){
+    global static Object[] pluck(SObject[] objectArray, String fieldName){
         if(isEmpty(objectArray) || StringUtils.isBlank(fieldName)){
             return new Object[]{};
         }
