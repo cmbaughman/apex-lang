@@ -12,6 +12,46 @@
 @IsTest
 private class DatabaseUtilsTest {
 
+    private static testmethod void test_query_String_Found(){
+        //global static List<SObject> query(List<String> ids){
+        final Account created = new Account(name='test 123');
+        insert created;
+        final Account queried = (Account)DatabaseUtils.query(created.id);
+        System.assertNotEquals(null, queried);
+        System.assertEquals(created.id, queried.id);
+        System.assertEquals(created.name, queried.name);
+    }
+
+    private static testmethod void test_query_String_NotFound(){
+        //global static List<SObject> query(List<String> ids){
+        final Account created = new Account(name='test 123');
+        insert created;
+        final String anId = created.id;
+        delete created;
+        final Account queried = (Account)DatabaseUtils.query(anId);
+        System.assertEquals(null, queried);
+    }
+
+    private static testmethod void test_query_String_ListString(){
+        //global static List<SObject> query(String id, List<String> ids){
+        final Account created = new Account(name='test 123');
+        insert created;
+        final Account queried = (Account)DatabaseUtils.query(created.id, new List<String>{'id','name'} );
+        System.assertNotEquals(null, queried);
+        System.assertEquals(created.id, queried.id);
+        System.assertEquals(created.name, queried.name);
+    }
+
+    private static testmethod void test_query_String_SetString(){
+        //global static List<SObject> query(String id, List<String> ids){
+        final Account created = new Account(name='test 123');
+        insert created;
+        final Account queried = (Account)DatabaseUtils.query(created.id, new Set<String>{'id','name'} );
+        System.assertNotEquals(null, queried);
+        System.assertEquals(created.id, queried.id);
+        System.assertEquals(created.name, queried.name);
+    }
+
     private static testmethod void test_query_ListString(){
         //global static List<SObject> query(List<String> ids){
         final List<Account> created = new List<Account>{

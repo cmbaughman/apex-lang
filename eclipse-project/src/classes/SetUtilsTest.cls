@@ -12,8 +12,188 @@
 @IsTest
 private class SetUtilsTest {
 
+    private static testmethod void test_listToSet_ListString(){
+    	//test: global static Set<String> listToSet(List<String> aList){
+        final List<String> aList = null;
+        System.assertEquals(null,SetUtils.listToSet(aList));
+        System.assertEquals(0,SetUtils.listToSet(new List<String>()).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{''}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a'}).size());
+        System.assertEquals(2,SetUtils.listToSet(new List<String>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a','a'}).size());
+    }
+    
+    private static testmethod void test_listToSet_ListObject(){
+        //test: global static Set<Object> listToSet(List<Object> aList){
+        final List<Object> aList = null;
+        System.assertEquals(null,SetUtils.listToSet(aList));
+        System.assertEquals(0,SetUtils.listToSet(new List<Object>()).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<Object>{''}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<Object>{'a'}).size());
+        System.assertEquals(2,SetUtils.listToSet(new List<Object>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<Object>{'a','a'}).size());
+    }
+    
+    private static testmethod void test_listToSet_ListSObject(){
+        //test: global static Set<SObject> listToSet(List<SObject> records){        
+        final List<SObject> aList = null;
+        System.assertEquals(null,SetUtils.listToSet(aList));
+        System.assertEquals(0,SetUtils.listToSet(new List<SObject>()).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Account()}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Account()}).size());
+        System.assertEquals(2,SetUtils.listToSet(new List<SObject>{new Account(name='1'),new Account(name='2')}).size());
+    }
+    
+    private static testmethod void test_setToList_String(){
+        //test: global static List<String> setToList(Set<String> records){        
+        final Set<String> records = null;
+        System.assertEquals(null,SetUtils.setToList(records));
+        System.assertEquals(0,SetUtils.setToList(new Set<String>()).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{''}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a'}).size());
+        System.assertEquals(2,SetUtils.setToList(new Set<String>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a','a'}).size());
+    }
+
+    private static testmethod void test_setToList_Object(){
+        //test: global static List<Object> setToList(Set<Object> records){        
+        final Set<Object> records = null;
+        System.assertEquals(null,SetUtils.setToList(records));
+        System.assertEquals(0,SetUtils.setToList(new Set<Object>()).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<Object>{''}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<Object>{'a'}).size());
+        System.assertEquals(2,SetUtils.setToList(new Set<Object>{'a','b'}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<Object>{'a','a'}).size());
+    }
+
+    private static testmethod void test_setToList_SetSObject(){
+        //test: global static List<SObject> setToList(Set<SObject> records){        
+        final Set<String> records = null;
+        System.assertEquals(null,SetUtils.setToList(records));
+        System.assertEquals(0,SetUtils.setToList(new Set<SObject>()).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Account()}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Account()}).size());
+        System.assertEquals(2,SetUtils.setToList(new Set<SObject>{new Account(name='1'),new Account(name='2')}).size());
+    }
+    
+    private static testmethod void test_pluck_ListSObject_String(){
+        //test: global static Set<Object> pluck(List<SObject> records, String fieldName){
+        assert_pluck_ListSObject_String(null,null,null);
+        assert_pluck_ListSObject_String(null,'name',null);
+        assert_pluck_ListSObject_String(new List<SObject>(),null,new Set<Object>());
+        assert_pluck_ListSObject_String(new List<SObject>(),'name',new Set<Object>());
+        assert_pluck_ListSObject_String(
+             new List<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,null
+            ,new Set<Object>()
+        );
+        assert_pluck_ListSObject_String(
+             new List<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,'name'
+            ,new Set<Object>{'abc123','xyz456'}
+        );
+    }    
+    
+    private static void assert_pluck_ListSObject_String(List<SObject> records, String fieldName, Set<Object> expected){
+        Set<Object> actual = SetUtils.pluck(records, fieldName);
+        SetUtils.assertEquals(expected, actual);    
+    }
+            
+    private static testmethod void test_pluck_SetSObject_String(){
+        //test: global static Set<Object> pluck(Set<SObject> records, String fieldName){        
+        assert_pluck_SetSObject_String(null,null,null);
+        assert_pluck_SetSObject_String(null,'name',null);
+        assert_pluck_SetSObject_String(new Set<SObject>(),null,new Set<Object>());
+        assert_pluck_SetSObject_String(new Set<SObject>(),'name',new Set<Object>());
+        assert_pluck_SetSObject_String(
+             new Set<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,null
+            ,new Set<Object>()
+        );
+        assert_pluck_SetSObject_String(
+             new Set<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,'name'
+            ,new Set<Object>{'abc123','xyz456'}
+        );
+    }    
+    
+    private static void assert_pluck_SetSObject_String(Set<SObject> records, String fieldName, Set<Object> expected){
+        Set<Object> actual = SetUtils.pluck(records, fieldName);
+        SetUtils.assertEquals(expected, actual);    
+    }
+    
+    private static testmethod void test_pluckString_SetSObject_String(){
+        //test: global static Set<String> pluckString(Set<SObject> records, String fieldName){        
+        assert_pluckString_SetSObject_String(null,null,null);
+        assert_pluckString_SetSObject_String(null,'name',null);
+        assert_pluckString_SetSObject_String(new Set<SObject>(),null,new Set<String>());
+        assert_pluckString_SetSObject_String(new Set<SObject>(),'name',new Set<String>());
+        assert_pluckString_SetSObject_String(
+             new Set<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,null
+            ,new Set<String>()
+        );
+        assert_pluckString_SetSObject_String(
+             new Set<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,'name'
+            ,new Set<String>{'abc123','xyz456'}
+        );
+    }    
+    
+    private static void assert_pluckString_SetSObject_String(Set<SObject> records, String fieldName, Set<String> expected){
+        Set<String> actual = SetUtils.pluckString(records, fieldName);
+        SetUtils.assertEquals(expected, actual);    
+    }
+            
+    private static testmethod void test_pluckString_ListSObject_String(){
+        //test: global static Set<String> pluckString(List<SObject> records, String fieldName){        
+        assert_pluckString_ListSObject_String(null,null,null);
+        assert_pluckString_ListSObject_String(null,'name',null);
+        assert_pluckString_ListSObject_String(new List<SObject>(),null,new Set<String>());
+        assert_pluckString_ListSObject_String(new List<SObject>(),'name',new Set<String>());
+        assert_pluckString_ListSObject_String(
+             new List<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,null
+            ,new Set<String>()
+        );
+        assert_pluckString_ListSObject_String(
+             new List<SObject>{
+                 new Account(name='abc123')
+                ,new Account(name='xyz456')
+            }
+            ,'name'
+            ,new Set<String>{'abc123','xyz456'}
+        );
+    }    
+    
+    private static void assert_pluckString_ListSObject_String(List<SObject> records, String fieldName, Set<String> expected){
+        Set<String> actual = SetUtils.pluckString(records, fieldName);
+        SetUtils.assertEquals(expected, actual);    
+    }
+
     private static testmethod void testObjectToBlob(){
-        //test: global static Set<Blob> objectToBlob(Set<Object> objectSet){
+        //test: global static Set<Blob> objectToBlob(Set<Object> objectSet){ 
         assertObjectToBlob(null, null);
         assertObjectToBlob(new Set<Object>{}, new Set<Blob>{});
         Blob blob1 = generateRandomBlob();
@@ -233,52 +413,221 @@ private class SetUtilsTest {
         assertToStringStringSet(new Set<String>{str1,str2}, '{' + str1 + ',' + str2 + '}');
     }
 
-    private static void assertObjectToBlob(Set<Object> objectSet, Set<Blob> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Blob> actual = SetUtils.objectToBlob(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToBlob(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToBlob(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToBoolean(Set<Object> objectSet, Set<Boolean> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Boolean> actual = SetUtils.objectToBoolean(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToBoolean(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToBoolean(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToDate(Set<Object> objectSet, Set<Date> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Date> actual = SetUtils.objectToDate(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToDate(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToDate(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToDatetime(Set<Object> objectSet, Set<Datetime> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Datetime> actual = SetUtils.objectToDatetime(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToDatetime(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToDatetime(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToDecimal(Set<Object> objectSet, Set<Decimal> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Decimal> actual = SetUtils.objectToDecimal(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToDecimal(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToDecimal(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToDouble(Set<Object> objectSet, Set<Double> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Double> actual = SetUtils.objectToDouble(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToDouble(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToDouble(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToID(Set<Object> objectSet, Set<ID> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<ID> actual = SetUtils.objectToID(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToID(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToID(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToInteger(Set<Object> objectSet, Set<Integer> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Integer> actual = SetUtils.objectToInteger(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToInteger(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToInteger(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToLong(Set<Object> objectSet, Set<Long> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Long> actual = SetUtils.objectToLong(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToLong(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToLong(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToTime(Set<Object> objectSet, Set<Time> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<Time> actual = SetUtils.objectToTime(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToTime(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToTime(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
-    private static void assertObjectToString(Set<Object> objectSet, Set<String> expected){System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    'Invalid test input: both parameters should be null.');Set<String> actual = SetUtils.objectToString(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToString(null) returned ' + SetUtils.toString(actual) + '; expected null');if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     'SetUtils.objectToString(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));}}
+    private static void assertObjectToBlob(Set<Object> objectSet, Set<Blob> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+    	Set<Blob> actual = SetUtils.objectToBlob(objectSet);System.assert(!(objectSet == null && expected == null && actual != null),     
+    	'SetUtils.objectToBlob(null) returned ' + SetUtils.toString(actual) + '; expected null');
+    	if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+    		'SetUtils.objectToBlob(' + SetUtils.toString(objectSet) + ') returned ' 
+    		+ SetUtils.toString(actual) + '; expected ' + SetUtils.toString(expected));
+	}}
+
+    private static void assertObjectToBoolean(Set<Object> objectSet, Set<Boolean> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	   'Invalid test input: both parameters should be null.');
+		Set<Boolean> actual = SetUtils.objectToBoolean(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),
+            'SetUtils.objectToBoolean(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),
+			'SetUtils.objectToBoolean(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			+ '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToDate(Set<Object> objectSet, Set<Date> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Date> actual = SetUtils.objectToDate(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToDate(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToDate(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			+ '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToDatetime(Set<Object> objectSet, Set<Datetime> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Datetime> actual = SetUtils.objectToDatetime(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToDatetime(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToDatetime(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			+ '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToDecimal(Set<Object> objectSet, Set<Decimal> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Decimal> actual = SetUtils.objectToDecimal(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToDecimal(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToDecimal(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			+ '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToDouble(Set<Object> objectSet, Set<Double> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Double> actual = SetUtils.objectToDouble(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToDouble(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToDouble(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			+ '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToID(Set<Object> objectSet, Set<ID> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<ID> actual = SetUtils.objectToID(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToID(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToID(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' 
+			+ SetUtils.toString(expected));
+	}}
+    private static void assertObjectToInteger(Set<Object> objectSet, Set<Integer> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Integer> actual = SetUtils.objectToInteger(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToInteger(null) returned ' 
+		+ SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToInteger(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' 
+			+ SetUtils.toString(expected));
+	}}
+    private static void assertObjectToLong(Set<Object> objectSet, Set<Long> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Long> actual = SetUtils.objectToLong(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     
+		'SetUtils.objectToLong(null) returned ' + SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),    
+			 'SetUtils.objectToLong(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) 
+			 + '; expected ' + SetUtils.toString(expected));
+	}}
+    private static void assertObjectToTime(Set<Object> objectSet, Set<Time> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<Time> actual = SetUtils.objectToTime(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToTime(null) returned ' 
+		+ SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToTime(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' 
+			+ SetUtils.toString(expected));
+	}}
+    private static void assertObjectToString(Set<Object> objectSet, Set<String> expected){
+    	System.assert(!((objectSet == null && expected != null)|| (objectSet != null && expected == null)),    
+    	'Invalid test input: both parameters should be null.');
+		Set<String> actual = SetUtils.objectToString(objectSet);
+		System.assert(!(objectSet == null && expected == null && actual != null),     'SetUtils.objectToString(null) returned ' 
+		+ SetUtils.toString(actual) + '; expected null');
+		if(expected != null && actual != null){System.assert(actual.containsAll(expected) && expected.containsAll(actual),     
+			'SetUtils.objectToString(' + SetUtils.toString(objectSet) + ') returned ' + SetUtils.toString(actual) + '; expected ' 
+			+ SetUtils.toString(expected));
+	}}
     
-    private static void assertToStringBlobSet(Set<Blob> blobSet, String expected){System.assert(!((blobSet == null && expected != null) || (blobSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(blobSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(blobSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringBooleanSet(Set<Boolean> booleanSet, String expected){System.assert(!((booleanSet == null && expected != null) || (booleanSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(booleanSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(booleanSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringDateSet(Set<Date> dateSet, String expected){System.assert(!((dateSet == null && expected != null) || (dateSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(dateSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(dateSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringDatetimeSet(Set<Datetime> datetimeSet, String expected){System.assert(!((datetimeSet == null && expected != null) || (datetimeSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(datetimeSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(datetimeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringDecimalSet(Set<Decimal> decimalSet, String expected){System.assert(!((decimalSet == null && expected != null) || (decimalSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(decimalSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(decimalSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringDoubleSet(Set<Double> doubleSet, String expected){System.assert(!((doubleSet == null && expected != null) || (doubleSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(doubleSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(doubleSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringIDSet(Set<ID> idSet, String expected){System.assert(!((idSet == null && expected != null) || (idSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(idSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(idSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringIntegerSet(Set<Integer> integerSet, String expected){System.assert(!((integerSet == null && expected != null) || (integerSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(integerSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(integerSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringLongSet(Set<Long> longSet, String expected){System.assert(!((longSet == null && expected != null) || (longSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(longSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(longSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringTimeSet(Set<Time> timeSet, String expected){System.assert(!((timeSet == null && expected != null) || (timeSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(timeSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(timeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
-    private static void assertToStringStringSet(Set<String> stringSet, String expected){System.assert(!((stringSet == null && expected != null) || (stringSet != null && expected == null)),     'Invalid test input: both parameters should be null.');String actual = SetUtils.toString(stringSet); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));    if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    'SetUtils.toString(' + SetUtils.toString(stringSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
+    private static void assertToStringBlobSet(Set<Blob> blobSet, String expected){
+    	System.assert(!((blobSet == null && expected != null) || (blobSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(blobSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){
+			System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(blobSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+    }}
+    private static void assertToStringBooleanSet(Set<Boolean> booleanSet, String expected){
+    	System.assert(!((booleanSet == null && expected != null) || (booleanSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(booleanSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(booleanSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringDateSet(Set<Date> dateSet, String expected){
+    	System.assert(!((dateSet == null && expected != null) || (dateSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(dateSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(dateSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringDatetimeSet(Set<Datetime> datetimeSet, String expected){
+    	System.assert(!((datetimeSet == null && expected != null) || (datetimeSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(datetimeSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(datetimeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringDecimalSet(Set<Decimal> decimalSet, String expected){
+    	System.assert(!((decimalSet == null && expected != null) || (decimalSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(decimalSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(decimalSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringDoubleSet(Set<Double> doubleSet, String expected){
+    	System.assert(!((doubleSet == null && expected != null) || (doubleSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(doubleSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(doubleSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringIDSet(Set<ID> idSet, String expected){
+    	System.assert(!((idSet == null && expected != null) || (idSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(idSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(idSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringIntegerSet(Set<Integer> integerSet, String expected){
+    	System.assert(!((integerSet == null && expected != null) || (integerSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(integerSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),   
+			 'SetUtils.toString(' + SetUtils.toString(integerSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringLongSet(Set<Long> longSet, String expected){
+    	System.assert(!((longSet == null && expected != null) || (longSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(longSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(longSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringTimeSet(Set<Time> timeSet, String expected){
+    	System.assert(!((timeSet == null && expected != null) || (timeSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(timeSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(timeSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
+	}}
+    private static void assertToStringStringSet(Set<String> stringSet, String expected){
+    	System.assert(!((stringSet == null && expected != null) || (stringSet != null && expected == null)),     
+    	'Invalid test input: both parameters should be null.');
+		String actual = SetUtils.toString(stringSet);
+		Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),','));
+		Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),','));
+		if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet),    
+			'SetUtils.toString(' + SetUtils.toString(stringSet) + ') returned \'' + actual + '\';expected \'' + expected + '\'');
+	}}
         
 
     private static Blob generateRandomBlob(){
         return EncodingUtil.base64Decode(''+System.currentTimeMillis()+Math.roundToLong(Math.random()*10000));    
-    }
-
-    private static testmethod void testListToSet_String(){
-    	List<String> aList = null;
-        System.assertEquals(null,SetUtils.listToSet(aList));
-        System.assertEquals(0,SetUtils.listToSet(new List<String>()).size());
-        System.assertEquals(1,SetUtils.listToSet(new List<String>{''}).size());
-        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a'}).size());
-        System.assertEquals(2,SetUtils.listToSet(new List<String>{'a','b'}).size());
-        System.assertEquals(1,SetUtils.listToSet(new List<String>{'a','a'}).size());
-    }
-	
-    private static testmethod void testSetToList_String(){
-        System.assertEquals(null,SetUtils.setToList(null));
-        System.assertEquals(0,SetUtils.setToList(new Set<String>()).size());
-        System.assertEquals(1,SetUtils.setToList(new Set<String>{''}).size());
-        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a'}).size());
-        System.assertEquals(2,SetUtils.setToList(new Set<String>{'a','b'}).size());
-        System.assertEquals(1,SetUtils.setToList(new Set<String>{'a','a'}).size());
     }
 
     private static testmethod void testAssertEquals(){
