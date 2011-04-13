@@ -75,13 +75,17 @@ global class EmailUtils {
      * ' '      => false
      * 'x'      => false
      * 'x@'     => false
-     * 'x@x'    => true
+     * 'x@x'    => false
+     * 'x@x.x'  => true
      */
     global static Boolean isValidEmailAddress(String str){
         if(str != null && str.trim() != null && str.trim().length() > 0){
-            final String[] split = str.split('@');
+            String[] split = str.split('@');
             if(split != null && split.size() == 2){
-                return true;
+	            split = split[1].split('\\.');
+	            if(split != null && split.size() >= 2){
+	                return true;
+	            }
             }
         }
         return false;

@@ -787,5 +787,13 @@ private class StringUtils2Test {
         System.assertEquals('abc',StringUtils.trimLower('  abc  '));
         System.assertEquals('abc',StringUtils.trimLower('  ABC  '));
     }
+    
+    private static testmethod void test_stripMarkup(){
+        //test: global static String trimLower(String str)
+        System.assertEquals(null, StringUtils.stripMarkup(null)); 
+        System.assertEquals('', StringUtils.stripMarkup(''));
+        System.assertEquals('Title! ABC 123', StringUtils.stripMarkup('  Title!   ABC 123  '));
+        System.assertEquals('Title! ABC 123', StringUtils.stripMarkup('<html><body><h1>Title!</h1><p>ABC 123</p></html>')); 
+    }
 
 }

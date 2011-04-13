@@ -10,16 +10,37 @@
  * ============================================================
  */
 global class MapUtils {
+
+    global static List<String> joinMap(Map<String,String> theMap, String keyValueSeparator){
+    	return joinx(theMap, keyValueSeparator);
+    }
     
+    global static List<String> joinx(Map<String,String> theMap, String keyValueSeparator){
+        List<String> returnValue = null;
+        if(theMap != null){
+            returnValue = new List<String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.add(key + keyValueSeparator + theMap.get(key));
+                }
+            }
+        }
+        return returnValue;
+    }
+
     global static String joinMap(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
-        if(theMap == null){
-            return null;
+    	return joinx(theMap, keyValueSeparator, recordSeparator);
+    }
+        
+    global static String joinx(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
+        String returnValue = null;
+        if(theMap != null){
+        	returnValue = '';
+        	if(theMap.size() > 0){
+	            returnValue = StringUtils.joinArray(joinMap(theMap,keyValueSeparator), recordSeparator);
+        	}
         }
-        List<String> keyValuePairs = new List<String>();
-        for(String key : theMap.keySet()){
-            keyValuePairs.add(key + keyValueSeparator + theMap.get(key));
-        }
-        return StringUtils.joinArray(keyValuePairs, recordSeparator);
+        return returnValue;
     }
     
     global static String toString(Map<String,String> theMap){
@@ -46,4 +67,91 @@ global class MapUtils {
         return true;
     }
     
+    global static void assertEquals(Map<String,String> expected, Map<String,String> actual){
+        System.assert(
+             equals(expected,actual)
+            ,'Assertion failed, the following two maps are not equal.  Expected: ' 
+                + expected 
+                + ', Actual: ' 
+                + actual);
+    }
+
+    global static Map<String,String> lowerCaseKeys(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(StringUtils.lowerCase(key),theMap.get(key));
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Map<String,String> upperCaseKeys(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(StringUtils.upperCase(key),theMap.get(key));
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Map<String,String> trimKeys(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(StringUtils.trim(key),theMap.get(key));
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    
+    global static Map<String,String> lowerCaseValues(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(key,StringUtils.lowerCase(theMap.get(key)));
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Map<String,String> upperCaseValues(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(key,StringUtils.upperCase(theMap.get(key)));
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    global static Map<String,String> trimValues(Map<String,String> theMap){
+        final Map<String,String> returnValue = null;
+        if(theMap != null){
+            returnValue = new Map<String,String>();
+            if(theMap.size() > 0){
+                for(String key : theMap.keySet()){
+                    returnValue.put(key,StringUtils.trim(theMap.get(key)));
+                }
+            }
+        }
+        return returnValue;
+    }
 }

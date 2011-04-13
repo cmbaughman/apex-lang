@@ -74,5 +74,94 @@ private class MapUtilsTest {
             MapUtils.toString(map2) + ') returned ' + actual);
     }
     
+    private static testmethod void test_lowerCaseKeys(){
+        MapUtils.assertEquals(null,MapUtils.lowerCaseKeys(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.lowerCaseKeys(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'abcdefgh'=>'MnOPQrstUv'
+                ,'xyz'=>'aTiejcFGEkdkd'
+             }
+            ,MapUtils.lowerCaseKeys(new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+            }) 
+        );
+    }
+    
+    private static testmethod void test_upperCaseKeys(){
+        MapUtils.assertEquals(null,MapUtils.upperCaseKeys(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.upperCaseKeys(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'ABCDEFGH'=>'MnOPQrstUv'
+                ,'XYZ'=>'aTiejcFGEkdkd'
+             }
+            ,MapUtils.upperCaseKeys(new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+            }) 
+        );
+    }
+    
+    private static testmethod void test_trimKeys(){
+        MapUtils.assertEquals(null,MapUtils.trimKeys(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.trimKeys(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+             }
+            ,MapUtils.trimKeys(new Map<String,String>{
+                 '   aBcDEfgH   \t\n'=>'MnOPQrstUv'
+                ,'  XyZ  '=>'aTiejcFGEkdkd'
+            }) 
+        );
+    }
+    
+    private static testmethod void test_lowerCaseValues(){
+        MapUtils.assertEquals(null,MapUtils.lowerCaseValues(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.lowerCaseValues(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'aBcDEfgH'=>'mnopqrstuv'
+                ,'XyZ'=>'atiejcfgekdkd'
+             }
+            ,MapUtils.lowerCaseValues(new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+            }) 
+        );
+    }
+    
+    private static testmethod void test_upperCaseValues(){
+        MapUtils.assertEquals(null,MapUtils.upperCaseValues(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.upperCaseValues(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'aBcDEfgH'=>'MNOPQRSTUV'
+                ,'XyZ'=>'ATIEJCFGEKDKD'
+             }
+            ,MapUtils.upperCaseValues(new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+            }) 
+        );
+    }
+    
+    private static testmethod void test_trimValues(){
+        MapUtils.assertEquals(null,MapUtils.trimValues(null));
+        MapUtils.assertEquals(new Map<String,String>(),MapUtils.trimValues(new Map<String,String>()));
+        MapUtils.assertEquals(
+             new Map<String,String>{
+                 'aBcDEfgH'=>'MnOPQrstUv'
+                ,'XyZ'=>'aTiejcFGEkdkd'
+             }
+            ,MapUtils.trimValues(new Map<String,String>{
+                 'aBcDEfgH'=>'   MnOPQrstUv   \t\n'
+                ,'XyZ'=>'  aTiejcFGEkdkd  '
+            }) 
+        );
+    }
     
 }
