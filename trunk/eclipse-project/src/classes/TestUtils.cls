@@ -78,6 +78,22 @@ global class TestUtils {
         return objects;
     } 
     
+    global static void assertUrlsAreEqual(String expected, String actual){
+        final PageReference expectedRealPageReference = new PageReference(StringUtils.defaultString(expected));
+        final PageReference actualRealPageReference = new PageReference(StringUtils.defaultString(actual));
+        final String actualBasePath = StringUtils.substringBefore(actual,'?');
+        final String expectedBasePath = StringUtils.substringBefore(expected,'?');
+        System.assertEquals(    
+             expectedBasePath
+            ,actualBasePath
+            ,'Base paths don\'t match, expected: ' + expectedBasePath + ', actual: ' + actualBasePath
+        );
+        System.assert(
+            MapUtils.equals(expectedRealPageReference.getParameters(),actualRealPageReference.getParameters())
+            ,'HTTP Parameters don\'t match, expected: ' + expectedRealPageReference.getParameters() + ', actual: ' + actualRealPageReference.getParameters()    
+        );
+    }
+
     
 
 }

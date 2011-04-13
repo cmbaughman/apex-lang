@@ -60,7 +60,8 @@ private class EmailUtilsTest {
         System.assertEquals(true,EmailUtils.isNotValidEmailAddress('  '));
         System.assertEquals(true,EmailUtils.isNotValidEmailAddress('x'));
         System.assertEquals(true,EmailUtils.isNotValidEmailAddress('x@'));
-        System.assertEquals(false,EmailUtils.isNotValidEmailAddress('x@x'));
+        System.assertEquals(true,EmailUtils.isNotValidEmailAddress('x@x'));
+        System.assertEquals(false,EmailUtils.isNotValidEmailAddress('x@x.x'));
     }
     
     

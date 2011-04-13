@@ -1902,5 +1902,20 @@ global class StringUtils {
     global static String trimLower(String str){
         return StringUtils.lowerCase(StringUtils.trim(str));
     }
+    
+    /**
+     * stripMarkup(null) -> null
+     * stripMarkup('') -> ''
+     * stripMarkup('Title!   ABC 123') -> 'Title! ABC 123'
+     * stripMarkup('<html><body><h1>Title!</h1><p>ABC 123</p></html>') -> 'Title! ABC 123'
+     */
+    global static String stripMarkup(String str){
+    	String returnValue = null;
+    	if(str != null){
+    		returnValue = StringUtils.trim(Pattern.compile('[ ]{2,}').matcher(Pattern.compile('<(.|\\n)*?>').matcher(str).replaceAll(' ')).replaceAll(' '));
+    	}
+    	return returnValue;
+    }
+    
 
 }

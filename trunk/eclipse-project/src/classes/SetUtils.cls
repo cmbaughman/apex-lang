@@ -467,5 +467,46 @@ global class SetUtils {
         }
         return returnValue;
     }
+    
+    global static Set<String> lowerCase(Set<String> strs){
+        Set<String> returnValue = null;
+        if(strs != null){
+            returnValue = new Set<String>();
+            if(strs.size() > 0){
+                for(String str : strs){
+                    returnValue.add(str == null ? null : str.toLowerCase());
+                }
+            }
+        }
+        return returnValue;
+    }
+    
+    global static Set<String> upperCase(Set<String> strs){
+        Set<String> returnValue = null;
+        if(strs != null){
+            returnValue = new Set<String>();
+            if(strs.size() > 0){
+                for(String str : strs){
+                    returnValue.add(str == null ? null : str.toUpperCase());
+                }
+            }
+        }
+        return returnValue;
+    }
+    
+    global static Set<String> trim(Set<String> strs){
+        Set<String> returnValue = null;
+        if(strs != null){
+            returnValue = new Set<String>();
+            if(strs.size() > 0){
+                for(String str : strs){
+                    returnValue.add(str == null ? null : str.trim());
+                }
+            }
+        }
+        return returnValue;
+    }
+    
+    
 
 }

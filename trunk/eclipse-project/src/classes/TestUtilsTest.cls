@@ -115,5 +115,11 @@ private class TestUtilsTest {
         System.assert(TestUtils.getObject(new Account(), 0, null, true).isEmpty());
     }
     
+    private static testmethod void test_assertUrlsAreEqual(){
+        //test: global static void assertUrlsAreEqual(String expected, String actual){
+        TestUtils.assertUrlsAreEqual('http://google.com','http://google.com');
+        TestUtils.assertUrlsAreEqual('http://google.com?x=1&y=2','http://google.com?y=2&x=1');
+    }
+
 
 }

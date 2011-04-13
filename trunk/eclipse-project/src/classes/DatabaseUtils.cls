@@ -55,23 +55,9 @@ global class DatabaseUtils {
             //ruh-roh, someone mixed types
             throw new IllegalArgumentException('ids argument invalid:  multiple SObject types detected: ' + distinctKeyPrefixes);
         }
-        final String keyPrefixToMatch = SetUtils.setToList(distinctKeyPrefixes).get(0);
-        String keyPrefix = null;
-        String objectName = null;
-        final Map<String,Schema.SObjectType> globalDescribe = Schema.getGlobalDescribe();
-        for(String objectNameKey : globalDescribe.keySet()){
-            keyPrefix = globalDescribe.get(objectNameKey).getDescribe().getKeyPrefix();
-            if(StringUtils.isNotBlank(keyPrefix) && StringUtils.equals(keyPrefix,keyPrefixToMatch)){
-                objectName = objectNameKey;
-                break;
-            }
-        }
-        if(StringUtils.isBlank(objectName)){
-            throw new IllegalArgumentException('ids argument invalid: key prefix not found: ' + keyPrefixToMatch);
-        }
         final SoqlBuilder soql = 
             new SoqlBuilder()
-               .fromx(objectName)
+               .fromx(retrieveObjectName(SetUtils.setToList(distinctKeyPrefixes).get(0)))
                .wherex(new SetCondition('id').inx(SetUtils.setToList(ids)));
         if(fields == null || fields.size() <= 0){
             soql.selectAll();
@@ -81,6 +67,24 @@ global class DatabaseUtils {
         return Database.query(soql.toSoql());
     }
 
+    global static String retrieveObjectName(String recordId) {
+        String returnValue = null;
+        final String keyPrefixToMatch = StringUtils.left(recordId,3);
+        String keyPrefix = null;
+        final Map<String,Schema.SObjectType> globalDescribe = Schema.getGlobalDescribe();
+        for(String objectNameKey : globalDescribe.keySet()){
+            keyPrefix = globalDescribe.get(objectNameKey).getDescribe().getKeyPrefix();
+            if(StringUtils.isNotBlank(keyPrefix) && StringUtils.equals(keyPrefix,keyPrefixToMatch)){
+                returnValue = objectNameKey;
+                break;
+            }
+        }
+        if(StringUtils.isBlank(returnValue)){
+            throw new IllegalArgumentException('ids argument invalid: key prefix not found: ' + keyPrefixToMatch);
+        }
+    	return returnValue;
+    }
+    
     global static Set<String> left(Set<String> strs, Integer len) {
         Set<String> returnValue = null;
         if(strs != null || strs.size() > 0){
