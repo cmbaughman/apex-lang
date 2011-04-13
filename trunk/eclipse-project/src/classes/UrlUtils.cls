@@ -34,9 +34,11 @@ global class UrlUtils {
             for(String keyValuePair : split){
                 //keyValuePair -> 'api=x'
                 split2 = StringUtils.split(keyValuePair,'=');
-                returnMap.put(
-                    (split2 == null || split2.size() < 1 ? '' : split2[0]),
-                    EncodingUtil.urlDecode(split2 == null || split2.size() < 2 ? '' : split2[1], 'UTF-8'));
+                String key = '';
+                if(split2 != null && split2.size() > 0) key = split2[0];
+                String value = '';
+                if(split2 != null && split2.size() > 1) value = split2[1];
+                returnMap.put(key,EncodingUtil.urlDecode(value, 'UTF-8'));
             }
         }
         return returnMap;
@@ -47,13 +49,8 @@ global class UrlUtils {
             final String lowerCaseUrl = StringUtils.lowerCase(url);
             if(    !StringUtils.startsWith(lowerCaseUrl, 'http://') 
               &&   !StringUtils.startsWith(lowerCaseUrl, 'https://')){
-                url = 'http://' 
-                    + StringUtils.stripStart(
-                        (StringUtils.contains(lowerCaseUrl, '//') 
-                            ? StringUtils.substringAfter(url, '//') 
-                            : url)
-                        ,'/:'
-                    );
+              	if(StringUtils.contains(lowerCaseUrl, '//')) url = StringUtils.substringAfter(url, '//');
+                url = 'http://'+ StringUtils.stripStart(url,'/:');
             }
         }
         return url;

@@ -62,11 +62,21 @@ global class SObjectSortByFieldComparator implements ISObjectComparator{
         return returnValue;
     }
 
+    global static List<SObject> qsort(List<SObject> objects){
+        return qsort(objects,null,null);           
+    }
+
     global static List<SObject> qsort(List<SObject> objects, String sortBy){
-        return qsort(objects,sortBy,true);           
+        return qsort(objects,sortBy,null);           
+    }
+
+    global static List<SObject> qsort(List<SObject> objects, Boolean sortAscending){
+        return qsort(objects,null,sortAscending);           
     }
 
     global static List<SObject> qsort(List<SObject> objects, String sortBy, Boolean sortAscending){
+        if(StringUtils.isBlank(sortBy)) sortBy = 'name';
+        if(sortAscending == null) sortAscending = true;
         return qsort(objects,new SObjectSortByFieldComparator(sortBy,sortAscending));           
     }
 

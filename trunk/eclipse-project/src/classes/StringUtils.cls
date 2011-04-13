@@ -1084,8 +1084,9 @@ global class StringUtils {
 
     global static String replaceEachRepeatedly(String text, String[] searchList, String[] replacementList,
         Boolean repeat) {
-        return replaceEach(text, searchList, replacementList, repeat, 
-            (searchList == null ? 0 : searchList.size()));
+        Integer timeToLive = 0;
+        if(searchList != null) timeToLive = searchList.size();
+        return replaceEach(text, searchList, replacementList, repeat, timeToLive);
     }
     
  

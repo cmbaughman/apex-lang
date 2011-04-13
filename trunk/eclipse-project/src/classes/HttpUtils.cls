@@ -38,10 +38,10 @@ global with sharing class HttpUtils {
     global static HttpResponse send(HttpRequest request){
     	if(request == null) throw new IllegalArgumentException('request argument cannot be null');
         debug(request);
-    	final HttpResponse response = 
-            Test.isRunningTest() 
-                ? popTest() 
-                : (new Http()).send(request);
+        
+    	HttpResponse response = null;
+        if(Test.isRunningTest()) response = popTest();
+        else                     response = (new Http()).send(request);
     	debug(response);
     	return response;
     }

@@ -1,3 +1,14 @@
+/* ============================================================
+ * This code is part of the "apex-lang" open source project avaiable at:
+ * 
+ *      http://code.google.com/p/apex-lang/
+ *
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * copy of the License at:
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * ============================================================
+ */
 global class RandomUtilsTest {
 
     private static testmethod void testNextBoolean(){
@@ -77,9 +88,11 @@ global class RandomUtilsTest {
         if(!inclusive && (inputRange.max()-inputRange.min()) <= 2){
             acceptableRange = new IntegerRange(inputRange.min(),inputRange.min());
         } else {
+            Integer inclusiveChange = 1;
+            if(inclusive) inclusiveChange = 0;
         	acceptableRange = new IntegerRange(
-        	   inputRange.min() - (inclusive ? 0 : 1)
-        	   ,inputRange.max() - (inclusive ? 0 : 1)
+        	   inputRange.min() - inclusiveChange
+        	   ,inputRange.max() - inclusiveChange
         	);
         }
         System.assert(
@@ -160,9 +173,12 @@ global class RandomUtilsTest {
         if(!inclusive && (inputRange.max()-inputRange.min()) <= 2){
             acceptableRange = new LongRange(inputRange.min(),inputRange.min());
         } else {
+	        Integer inclusiveChange = 1;
+	        if(inclusive) inclusiveChange = 0;
+        	
             acceptableRange = new LongRange(
-               inputRange.min() - (inclusive ? 0 : 1)
-               ,inputRange.max() - (inclusive ? 0 : 1)
+               inputRange.min() - inclusiveChange
+               ,inputRange.max() - inclusiveChange
             );
         }
         System.assert(

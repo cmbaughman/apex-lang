@@ -54,10 +54,16 @@ global class OrderBy implements Soqlable{
         if(options == null){
             options = SoqlOptions.DEFAULT_OPTIONS;
         }
-        return this.field 
-           + (sortSet ? (ascending ? ' ASC' : ' DESC'): '')
-           + (nullsSet ? (nullsFirst ? ' NULLS FIRST' : ' NULLS LAST') : '')
-        ;
+        String returnValue = this.field;
+        if(sortSet){
+            if(ascending) returnValue += ' ASC';
+            else returnValue += ' DESC';
+        }
+        if(nullsSet){
+            if(nullsFirst) returnValue += ' NULLS FIRST';
+            else returnValue += ' NULLS LAST';
+        }
+        return returnValue;
     }
     
 
