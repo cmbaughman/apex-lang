@@ -40,15 +40,19 @@ global class RandomUtils {
         if(!inclusive && (range.max() - range.min()) <= 2){
             return range.min();
         }
+        Integer inclusiveChange1 = -1;
+        if(inclusive) inclusiveChange1 = 1;
+        Integer inclusiveChange2 = 1;
+        if(inclusive) inclusiveChange2 = 0;
         return (Integer) (
             Math.round(
                 Math.floor(
                     Math.random()
-                    * ((range.max()-range.min()+(inclusive ? 1 : -1)))
+                    * ((range.max()-range.min()+inclusiveChange1))
                 )
             ) 
             + range.min()
-            + (inclusive ? 0 : 1)
+            + inclusiveChange2
         );
     }
     
@@ -86,15 +90,19 @@ global class RandomUtils {
         if(!inclusive && (range.max() - range.min()) <= 2){
             return range.min();
         }
+        Integer inclusiveChange1 = -1;
+        if(inclusive) inclusiveChange1 = 1;
+        Integer inclusiveChange2 = 1;
+        if(inclusive) inclusiveChange2 = 0;
         return 
             Math.round(
                 Math.floor(
                     Math.random()
-                    * ((range.max()-range.min()+(inclusive ? 1 : -1)))
+                    * ((range.max()-range.min()+inclusiveChange1))
                 )
             ) 
             + range.min()
-            + (inclusive ? 0 : 1);
+            + inclusiveChange2;
     }
     
     

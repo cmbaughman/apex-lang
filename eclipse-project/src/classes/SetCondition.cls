@@ -89,12 +89,10 @@ global class SetCondition implements Condition{
         	throw new IllegalStateException(
         	   'Illegal state!  One of the following operations must be invoked on SetCondition prior to invoke toSoql(): (includes|excludes|inn|notIn)');
         }
-        return field 
-            + ' ' 
-            + operatorToString(operator) 
-            + ' (' 
-            + (builder == null ? StringUtils.joinArray(SoqlUtils.toLiteral(this.values),',') : builder.toSoql(options)) 
-            + ')'; 
+        String insideParams = null;
+        if(builder == null) insideParams = StringUtils.joinArray(SoqlUtils.toLiteral(this.values),',');
+        else                insideParams = builder.toSoql(options);
+        return field + ' ' + operatorToString(operator) + ' (' + insideParams + ')'; 
     }
 
     global static String operatorToString(Operator operator){

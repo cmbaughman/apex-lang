@@ -12,6 +12,28 @@
 @IsTest
 private class SetUtilsTest {
 
+    private static testmethod void test_lowerCase_SetString(){
+        //test: global static Set<String> lowerCase(Set<String> strs){
+        SetUtils.assertEquals(null,SetUtils.lowerCase(null));
+        SetUtils.assertEquals(new Set<String>(),SetUtils.lowerCase(new Set<String>()));
+        SetUtils.assertEquals(new Set<String>{'a','b','abcd'},SetUtils.lowerCase(new Set<String>{'A','B','ABCD'}));
+    }
+
+    private static testmethod void test_upperCase_SetString(){
+        //test: global static Set<String> upperCase(Set<String> strs){
+        SetUtils.assertEquals(null,SetUtils.upperCase(null));
+        SetUtils.assertEquals(new Set<String>(),SetUtils.upperCase(new Set<String>()));
+        SetUtils.assertEquals(new Set<String>{'A','B','ABCD'},SetUtils.upperCase(new Set<String>{'a','b','abcd'}));
+    }
+
+    private static testmethod void test_trim_SetString(){
+        //test: global static Set<String> trim(Set<String> strs){
+        SetUtils.assertEquals(null,SetUtils.trim(null));
+        SetUtils.assertEquals(new Set<String>(),SetUtils.trim(new Set<String>()));
+        SetUtils.assertEquals(new Set<String>{'a','b','abcd'},SetUtils.trim(new Set<String>{' a\t\n ',' \tb\n ',' abcd '}));
+    }
+
+
     private static testmethod void test_listToSet_ListString(){
     	//test: global static Set<String> listToSet(List<String> aList){
         final List<String> aList = null;
