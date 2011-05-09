@@ -11,7 +11,7 @@
  */
 @IsTest
 private class SObjectUtilsTest {
-    
+
     private static testmethod void testIsAnyFieldBlank(){
         //test: global static Boolean isAnyFieldBlank(SObject obj, String[] fields){
         System.assertEquals(false,SObjectUtils.isAnyFieldBlank(null,null));
@@ -24,14 +24,14 @@ private class SObjectUtilsTest {
         System.assertEquals(false,SObjectUtils.isAnyFieldBlank(foo,
             new String[]{'name','Text__c'}));
         System.assertEquals(true,SObjectUtils.isAnyFieldBlank(foo,
-            new String[]{'name','Text__c','Textarealong__c'}));
-        foo.Textarealong__c='10';
+            new String[]{'name','Text__c','NumberInteger__c'}));
+        foo.NumberInteger__c=10;
         System.assertEquals(false,SObjectUtils.isAnyFieldBlank(foo,
-            new String[]{'name','Text__c','Textarealong__c'}));
+            new String[]{'name','Text__c','NumberInteger__c'}));
         System.assertEquals(true,SObjectUtils.isAnyFieldBlank(foo,
             new String[]{'name','Text__c','PicklistMultiSelect__c'}));
     }
-        
+
     private static testmethod void testToString(){
         //test: global static String toString(SObject obj){
         System.assertEquals('null',SObjectUtils.toString(null));

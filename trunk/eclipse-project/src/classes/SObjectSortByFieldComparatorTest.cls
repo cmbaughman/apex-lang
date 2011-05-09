@@ -31,9 +31,9 @@ private class SObjectSortByFieldComparatorTest {
     }
     
     private static testmethod void test_compare_integer_on_Foos(){
-        Foo__c a1 = new Foo__c(name='abc',Number__c=2);
-        Foo__c a2 = new Foo__c(name='efg',Number__c=1);
-        final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('Number__c');
+        Foo__c a1 = new Foo__c(name='abc',NumberDecimal__c=2);
+        Foo__c a2 = new Foo__c(name='efg',NumberDecimal__c=1);
+        final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('NumberDecimal__c');
         System.assertEquals(1,comparator.compare(a1,a2)); 
         System.assertEquals(0,comparator.compare(a1,a1)); 
         System.assertEquals(-1,comparator.compare(a2,a1)); 
@@ -55,8 +55,8 @@ private class SObjectSortByFieldComparatorTest {
     }
     
     private static testmethod void test_compare_string_on_Foos(){
-        Foo__c a1 = new Foo__c(name='abc',Number__c=2);
-        Foo__c a2 = new Foo__c(name='efg',Number__c=1);
+        Foo__c a1 = new Foo__c(name='abc',NumberDecimal__c=2);
+        Foo__c a2 = new Foo__c(name='efg',NumberDecimal__c=1);
         final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('name');
         System.assertEquals(-1,comparator.compare(a1,a2)); 
         System.assertEquals(0,comparator.compare(a1,a1)); 
@@ -80,10 +80,10 @@ private class SObjectSortByFieldComparatorTest {
     
     private static testmethod void test_qsort_ListSObject(){
         final List<SObject> unsorted = new List<SObject>{
-             new Foo__c(name='A',Number__c=2)
-            ,new Foo__c(name='D',Number__c=3)
-            ,new Foo__c(name='C',Number__c=0)
-            ,new Foo__c(name='B',Number__c=1)
+             new Foo__c(name='A',NumberDecimal__c=2)
+            ,new Foo__c(name='D',NumberDecimal__c=3)
+            ,new Foo__c(name='C',NumberDecimal__c=0)
+            ,new Foo__c(name='B',NumberDecimal__c=1)
         };
         final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted);
         System.assertNotEquals(null,sorted);
@@ -96,10 +96,10 @@ private class SObjectSortByFieldComparatorTest {
     
     private static testmethod void test_qsort_ListSObject_Boolean(){
         final List<SObject> unsorted = new List<SObject>{
-             new Foo__c(name='A',Number__c=2)
-            ,new Foo__c(name='D',Number__c=3)
-            ,new Foo__c(name='C',Number__c=0)
-            ,new Foo__c(name='B',Number__c=1)
+             new Foo__c(name='A',NumberDecimal__c=2)
+            ,new Foo__c(name='D',NumberDecimal__c=3)
+            ,new Foo__c(name='C',NumberDecimal__c=0)
+            ,new Foo__c(name='B',NumberDecimal__c=1)
         };
         final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,false);
         System.assertNotEquals(null,sorted);
@@ -112,34 +112,34 @@ private class SObjectSortByFieldComparatorTest {
 
     private static testmethod void test_qsort_ListSObject_String(){
         final List<SObject> unsorted = new List<SObject>{
-             new Foo__c(name='A',Number__c=2)
-            ,new Foo__c(name='D',Number__c=3)
-            ,new Foo__c(name='C',Number__c=0)
-            ,new Foo__c(name='B',Number__c=1)
+             new Foo__c(name='A',NumberDecimal__c=2)
+            ,new Foo__c(name='D',NumberDecimal__c=3)
+            ,new Foo__c(name='C',NumberDecimal__c=0)
+            ,new Foo__c(name='B',NumberDecimal__c=1)
         };
-        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'Number__c');
+        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'NumberDecimal__c');
         System.assertNotEquals(null,sorted);
         System.assertEquals(4,sorted.size());
-        System.assertEquals(0,sorted.get(0).get('Number__c'));
-        System.assertEquals(1,sorted.get(1).get('Number__c'));
-        System.assertEquals(2,sorted.get(2).get('Number__c'));
-        System.assertEquals(3,sorted.get(3).get('Number__c'));
+        System.assertEquals(0,sorted.get(0).get('NumberDecimal__c'));
+        System.assertEquals(1,sorted.get(1).get('NumberDecimal__c'));
+        System.assertEquals(2,sorted.get(2).get('NumberDecimal__c'));
+        System.assertEquals(3,sorted.get(3).get('NumberDecimal__c'));
     }
 
     private static testmethod void test_qsort_ListSObject_String_Boolean(){
         final List<SObject> unsorted = new List<SObject>{
-             new Foo__c(name='A',Number__c=2)
-            ,new Foo__c(name='D',Number__c=3)
-            ,new Foo__c(name='C',Number__c=0)
-            ,new Foo__c(name='B',Number__c=1)
+             new Foo__c(name='A',NumberDecimal__c=2)
+            ,new Foo__c(name='D',NumberDecimal__c=3)
+            ,new Foo__c(name='C',NumberDecimal__c=0)
+            ,new Foo__c(name='B',NumberDecimal__c=1)
         };
-        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'Number__c',false);
+        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'NumberDecimal__c',false);
         System.assertNotEquals(null,sorted);
         System.assertEquals(4,sorted.size());
-        System.assertEquals(3,sorted.get(0).get('Number__c'));
-        System.assertEquals(2,sorted.get(1).get('Number__c'));
-        System.assertEquals(1,sorted.get(2).get('Number__c'));
-        System.assertEquals(0,sorted.get(3).get('Number__c'));
+        System.assertEquals(3,sorted.get(0).get('NumberDecimal__c'));
+        System.assertEquals(2,sorted.get(1).get('NumberDecimal__c'));
+        System.assertEquals(1,sorted.get(2).get('NumberDecimal__c'));
+        System.assertEquals(0,sorted.get(3).get('NumberDecimal__c'));
     }
-
+    
 }
