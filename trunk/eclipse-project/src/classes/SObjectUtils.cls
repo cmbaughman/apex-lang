@@ -167,35 +167,33 @@ global class SObjectUtils {
         Schema.DescribeFieldResult destinationField = null;
         for(String fieldName : sourceFields.keySet()){ 
             sourceField = sourceFields.get(fieldName).getDescribe();
-            if(destinationFields.get(fieldName) == null){
-                //destination doesn't have corresponding field so skip
-                continue;
-            }
-            destinationField = destinationFields.get(fieldName).getDescribe();
-            if( !sourceField.isAccessible()
-                || !destinationField.isAccessible()
-                || destinationField.isAutoNumber()
-                || destinationField.isCalculated()
-                || (StringUtils.isBlank((String)destination.get('id')) && !destinationField.isCreateable()) 
-                || (StringUtils.isNotBlank((String)destination.get('id')) && !destinationField.isUpdateable())
-                || sourceField.getType() != destinationField.getType()){
-                //source or destination field either can't or shouldn't be read or written to    
-                continue;
-            }
-            if(contains(STRING_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(String)source.get(sourceField.getName()));
-            } else if(contains(INTEGER_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(Integer)source.get(sourceField.getName()));
-            } else if(contains(ID_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(ID)source.get(sourceField.getName()));
-            } else if(contains(DOUBLE_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(Double)source.get(sourceField.getName()));
-            } else if(contains(DATETIME_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(DateTime)source.get(sourceField.getName()));
-            } else if(contains(DATE_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(Date)source.get(sourceField.getName()));
-            } else if(contains(BOOLEAN_TYPES,sourceField.getType())){
-                destination.put(sourceField.getName(),(Boolean)source.get(sourceField.getName()));
+            if(destinationFields.get(fieldName) != null){
+	            destinationField = destinationFields.get(fieldName).getDescribe();
+	            if( !sourceField.isAccessible()
+	                || !destinationField.isAccessible()
+	                || destinationField.isAutoNumber()
+	                || destinationField.isCalculated()
+	                || (StringUtils.isBlank((String)destination.get('id')) && !destinationField.isCreateable()) 
+	                || (StringUtils.isNotBlank((String)destination.get('id')) && !destinationField.isUpdateable())
+	                || sourceField.getType() != destinationField.getType()){
+	                //source or destination field either can't or shouldn't be read or written to    
+	                continue;
+	            }
+	            if(contains(STRING_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(String)source.get(sourceField.getName()));
+	            } else if(contains(INTEGER_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(Integer)source.get(sourceField.getName()));
+	            } else if(contains(ID_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(ID)source.get(sourceField.getName()));
+	            } else if(contains(DOUBLE_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(Double)source.get(sourceField.getName()));
+	            } else if(contains(DATETIME_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(DateTime)source.get(sourceField.getName()));
+	            } else if(contains(DATE_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(Date)source.get(sourceField.getName()));
+	            } else if(contains(BOOLEAN_TYPES,sourceField.getType())){
+	                destination.put(sourceField.getName(),(Boolean)source.get(sourceField.getName()));
+	            }
             }
         }
         return destination;

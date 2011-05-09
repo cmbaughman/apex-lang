@@ -66,20 +66,20 @@ private class ArrayUtilsTest {
     private static testmethod void testReverseSObject(){
         //test: global static SObject[] reverse(SObject[] anArray) 
         SObject[] nullArray = null;
-        Account x = new Account(name='x');
-        Account y = new Account(name='y');
-        Account z = new Account(name='z');
+        Foo__c x = new Foo__c(name='x');
+        Foo__c y = new Foo__c(name='y');
+        Foo__c z = new Foo__c(name='z');
         ArrayUtils.assertArraysAreEqual(null,ArrayUtils.reverse(nullArray)); 
-        ArrayUtils.assertArraysAreEqual(new Account[]{},ArrayUtils.reverse(new Account[]{}));
-        ArrayUtils.assertArraysAreEqual(new Account[]{x},ArrayUtils.reverse(new Account[]{x}));
-        ArrayUtils.assertArraysAreEqual(new Account[]{x,y},ArrayUtils.reverse(new Account[]{y, x}));
-        ArrayUtils.assertArraysAreEqual(new Account[]{x,y,z},ArrayUtils.reverse(new Account[]{z,y,x}));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{},ArrayUtils.reverse(new Foo__c[]{}));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{x},ArrayUtils.reverse(new Foo__c[]{x}));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{x,y},ArrayUtils.reverse(new Foo__c[]{y, x}));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{x,y,z},ArrayUtils.reverse(new Foo__c[]{z,y,x}));
     }
 
     private static testmethod void testIsEmpty(){
         //test: global static Boolean isEmpty(Object[] objectArray){
         String[] aNull = null;
-        Account[] aNull2 = null;
+        Foo__c[] aNull2 = null;
         DecimalRange[] aNull3 = null;
         System.assertEquals(true,    ArrayUtils.isEmpty(aNull)); 
         System.assertEquals(true,    ArrayUtils.isEmpty(new String[]{})); 
@@ -89,10 +89,8 @@ private class ArrayUtilsTest {
         System.assertEquals(false,    ArrayUtils.isEmpty(new Integer[]{1})); 
         System.assertEquals(false,    ArrayUtils.isEmpty(new Integer[]{1,2})); 
         System.assertEquals(true,    ArrayUtils.isEmpty(aNull2)); 
-        System.assertEquals(true,    ArrayUtils.isEmpty(new Account[]{}));  
-        System.assertEquals(false,    ArrayUtils.isEmpty(new Account[]{new Account(name='test')}));  
-        System.assertEquals(true,    ArrayUtils.isEmpty(new Contact[]{}));  
-        System.assertEquals(false,    ArrayUtils.isEmpty(new Contact[]{new Contact(lastname='test')}));  
+        System.assertEquals(true,    ArrayUtils.isEmpty(new Foo__c[]{}));  
+        System.assertEquals(false,    ArrayUtils.isEmpty(new Foo__c[]{new Foo__c(name='test')}));  
         System.assertEquals(true,    ArrayUtils.isEmpty(aNull3)); 
         System.assertEquals(true,    ArrayUtils.isEmpty(new DecimalRange[]{}));  
         System.assertEquals(false,    ArrayUtils.isEmpty(new DecimalRange[]{new DecimalRange(1,1)}));  
@@ -101,7 +99,7 @@ private class ArrayUtilsTest {
     private static testmethod void testIsNotEmpty(){
         //test: global static Boolean isNotEmpty(Object[] objectArray){
         String[] aNull = null;
-        Account[] aNull2 = null;
+        Foo__c[] aNull2 = null;
         DecimalRange[] aNull3 = null;
         System.assertEquals(false,    ArrayUtils.isNotEmpty(aNull)); 
         System.assertEquals(false,    ArrayUtils.isNotEmpty(new String[]{})); 
@@ -111,10 +109,8 @@ private class ArrayUtilsTest {
         System.assertEquals(true,    ArrayUtils.isNotEmpty(new Integer[]{1})); 
         System.assertEquals(true,    ArrayUtils.isNotEmpty(new Integer[]{1,2})); 
         System.assertEquals(false,    ArrayUtils.isNotEmpty(aNull2)); 
-        System.assertEquals(false,    ArrayUtils.isNotEmpty(new Account[]{}));  
-        System.assertEquals(true,    ArrayUtils.isNotEmpty(new Account[]{new Account(name='test')}));  
-        System.assertEquals(false,    ArrayUtils.isNotEmpty(new Contact[]{}));  
-        System.assertEquals(true,    ArrayUtils.isNotEmpty(new Contact[]{new Contact(lastname='test')}));  
+        System.assertEquals(false,    ArrayUtils.isNotEmpty(new Foo__c[]{}));  
+        System.assertEquals(true,    ArrayUtils.isNotEmpty(new Foo__c[]{new Foo__c(name='test')}));  
         System.assertEquals(false,    ArrayUtils.isNotEmpty(aNull3)); 
         System.assertEquals(false,    ArrayUtils.isNotEmpty(new DecimalRange[]{}));  
         System.assertEquals(true,    ArrayUtils.isNotEmpty(new DecimalRange[]{new DecimalRange(1,1)}));  
@@ -123,8 +119,8 @@ private class ArrayUtilsTest {
     private static testmethod void testPluck(){
         //test: global static Object[] pluck(SObject[] objectArray, String fieldName)
         assertPluck(null,'name',new Object[]{});
-        assertPluck(new Account[]{new Account(name='abc123'),new Account(name='xyz456')},null,new Object[]{});
-        assertPluck(new Account[]{new Account(name='abc123'),new Account(name='xyz456')},'name',
+        assertPluck(new Foo__c[]{new Foo__c(name='abc123'),new Foo__c(name='xyz456')},null,new Object[]{});
+        assertPluck(new Foo__c[]{new Foo__c(name='abc123'),new Foo__c(name='xyz456')},'name',
             new String[]{'abc123','xyz456'});
     }    
     
@@ -150,32 +146,31 @@ private class ArrayUtilsTest {
         //test: global static SObject[] mergex(SObject[] array1, SObject[] array2)
         SObject[] nullArray = null;
         System.assertEquals(null,ArrayUtils.mergex(nullArray,nullArray));
-        ArrayUtils.assertArraysAreEqual(new Account[]{},ArrayUtils.mergex(new Account[]{},nullArray));
-        ArrayUtils.assertArraysAreEqual(new Contact[]{},ArrayUtils.mergex(nullArray,new Contact[]{}));
-        ArrayUtils.assertArraysAreEqual(new Account[]{},ArrayUtils.mergex(new Account[]{},new Account[]{}));
-        Account x = new Account(name='x');
-        Account y = new Account(name='y');
-        Account z = new Account(name='z');
-        Account ten = new Account(name='10');
-        ArrayUtils.assertArraysAreEqual(new Account[]{x,y,z,ten},ArrayUtils.mergex(new Account[]{x,y},new Account[]{z,ten}));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{},ArrayUtils.mergex(new Foo__c[]{},nullArray));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{},ArrayUtils.mergex(new Foo__c[]{},new Foo__c[]{}));
+        Foo__c x = new Foo__c(name='x');
+        Foo__c y = new Foo__c(name='y');
+        Foo__c z = new Foo__c(name='z');
+        Foo__c ten = new Foo__c(name='10');
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{x,y,z,ten},ArrayUtils.mergex(new Foo__c[]{x,y},new Foo__c[]{z,ten}));
     }    
     
     private static testmethod void testCreateEmptySObjectList(){
         //test: global static List<SObject> createEmptySObjectList(SObject prototype)
         System.assertEquals(null,ArrayUtils.createEmptySObjectList(null));
-        ArrayUtils.assertArraysAreEqual(new Account[]{},ArrayUtils.createEmptySObjectList(new Account()));
+        ArrayUtils.assertArraysAreEqual(new Foo__c[]{},ArrayUtils.createEmptySObjectList(new Foo__c()));
     }
 
     
     
     private static testmethod void testQSortSObjects(){
-        List<Account> listToSort = new Account[]{new Account(name='test9'),
-                                                 new Account(name='test5'),
-                                                 new Account(name='test3'),
-                                                 new Account(name='test7'),
-                                                 new Account(name='test8'),
-                                                 new Account(name='test1'),
-                                                 new Account(name='test2')};
+        List<Foo__c> listToSort = new Foo__c[]{new Foo__c(name='test9'),
+                                                 new Foo__c(name='test5'),
+                                                 new Foo__c(name='test3'),
+                                                 new Foo__c(name='test7'),
+                                                 new Foo__c(name='test8'),
+                                                 new Foo__c(name='test1'),
+                                                 new Foo__c(name='test2')};
                                                     
         ArrayUtils.qsort(listToSort, new SObjectSortByNameComparator());
         System.assertNotEquals(null, listToSort);
@@ -290,25 +285,25 @@ private class ArrayUtilsTest {
     }
     
     private static testmethod void testSubsetSObjects(){
-        SObject[] sobjs = new Contact[]{
-            new Contact(lastname='1'),
-            new Contact(lastname='2'),
-            new Contact(lastname='3')};
+        SObject[] sobjs = new Foo__c[]{
+            new Foo__c(name='1'),
+            new Foo__c(name='2'),
+            new Foo__c(name='3')};
         List<SObject> returned = ArrayUtils.subset(sobjs, 2);
         System.assertNotEquals(null,returned);
         System.assertEquals(2,returned.size());
-        System.assertEquals('1',((Contact)returned.get(0)).lastname);
-        System.assertEquals('2',((Contact)returned.get(1)).lastname);
+        System.assertEquals('1',((Foo__c)returned.get(0)).name);
+        System.assertEquals('2',((Foo__c)returned.get(1)).name);
     }
 
     private static testmethod void testMergeSObjects(){
-        List<SObject> l1 = new List<Contact>();
+        List<SObject> l1 = new List<Foo__c>();
         for(Integer i = 0; i < ArrayUtils.MAX_NUMBER_OF_ELEMENTS_IN_LIST; i++){
-            l1.add(new Contact());
+            l1.add(new Foo__c());
         }
         Boolean exceptionThrown = false;
         try{
-            ArrayUtils.merg(l1, new Contact[]{new Contact()});
+            ArrayUtils.merg(l1, new Foo__c[]{new Foo__c()});
         }catch(IllegalArgumentException e){
             exceptionThrown = true;
         }
@@ -317,16 +312,16 @@ private class ArrayUtilsTest {
         List<SObject> merged = ArrayUtils.merg(l1,l1);
         System.assertEquals(null,merged);
         
-        Contact[] c1 = new Contact[]{new Contact(lastname='1'),new Contact(lastname='2')};
+        Foo__c[] c1 = new Foo__c[]{new Foo__c(name='1'),new Foo__c(name='2')};
         merged = ArrayUtils.merg(l1,c1);
-        Contact[] c2 = new Contact[]{new Contact(lastname='3'),new Contact(lastname='4')};
+        Foo__c[] c2 = new Foo__c[]{new Foo__c(name='3'),new Foo__c(name='4')};
         merged = ArrayUtils.merg(c1, c2);
         System.assertNotEquals(null,merged);
         System.assertEquals(4,merged.size());
-        System.assertEquals('1',((Contact)merged.get(0)).lastname);
-        System.assertEquals('2',((Contact)merged.get(1)).lastname);
-        System.assertEquals('3',((Contact)merged.get(2)).lastname);
-        System.assertEquals('4',((Contact)merged.get(3)).lastname);
+        System.assertEquals('1',((Foo__c)merged.get(0)).name);
+        System.assertEquals('2',((Foo__c)merged.get(1)).name);
+        System.assertEquals('3',((Foo__c)merged.get(2)).name);
+        System.assertEquals('4',((Foo__c)merged.get(3)).name);
     }
     
     private static testmethod void testSubsetForceDotComPrimitives(){

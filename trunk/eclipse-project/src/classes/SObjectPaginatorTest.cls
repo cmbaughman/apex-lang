@@ -14,7 +14,7 @@ private class SObjectPaginatorTest {
 
     private static testmethod void testHundredObjects(){
         Integer RECORD_COUNT = 100;
-        List<SObject> records = createTestAccount(RECORD_COUNT);
+        List<SObject> records = createTestFoo(RECORD_COUNT);
         final SObjectPaginator paginator = new SObjectPaginator();
         paginator.setRecords(records);
         System.assertNotEquals(null,paginator.all);
@@ -48,7 +48,7 @@ private class SObjectPaginatorTest {
     }
     
     private static testmethod void testRecordsSmallerThanPageSize(){
-        List<SObject> records = createTestAccount(8);
+        List<SObject> records = createTestFoo(8);
         final SObjectPaginator paginator = new SObjectPaginator(5);
         paginator.setRecords(records);
         
@@ -96,7 +96,7 @@ private class SObjectPaginatorTest {
 
     private static testmethod void testNextIllegalState(){
         SObjectPaginator paginator = new SObjectPaginator(1);
-        paginator.setRecords(createTestAccount(2));
+        paginator.setRecords(createTestFoo(2));
         paginator.next();
         Boolean exceptionThrown = false;
         try{
@@ -107,7 +107,7 @@ private class SObjectPaginatorTest {
         System.assertEquals(true,exceptionThrown);
 
         paginator = new SObjectPaginator(1);
-        paginator.setRecords(createTestAccount(4));
+        paginator.setRecords(createTestFoo(4));
         paginator.next();
         paginator.next();
         paginator.next();
@@ -122,7 +122,7 @@ private class SObjectPaginatorTest {
     
     private static testmethod void testPreviousIllegalState(){
         SObjectPaginator paginator = new SObjectPaginator(1);
-        paginator.setRecords(createTestAccount(2));
+        paginator.setRecords(createTestFoo(2));
         Boolean exceptionThrown = false;
         try{
             paginator.previous();
@@ -325,7 +325,7 @@ private class SObjectPaginatorTest {
     
     private static testmethod void testSkipToPage(){
         SObjectPaginator paginator = new SObjectPaginator(3);
-        paginator.setRecords(createTestAccount(10));
+        paginator.setRecords(createTestFoo(10));
         System.assertNotEquals(null,paginator.all);
         System.assertEquals(10,paginator.all.size());
         System.assertNotEquals(null,paginator.page);
@@ -367,7 +367,7 @@ private class SObjectPaginatorTest {
     private static testmethod void testListener(){
         SObjectPaginatorListenerForTesting listener = new SObjectPaginatorListenerForTesting();
         System.assertEquals(false,listener.handlePageChangeInvoked); 
-        List<SObject> records = createTestAccount(8);
+        List<SObject> records = createTestFoo(8);
         SObjectPaginator paginator = new SObjectPaginator(listener);
         paginator.setRecords(records);
         paginator.setPageSize(5);
@@ -390,7 +390,7 @@ private class SObjectPaginatorTest {
 
         listener.handlePageChangeInvoked = false;
         System.assertEquals(false,listener.handlePageChangeInvoked); 
-        paginator.setRecords(createTestAccount(6)); 
+        paginator.setRecords(createTestFoo(6)); 
         System.assertEquals(true,listener.handlePageChangeInvoked);
     }
     
@@ -406,7 +406,7 @@ private class SObjectPaginatorTest {
         System.assertEquals(false,paginator.hasPrevious);
 
         paginator = new SObjectPaginator();
-        paginator.setRecords(new List<Account>());
+        paginator.setRecords(new List<Foo__c>());
         System.assertNotEquals(null,paginator.all);
         System.assertEquals(0,paginator.all.size());
         System.assertEquals(null,paginator.page);
@@ -419,7 +419,7 @@ private class SObjectPaginatorTest {
     
     private static testmethod void testFirstAndLast(){
         SObjectPaginator paginator = new SObjectPaginator(2);
-        paginator.setRecords(createTestAccount(11));
+        paginator.setRecords(createTestFoo(11));
         System.assertNotEquals(null,paginator.all);
         System.assertEquals(11,paginator.all.size());
         System.assertNotEquals(null,paginator.page);
@@ -454,7 +454,7 @@ private class SObjectPaginatorTest {
 
     private static testmethod void testSkipPages(){
         SObjectPaginator paginator = new SObjectPaginator(2,3);
-        paginator.setRecords(createTestAccount(11));
+        paginator.setRecords(createTestFoo(11));
         System.assertNotEquals(null,paginator.all);
         System.assertEquals(11,paginator.all.size());
         System.assertNotEquals(null,paginator.page);
@@ -495,10 +495,10 @@ private class SObjectPaginatorTest {
         System.assertEquals(0,nextSkips.size());
     }
         
-    private static List<Account> createTestAccount(Integer count){
-        List<Account> records = new List<Account>();
-        for(Integer i = 0; i < count; i++){
-            records.add(new Account(name='test'+i));
+    private static List<Foo__c> createTestFoo(Integer desiredCount){
+        List<Foo__c> records = new List<Foo__c>();
+        for(Integer i = 0; i < desiredCount; i++){
+            records.add(new Foo__c(name='test'+i));
         }
         return records;
     }

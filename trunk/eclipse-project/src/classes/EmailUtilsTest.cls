@@ -42,11 +42,11 @@ private class EmailUtilsTest {
         List<String> recepients=new String[]{'test@test.com','test2@test.com'};
         List<ID> stdAttachments = new List<ID>();
         
-        Account acct = new Account(name='Test Account');
-        insert acct;
+        Foo__c foo = new Foo__c(name='Test Foo__c');
+        insert foo;
         
         Attachment a = new Attachment();
-        a.ParentId = acct.Id;
+        a.ParentId = foo.Id;
         a.Name = 'Test';
         a.Body = EncodingUtil.base64Decode('Test Body');
         insert a;

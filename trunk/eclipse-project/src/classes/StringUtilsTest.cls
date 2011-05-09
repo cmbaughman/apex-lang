@@ -1463,12 +1463,12 @@ private class StringUtilsTest {
         //global static String joinSet(Set<ID> idSet, String separator) 
         assertJoinSetIDSet(null, '|', null);
         assertJoinSetIDSet(new Set<ID>{}, '|', '');
-        Account acct1 = new Account(name='acct1');
-        insert acct1;
-        Account acct2 = new Account(name='acct2');
-        insert acct2;
-        assertJoinSetIDSet(new Set<ID>{acct1.id}, '|', '' + acct1.id + '');
-        assertJoinSetIDSet(new Set<ID>{acct1.id,acct2.id}, '|', '' + acct1.id + '|' + acct2.id + '');
+        Foo__c foo1 = new Foo__c(name='foo1');
+        insert foo1;
+        Foo__c foo2 = new Foo__c(name='foo2');
+        insert foo2;
+        assertJoinSetIDSet(new Set<ID>{foo1.id}, '|', '' + foo1.id + '');
+        assertJoinSetIDSet(new Set<ID>{foo1.id,foo2.id}, '|', '' + foo1.id + '|' + foo2.id + '');
     }
     
     private static testmethod void testJoinSetIntegerSet(){ 

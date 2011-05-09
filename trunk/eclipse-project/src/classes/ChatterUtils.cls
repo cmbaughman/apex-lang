@@ -10,22 +10,62 @@
  * ============================================================
  */
 global class ChatterUtils {
-    global static EntitySubscription[] deleteFollowers(List<SObject> objectIdsToDeleteFollowers) {
-        Set<Id> idSet = new Set<Id>();
-        for (SObject so : objectIdsToDeleteFollowers) {
-            idSet.add(so.id);
+	
+    global static Boolean isChatterEnabled(){
+        Boolean returnValue = false;
+        try{
+             SObjectType token = Schema.getGlobalDescribe().get('FeedPost');
+             if(token != null){
+                 SObject objPost = token.newSObject();
+                 if(objPost != null){
+                     objPost.put('ParentId', UserInfo.getUserId()); 
+                     objPost.put('Body', 'test post');
+                     insert objPost;
+                     delete objPost;
+                     returnValue = true; 
+                 }
+             }
+        }catch (Exception e) {}
+        return returnValue;
+    }
+    
+    global static List<SObject> deleteFollowers(List<SObject> objectIdsToDeleteFollowers) {
+        Set<String> ids = new Set<String>();
+        if(objectIdsToDeleteFollowers != null && objectIdsToDeleteFollowers.size() > 0){
+            for (SObject so : objectIdsToDeleteFollowers) {
+                if(so != null && so.id != null){
+                    ids.add(so.id);
+                }
+            }
         }
-        return deleteFollowers(idSet);
+        return deleteFollowers(ids);
+    }
+
+    global static List<SObject> deleteFollowers(String objectIdToDeleteFollowers) {
+        List<SObject> returnValue = null;
+        if(objectIdToDeleteFollowers != null){
+            returnValue = deleteFollowers(new Set<String>{objectIdToDeleteFollowers});
+        }
+        return returnValue;
     }
     
-    global static EntitySubscription[] deleteFollowers(Id objectIdToDeleteFollowers) {
-        return [select id from EntitySubscription where parentId = :objectIdToDeleteFollowers];
+    global static List<SObject> deleteFollowers(Set<String> objectIdsToDeleteFollowers) {
+        List<SObject> returnValue = null;
+        if(   isChatterEnabled()
+           && objectIdsToDeleteFollowers != null
+           && objectIdsToDeleteFollowers.size() > 0 
+        ){ 
+            returnValue = Database.query(
+                new SoqlBuilder()
+                .fromx('EntitySubscription')
+                .wherex(new SetCondition('parentId').inx(SetUtils.setToList(objectIdsToDeleteFollowers)))
+                .toSoql()
+            );
+        } 
+        return returnValue;
     }
-    
-    global static EntitySubscription[] deleteFollowers(Set<Id> objectIdsToDeleteFollowers) {
-        return [select id from EntitySubscription where parentId in :objectIdsToDeleteFollowers];
-    }
-    
+
+/*
     global static EntitySubscription[] addFollower(Id userId, Id objectIdToFollow) {
     	EntitySubscription[] es = new List<EntitySubscription>();
     	if (GroupUtils.isGroup(userId)) {
@@ -48,21 +88,6 @@ global class ChatterUtils {
 
         return new EntitySubscription(parentId=objectToFollow.id,subscriberId=user.id);
     }
-    
-    
-    //I wanted to add the below method, but could not figure out a way to test it
-    /*
-    global static EntitySubscription addFollower(Name user, SObject objectToFollow) {
-		if (user == null) {
-    		throw new IllegalArgumentException('User must not be null');
-    	}
-		if (objectToFollow == null) {
-    		throw new IllegalArgumentException('Object to follow must not be null');
-    	}
-    	
-    	return new EntitySubscription(parentId=objectToFollow.id,subscriberId=user.id);
-    }
-    */
     
     global static EntitySubscription[] addFollowers(Group aGroup, SObject objectToFollow) {
     	EntitySubscription[] es = new List<EntitySubscription>();
@@ -122,9 +147,24 @@ global class ChatterUtils {
     	return es;
     }
     
+    //I wanted to add the below method, but could not figure out a way to test it
+    /*
+    global static EntitySubscription addFollower(Name user, SObject objectToFollow) {
+        if (user == null) {
+            throw new IllegalArgumentException('User must not be null');
+        }
+        if (objectToFollow == null) {
+            throw new IllegalArgumentException('Object to follow must not be null');
+        }
+        
+        return new EntitySubscription(parentId=objectToFollow.id,subscriberId=user.id);
+    }
+    */
+    
 	/**
 	This is useless if you use Chatter Desktop or Chatter Mobile as the URLs are relative.
 	*/
+    /*
     global static FeedPost addRelatedPost(String title, String body, Id parentId, Id relatedObjectId) {
         FeedPost issuePost = new FeedPost();
         issuePost.Type = 'LinkPost';
@@ -144,4 +184,5 @@ global class ChatterUtils {
         issuePost.LinkUrl= absoluteUrl + relatedObjectId;
         return issuePost;
     }
+    */
 }

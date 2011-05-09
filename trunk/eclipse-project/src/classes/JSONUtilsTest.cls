@@ -37,17 +37,17 @@ private class JSONUtilsTest {
 
     private static testmethod void test_encodeFields(){
         //test: global static void encodeFields(List<SObject> sobjects, Map<String,String> mapping)
-        final Account acct1 = new Account(name = 'xyz123', BillingCity = 'asdf\nasdf');
-        final Account acct2 = new Account(name = null, BillingCity = '4444\t4444');
-        final List<Account> accounts = new List<Account>{acct1,acct2};
-        JSONUtils.encodeFields(accounts, new Map<String,String>{
-             'name' => 'description'
-            ,'BillingCity' => 'BillingCountry'
+        final Foo__c foo1 = new Foo__c(name = 'xyz123', Text__c = 'asdf\nasdf');
+        final Foo__c foo2 = new Foo__c(name = null, Text__c = '4444\t4444');
+        final List<Foo__c> foos = new List<Foo__c>{foo1,foo2};
+        JSONUtils.encodeFields(foos, new Map<String,String>{
+             'name' => 'Textarealong__c'
+            ,'Text__c' => 'Textarea__c'
         }); 
-        System.assertEquals('"xyz123"',acct1.description);
-        System.assertEquals('null',acct2.description);
-        System.assertEquals('"asdf\\nasdf"',acct1.BillingCountry);
-        System.assertEquals('"4444\\t4444"',acct2.BillingCountry);
+        System.assertEquals('"xyz123"',foo1.Textarealong__c);
+        System.assertEquals('null',foo2.Textarealong__c);
+        System.assertEquals('"asdf\\nasdf"',foo1.Textarea__c);
+        System.assertEquals('"4444\\t4444"',foo2.Textarea__c);
     }
 
 }

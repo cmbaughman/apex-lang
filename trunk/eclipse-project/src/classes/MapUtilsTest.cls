@@ -21,11 +21,14 @@ private class MapUtilsTest {
         theMap.put('xyz','123');
         theMap.put('abc','efc');
         assertJoinMap(theMap,'=','&','xyz=123&abc=efc');
+        System.assertEquals('abc=efc&xyz=123',MapUtils.joinMap(theMap,'=','&'));
         theMap.remove('abc');
         assertJoinMap(theMap,'=','&','xyz=123');
+        System.assertEquals('xyz=123',MapUtils.joinMap(theMap,'=','&'));
         theMap.put('abc','efc');
         theMap.put('59394932','asdfasdfasldjlaksdjf');
         assertJoinMap(theMap,'=','&','xyz=123&abc=efc&59394932=asdfasdfasldjlaksdjf'); 
+        System.assertEquals('59394932=asdfasdfasldjlaksdjf&abc=efc&xyz=123',MapUtils.joinMap(theMap,'=','&'));
     }
     
     private static void assertJoinMap(Map<String,String> theMap, String keyValueSeparator, String recordSeparator, String expected){
@@ -163,5 +166,20 @@ private class MapUtilsTest {
             }) 
         );
     }
-    
+   
+    private static testmethod void test_index(){
+        final List<Foo__c> foos = new List<Foo__c>{
+             new Foo__c(name='def', Text__c='asdf asdfasdfasdf')
+            ,new Foo__c(name='abc', Text__c='asdfasdf aas df asdf')
+        };
+        MapUtils.assertEquals(
+            new Map<String,String>{'abc'=>'asdfasdf aas df asdf','def'=>'asdf asdfasdfasdf'}
+            ,MapUtils.index(foos,'name','Text__c')
+        );
+        MapUtils.assertEquals(
+            new Map<String,String>{'asdfasdf aas df asdf'=>'abc','asdf asdfasdfasdf'=>'def'}
+            ,MapUtils.index(foos,'Text__c','name')
+        );
+    }
+
 }

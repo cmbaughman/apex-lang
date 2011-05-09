@@ -37,9 +37,9 @@ private class StringBufferTest {
     }
 
     private static testmethod void testID(){
-        Account acct = new Account(name='test');
-        insert acct;
-        Id value = acct.id;
+        Foo__c foo = new Foo__c(name='test');
+        insert foo;
+        Id value = foo.id;
         System.assertEquals((new StringBuffer(value)).append(value).toStr(), ''+value+''+value);
         System.assertEquals((new StringBuffer(value)).append(value).append(value).toStr(), ''+value+''+value+''+value);
     }

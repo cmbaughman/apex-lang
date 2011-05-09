@@ -70,26 +70,16 @@ private class TestUtilsTest {
     private static testmethod void testGetObjectAcct(){
         Map<String,String> values = new Map<String,String>();
         values.put('name','Account xyz');
-        List<SObject> records = TestUtils.getObject(new Account(), 2, values);
+        List<SObject> records = TestUtils.getObject(new Foo__c(), 2, values);
         System.assertEquals(2,records.size());
         for(SObject record : records){
             System.assertEquals('Account xyz',record.get('name'));
         }
     }
     
-    private static testmethod void testGetObjectContact(){
-        Map<String,String> values = new Map<String,String>();
-        values.put('LastName','Account xyz');
-        List<SObject> records = TestUtils.getObject(new Contact(), 2, values);
-        System.assertEquals(2,records.size());
-        for(SObject record : records){
-            System.assertEquals('Account xyz',record.get('LastName'));
-        }
-    }
-    
     private static testmethod void testGetObjectDoInsert(){
         //test doInsert == false
-        List<SObject> records = TestUtils.getObject(new Account(), 2);
+        List<SObject> records = TestUtils.getObject(new Foo__c(), 2);
         System.assertEquals(2,records.size());
         for(SObject record : records){
             System.assertEquals(null,record.get('id'));
@@ -98,21 +88,21 @@ private class TestUtilsTest {
         //test doInsert == true
         Map<String,String> values = new Map<String,String>();
         values.put('name','Account xyz');
-        records = TestUtils.getObject(new Account(), 2, values, true);
+        records = TestUtils.getObject(new Foo__c(), 2, values, true);
         Set<Id> idSet = new Set<Id>();
         for(SObject record : records){
             System.assertEquals('Account xyz',record.get('name'));
             idSet.add((Id)record.get('id'));
         }
-        records = [select id from Account where id in :idSet];
+        records = [select id from Foo__c where id in :idSet];
         System.assertEquals(2,records.size());
     }
     
     private static testmethod void testGetObjectBadInput(){
         System.assertEquals(null,TestUtils.getObject(null, -1, null, true));
         System.assertEquals(null,TestUtils.getObject(null, 2, null, true));
-        System.assert(TestUtils.getObject(new Account(), -1, null, true).isEmpty());
-        System.assert(TestUtils.getObject(new Account(), 0, null, true).isEmpty());
+        System.assert(TestUtils.getObject(new Foo__c(), -1, null, true).isEmpty());
+        System.assert(TestUtils.getObject(new Foo__c(), 0, null, true).isEmpty());
     }
     
     private static testmethod void test_assertUrlsAreEqual(){
