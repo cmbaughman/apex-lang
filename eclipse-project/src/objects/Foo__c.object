@@ -77,12 +77,22 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Number__c</fullName>
+        <fullName>NumberDecimal__c</fullName>
         <externalId>false</externalId>
-        <label>Number</label>
+        <label>Number Decimal</label>
         <precision>18</precision>
         <required>false</required>
         <scale>9</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NumberInteger__c</fullName>
+        <externalId>false</externalId>
+        <label>Number Integer</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
         <type>Number</type>
         <unique>false</unique>
     </fields>
