@@ -12,7 +12,7 @@
 global class MapUtils {
 
     global static List<String> joinMap(Map<String,String> theMap, String keyValueSeparator){
-    	return joinx(theMap, keyValueSeparator);
+        return joinx(theMap, keyValueSeparator);
     }
     
     global static List<String> joinx(Map<String,String> theMap, String keyValueSeparator){
@@ -20,7 +20,10 @@ global class MapUtils {
         if(theMap != null){
             returnValue = new List<String>();
             if(theMap.size() > 0){
-                for(String key : theMap.keySet()){
+                final List<String> keys = new List<String>();
+                keys.addAll(theMap.keySet());
+                keys.sort();
+                for(String key : keys){
                     returnValue.add(key + keyValueSeparator + theMap.get(key));
                 }
             }
@@ -29,16 +32,16 @@ global class MapUtils {
     }
 
     global static String joinMap(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
-    	return joinx(theMap, keyValueSeparator, recordSeparator);
+        return joinx(theMap, keyValueSeparator, recordSeparator);
     }
         
     global static String joinx(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
         String returnValue = null;
         if(theMap != null){
-        	returnValue = '';
-        	if(theMap.size() > 0){
-	            returnValue = StringUtils.joinArray(joinMap(theMap,keyValueSeparator), recordSeparator);
-        	}
+            returnValue = '';
+            if(theMap.size() > 0){
+                returnValue = StringUtils.joinArray(joinMap(theMap,keyValueSeparator), recordSeparator);
+            }
         }
         return returnValue;
     }
@@ -154,4 +157,58 @@ global class MapUtils {
         }
         return returnValue;
     }
+
+    global static Map<String,String> index(
+         List<SObject> records
+        ,String        keyFieldName   //must be a string field
+        ,String        valueFieldName //must be a string field
+    ){
+        final Map<String,String> returnValue = null;
+        if(records != null){
+            returnValue = new Map<String,String>();
+            if(records.size() > 0){
+                Object key = null;
+                for(SObject record : records){
+                    if(record != null){
+                        key = record.get(keyFieldName);
+                        if(key != null){
+                            returnValue.put(
+                                 String.valueOf(key)
+                                ,String.valueOf(record.get(valueFieldName))
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    /*
+    global static Map<Object,Object> indexObjectObject(
+         List<SObject> records
+        ,String        keyFieldName   //must be a string field
+        ,String        valueFieldName //must be a string field
+    ){
+        final Map<Object,Object> returnValue = null;
+        if(records != null){
+            returnValue = new Map<Object,Object>();
+            if(records.size() > 0){
+                Object key = null;
+                for(SObject record : records){
+                    if(record != null){
+                        key = record.get(keyFieldName);
+                        if(key != null){
+                            returnValue.put(
+                                 key
+                                ,record.get(valueFieldName)
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return returnValue;
+    }
+    */
 }

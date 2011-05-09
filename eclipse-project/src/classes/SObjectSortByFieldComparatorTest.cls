@@ -16,7 +16,7 @@ private class SObjectSortByFieldComparatorTest {
         Boolean exceptionCaught = false;
         try{
             new SObjectSortByFieldComparator(null)
-                .compare(new Account(name='test123'),new Account(name='test123'));
+                .compare(new Foo__c(name='test123'),new Foo__c(name='test123'));
         }catch(IllegalStateException e){
             exceptionCaught = true;
         }
@@ -25,15 +25,15 @@ private class SObjectSortByFieldComparatorTest {
 
     private static testmethod void test_compare_nulls(){
         final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('name');
-        System.assertEquals(-1,comparator.compare(null,new Account(name='test123'))); 
+        System.assertEquals(-1,comparator.compare(null,new Foo__c(name='test123'))); 
         System.assertEquals(0,comparator.compare(null,null)); 
-        System.assertEquals(1,comparator.compare(new Account(name='test123'),null)); 
+        System.assertEquals(1,comparator.compare(new Foo__c(name='test123'),null)); 
     }
     
-    private static testmethod void test_compare_integer_on_accounts(){
-        Account a1 = new Account(name='abc',NumberOfEmployees=2);
-        Account a2 = new Account(name='efg',NumberOfEmployees=1);
-        final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('NumberOfEmployees');
+    private static testmethod void test_compare_integer_on_Foos(){
+        Foo__c a1 = new Foo__c(name='abc',Number__c=2);
+        Foo__c a2 = new Foo__c(name='efg',Number__c=1);
+        final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('Number__c');
         System.assertEquals(1,comparator.compare(a1,a2)); 
         System.assertEquals(0,comparator.compare(a1,a1)); 
         System.assertEquals(-1,comparator.compare(a2,a1)); 
@@ -54,9 +54,9 @@ private class SObjectSortByFieldComparatorTest {
         System.assertEquals(-1,comparator.compare(a2,a1)); 
     }
     
-    private static testmethod void test_compare_string_on_accounts(){
-        Account a1 = new Account(name='abc',NumberOfEmployees=2);
-        Account a2 = new Account(name='efg',NumberOfEmployees=1);
+    private static testmethod void test_compare_string_on_Foos(){
+        Foo__c a1 = new Foo__c(name='abc',Number__c=2);
+        Foo__c a2 = new Foo__c(name='efg',Number__c=1);
         final SObjectSortByFieldComparator comparator = new SObjectSortByFieldComparator('name');
         System.assertEquals(-1,comparator.compare(a1,a2)); 
         System.assertEquals(0,comparator.compare(a1,a1)); 
@@ -80,10 +80,10 @@ private class SObjectSortByFieldComparatorTest {
     
     private static testmethod void test_qsort_ListSObject(){
         final List<SObject> unsorted = new List<SObject>{
-             new Account(name='A',NumberOfEmployees=2)
-            ,new Account(name='D',NumberOfEmployees=3)
-            ,new Account(name='C',NumberOfEmployees=0)
-            ,new Account(name='B',NumberOfEmployees=1)
+             new Foo__c(name='A',Number__c=2)
+            ,new Foo__c(name='D',Number__c=3)
+            ,new Foo__c(name='C',Number__c=0)
+            ,new Foo__c(name='B',Number__c=1)
         };
         final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted);
         System.assertNotEquals(null,sorted);
@@ -96,10 +96,10 @@ private class SObjectSortByFieldComparatorTest {
     
     private static testmethod void test_qsort_ListSObject_Boolean(){
         final List<SObject> unsorted = new List<SObject>{
-             new Account(name='A',NumberOfEmployees=2)
-            ,new Account(name='D',NumberOfEmployees=3)
-            ,new Account(name='C',NumberOfEmployees=0)
-            ,new Account(name='B',NumberOfEmployees=1)
+             new Foo__c(name='A',Number__c=2)
+            ,new Foo__c(name='D',Number__c=3)
+            ,new Foo__c(name='C',Number__c=0)
+            ,new Foo__c(name='B',Number__c=1)
         };
         final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,false);
         System.assertNotEquals(null,sorted);
@@ -112,34 +112,34 @@ private class SObjectSortByFieldComparatorTest {
 
     private static testmethod void test_qsort_ListSObject_String(){
         final List<SObject> unsorted = new List<SObject>{
-             new Account(name='A',NumberOfEmployees=2)
-            ,new Account(name='D',NumberOfEmployees=3)
-            ,new Account(name='C',NumberOfEmployees=0)
-            ,new Account(name='B',NumberOfEmployees=1)
+             new Foo__c(name='A',Number__c=2)
+            ,new Foo__c(name='D',Number__c=3)
+            ,new Foo__c(name='C',Number__c=0)
+            ,new Foo__c(name='B',Number__c=1)
         };
-        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'NumberOfEmployees');
+        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'Number__c');
         System.assertNotEquals(null,sorted);
         System.assertEquals(4,sorted.size());
-        System.assertEquals(0,sorted.get(0).get('NumberOfEmployees'));
-        System.assertEquals(1,sorted.get(1).get('NumberOfEmployees'));
-        System.assertEquals(2,sorted.get(2).get('NumberOfEmployees'));
-        System.assertEquals(3,sorted.get(3).get('NumberOfEmployees'));
+        System.assertEquals(0,sorted.get(0).get('Number__c'));
+        System.assertEquals(1,sorted.get(1).get('Number__c'));
+        System.assertEquals(2,sorted.get(2).get('Number__c'));
+        System.assertEquals(3,sorted.get(3).get('Number__c'));
     }
 
     private static testmethod void test_qsort_ListSObject_String_Boolean(){
         final List<SObject> unsorted = new List<SObject>{
-             new Account(name='A',NumberOfEmployees=2)
-            ,new Account(name='D',NumberOfEmployees=3)
-            ,new Account(name='C',NumberOfEmployees=0)
-            ,new Account(name='B',NumberOfEmployees=1)
+             new Foo__c(name='A',Number__c=2)
+            ,new Foo__c(name='D',Number__c=3)
+            ,new Foo__c(name='C',Number__c=0)
+            ,new Foo__c(name='B',Number__c=1)
         };
-        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'NumberOfEmployees',false);
+        final List<SObject> sorted = SObjectSortByFieldComparator.qsort(unsorted,'Number__c',false);
         System.assertNotEquals(null,sorted);
         System.assertEquals(4,sorted.size());
-        System.assertEquals(3,sorted.get(0).get('NumberOfEmployees'));
-        System.assertEquals(2,sorted.get(1).get('NumberOfEmployees'));
-        System.assertEquals(1,sorted.get(2).get('NumberOfEmployees'));
-        System.assertEquals(0,sorted.get(3).get('NumberOfEmployees'));
+        System.assertEquals(3,sorted.get(0).get('Number__c'));
+        System.assertEquals(2,sorted.get(1).get('Number__c'));
+        System.assertEquals(1,sorted.get(2).get('Number__c'));
+        System.assertEquals(0,sorted.get(3).get('Number__c'));
     }
 
 }

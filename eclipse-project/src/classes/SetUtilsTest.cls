@@ -61,9 +61,9 @@ private class SetUtilsTest {
         final List<SObject> aList = null;
         System.assertEquals(null,SetUtils.listToSet(aList));
         System.assertEquals(0,SetUtils.listToSet(new List<SObject>()).size());
-        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Account()}).size());
-        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Account()}).size());
-        System.assertEquals(2,SetUtils.listToSet(new List<SObject>{new Account(name='1'),new Account(name='2')}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Foo__c()}).size());
+        System.assertEquals(1,SetUtils.listToSet(new List<SObject>{new Foo__c()}).size());
+        System.assertEquals(2,SetUtils.listToSet(new List<SObject>{new Foo__c(name='1'),new Foo__c(name='2')}).size());
     }
     
     private static testmethod void test_setToList_String(){
@@ -93,9 +93,9 @@ private class SetUtilsTest {
         final Set<String> records = null;
         System.assertEquals(null,SetUtils.setToList(records));
         System.assertEquals(0,SetUtils.setToList(new Set<SObject>()).size());
-        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Account()}).size());
-        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Account()}).size());
-        System.assertEquals(2,SetUtils.setToList(new Set<SObject>{new Account(name='1'),new Account(name='2')}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Foo__c()}).size());
+        System.assertEquals(1,SetUtils.setToList(new Set<SObject>{new Foo__c()}).size());
+        System.assertEquals(2,SetUtils.setToList(new Set<SObject>{new Foo__c(name='1'),new Foo__c(name='2')}).size());
     }
     
     private static testmethod void test_pluck_ListSObject_String(){
@@ -106,16 +106,16 @@ private class SetUtilsTest {
         assert_pluck_ListSObject_String(new List<SObject>(),'name',new Set<Object>());
         assert_pluck_ListSObject_String(
              new List<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,null
             ,new Set<Object>()
         );
         assert_pluck_ListSObject_String(
              new List<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,'name'
             ,new Set<Object>{'abc123','xyz456'}
@@ -135,16 +135,16 @@ private class SetUtilsTest {
         assert_pluck_SetSObject_String(new Set<SObject>(),'name',new Set<Object>());
         assert_pluck_SetSObject_String(
              new Set<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,null
             ,new Set<Object>()
         );
         assert_pluck_SetSObject_String(
              new Set<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,'name'
             ,new Set<Object>{'abc123','xyz456'}
@@ -164,16 +164,16 @@ private class SetUtilsTest {
         assert_pluckString_SetSObject_String(new Set<SObject>(),'name',new Set<String>());
         assert_pluckString_SetSObject_String(
              new Set<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,null
             ,new Set<String>()
         );
         assert_pluckString_SetSObject_String(
              new Set<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,'name'
             ,new Set<String>{'abc123','xyz456'}
@@ -193,16 +193,16 @@ private class SetUtilsTest {
         assert_pluckString_ListSObject_String(new List<SObject>(),'name',new Set<String>());
         assert_pluckString_ListSObject_String(
              new List<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,null
             ,new Set<String>()
         );
         assert_pluckString_ListSObject_String(
              new List<SObject>{
-                 new Account(name='abc123')
-                ,new Account(name='xyz456')
+                 new Foo__c(name='abc123')
+                ,new Foo__c(name='xyz456')
             }
             ,'name'
             ,new Set<String>{'abc123','xyz456'}
@@ -277,12 +277,12 @@ private class SetUtilsTest {
         //test: global static Set<ID> objectToID(Set<Object> objectSet){ 
         assertObjectToID(null, null);
         assertObjectToID(new Set<Object>{}, new Set<ID>{});
-        Account acct1 = new Account(name='acct1');
-        insert acct1;
-        Account acct2 = new Account(name='acct2');
-        insert acct2;
-        assertObjectToID(new Set<Object>{acct1.id}, new Set<Id>{acct1.id});
-        assertObjectToID(new Set<Object>{acct1.id,acct2.id}, new Set<Id>{acct1.id,acct2.id});
+        Foo__c foo1 = new Foo__c(name='foo1');
+        insert foo1;
+        Foo__c foo2 = new Foo__c(name='foo2');
+        insert foo2;
+        assertObjectToID(new Set<Object>{foo1.id}, new Set<Id>{foo1.id});
+        assertObjectToID(new Set<Object>{foo1.id,foo2.id}, new Set<Id>{foo1.id,foo2.id});
     } 
 
     private static testmethod void testObjectToInteger(){ 
@@ -387,12 +387,12 @@ private class SetUtilsTest {
         //test: global static String toString(Set<ID> idSet)
         assertToStringIDSet(null, null);
         assertToStringIDSet(new Set<ID>{}, '');
-        Account acct1 = new Account(name='acct1');
-        insert acct1;
-        Account acct2 = new Account(name='acct2');
-        insert acct2;
-        assertToStringIDSet(new Set<ID>{acct1.id}, '{' + acct1.id + '}');
-        assertToStringIDSet(new Set<ID>{acct1.id,acct2.id}, '{' + acct1.id + ',' + acct2.id + '}');
+        Foo__c foo1 = new Foo__c(name='foo1');
+        insert foo1;
+        Foo__c foo2 = new Foo__c(name='foo2');
+        insert foo2;
+        assertToStringIDSet(new Set<ID>{foo1.id}, '{' + foo1.id + '}');
+        assertToStringIDSet(new Set<ID>{foo1.id,foo2.id}, '{' + foo1.id + ',' + foo2.id + '}');
     }
 
     private static testmethod void testToStringIntegerSet(){ 
