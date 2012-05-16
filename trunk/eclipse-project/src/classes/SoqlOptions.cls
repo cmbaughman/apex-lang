@@ -15,10 +15,12 @@ global class SoqlOptions {
      
     global Boolean escapeSingleQuotes {get;set;}
     global Boolean wildcardStringsInLikeOperators {get;set;}
+    global Boolean breakLineBetweenClauses {get;set;}
 	
     global SoqlOptions(){
     	escapeSingleQuotes();
     	doNotWildcardStringsInLikeOperators();
+    	doNotBreakLineBetweenClauses();
     }
     
     global SoqlOptions wildcardStringsInLikeOperators(){
@@ -41,5 +43,13 @@ global class SoqlOptions {
         return this;
     }
     
-
+    global SoqlOptions breakLineBetweenClauses(){
+        this.breakLineBetweenClauses = true;
+        return this;
+    }
+    
+    global SoqlOptions doNotBreakLineBetweenClauses(){
+        this.breakLineBetweenClauses = false;
+        return this;
+    }
 }

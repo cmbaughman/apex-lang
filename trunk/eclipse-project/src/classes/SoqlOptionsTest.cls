@@ -15,6 +15,7 @@ private class SoqlOptionsTest {
     private static testmethod void testDefault(){
         System.assertEquals(true,SoqlOptions.DEFAULT_OPTIONS.escapeSingleQuotes);
         System.assertEquals(false,SoqlOptions.DEFAULT_OPTIONS.wildcardStringsInLikeOperators);
+        System.assertEquals(false,SoqlOptions.DEFAULT_OPTIONS.breakLineBetweenClauses);
     }
 
     private static testmethod void test_escapeSingleQuotes(){
@@ -35,5 +36,12 @@ private class SoqlOptionsTest {
         System.assertEquals(false,options.wildcardStringsInLikeOperators);
     }
 
-
+    private static testmethod void test_breakLineBetweenClauses(){
+        final SoqlOptions options = new SoqlOptions();
+        System.assertEquals(false,options.breakLineBetweenClauses);
+        System.assertEquals(options,options.breakLineBetweenClauses());
+        System.assertEquals(true,options.breakLineBetweenClauses);
+        System.assertEquals(options,options.doNotBreakLineBetweenClauses());
+        System.assertEquals(false,options.breakLineBetweenClauses);
+    }
 }
