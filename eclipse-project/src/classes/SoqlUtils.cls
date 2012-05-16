@@ -74,6 +74,9 @@ global class SoqlUtils {
      * order of where conditions for example.
      */
     global static Boolean equals(String soql1, String soql2){
+		if( soql1.contains('\n') != soql2.contains('\n') ){
+			return false;
+		}
         soql1 = StringUtils.replace(StringUtils.trim(StringUtils.lowerCase(soql1)), '\n', '');
         soql2 = StringUtils.replace(StringUtils.trim(StringUtils.lowerCase(soql2)), '\n', '');
         if(StringUtils.equals(soql1,soql2)){

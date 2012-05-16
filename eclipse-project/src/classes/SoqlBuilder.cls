@@ -171,6 +171,7 @@ global class SoqlBuilder implements Soqlable{
         if(StringUtils.isBlank(fromx)){
             throw new IllegalStateException('Illegal state!  You must invoke fromx() with valid object name before invoking toSoql().');
         }
+        String separator = ' ' + ( options.breakLineBetweenClauses ? '\n' : '' );
         Boolean isFirst = true;
         String soql = 'SELECT ';
         if(selectx == null){
@@ -208,18 +209,18 @@ global class SoqlBuilder implements Soqlable{
                 distinctField = StringUtils.trim(distinctField);
                 distinctFields.put(StringUtils.lowerCase(distinctField),distinctField);
             }
-            soql += StringUtils.joinStrings(distinctFields.values(),'\n,');
+            soql += StringUtils.joinStrings(distinctFields.values(), separator + ',');
         }
-        soql += ' \nFROM ' + fromx;
+        soql += separator + 'FROM ' + fromx;
         if(wherex != null){
 			final String wherexs = wherex.toSoql(options);
 			if(StringUtils.isNotBlank(wherexs)){  
-				soql += ' \nWHERE ' + wherexs;
+				soql += separator + 'WHERE ' + wherexs;
 			} 
         }
           
         if(groupByx != null && groupByx != ''){
-           soql += ' \nGROUP BY ' + groupByx + ' ';
+           soql += separator + 'GROUP BY ' + groupByx + ' ';
         }
           
         if(orderByx != null && orderByx.size() > 0){
@@ -230,7 +231,7 @@ global class SoqlBuilder implements Soqlable{
         		}
 	            if(isFirst){  
 	                isFirst = false;
-                    soql += ' \nORDER BY ';
+                    soql += separator + 'ORDER BY ';
 	            } else {
 	                soql += ', ';
 	            }
@@ -238,7 +239,7 @@ global class SoqlBuilder implements Soqlable{
         	}
         }
         if(limitx != null){
-            soql += ' \nLIMIT ' + limitx;
+            soql += separator + 'LIMIT ' + limitx;
         }
         return soql;
     }

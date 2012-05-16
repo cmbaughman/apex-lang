@@ -116,6 +116,20 @@ private class SoqlUtilsTest {
         ));
     }
 
+    private static testmethod void testEquals_newlinesInconsistent(){
+        System.assertEquals(false,SoqlUtils.equals(
+           '  select    ispartner,\nrating,\nid,\n name    from   account  ',
+           ' SELECT  name,rating,  ispartner,id  FROM   account   '
+        ));
+    }
+
+    private static testmethod void testEquals_newlinesConsistent(){
+        System.assertEquals(true,SoqlUtils.equals(
+           '  select    ispartner,\nrating,id, name    from   account  ',
+           ' SELECT  name,rating, \n ispartner,id  FROM   account   '
+        ));
+    }
+
     private static testmethod void testAssertEquals(){
         SoqlUtils.assertEquals(
            'select id,name from account',
