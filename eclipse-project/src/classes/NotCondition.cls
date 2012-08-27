@@ -36,7 +36,7 @@ global class NotCondition implements NestableCondition{
         }
         String soql = '';
         if(condition != null){
-        	soql += 'NOT(' + condition.toSoql(options) + ')';
+        	soql += '(NOT ' + condition.toSoql(options) + ')';
         }
         return soql;
     }
