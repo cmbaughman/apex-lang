@@ -14,7 +14,7 @@ private class NotConditionTest {
     
     private static testmethod void testNot1(){
         System.assertEquals(
-            'NOT(((name = \'acme\' AND ispartner = true) OR rating = \'Hot\'))',
+            '(NOT ((name = \'acme\' AND ispartner = true) OR rating = \'Hot\'))',
             new NotCondition()
                 .add(
 	                new OrCondition()
@@ -23,7 +23,21 @@ private class NotConditionTest {
 	                    .add(new FieldCondition('ispartner',Operator.EQUALS,true)))
 	                .add(new FieldCondition('rating',Operator.EQUALS,'Hot')))
                 .toSoql()
-        );   
+        );
+    }
+
+    private static testmethod void testNot2(){
+        System.assertEquals(
+            '((NOT (name = \'acme\' AND ispartner = true)) OR rating = \'Hot\')',
+            new OrCondition()
+                .add(
+                    new NotCondition()
+	                .add(new AndCondition()
+	                    .add(new FieldCondition('name ',Operator.EQUALS,'acme'))
+	                    .add(new FieldCondition('ispartner',Operator.EQUALS,true))))
+                .add(new FieldCondition('rating',Operator.EQUALS,'Hot'))
+                .toSoql()
+        );
     }
 
 }
