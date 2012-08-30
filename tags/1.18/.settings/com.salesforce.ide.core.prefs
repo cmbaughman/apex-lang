@@ -1,0 +1,13 @@
+#Mon Jan 24 14:28:11 CST 2011
+eclipse.preferences.version=1
+endpointApiVersion=20.0
+endpointEnvironment=Production/Developer Edition
+endpointServer=www.salesforce.com
+httpsProtocol=true
+ideVersion=20.0
+keependpoint=false
+metadataFormatVersion=20.0
+namespacePrefix=apxlang
+packageName=unpackaged
+readTimeout=400
+username=richard.vanhook@apex-lang.apexlangproject.org
