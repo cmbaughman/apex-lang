@@ -4,10 +4,10 @@ Version 1.18 of the apex-lang library is a maintenance release.  It's mostly und
 
 ==Links for apex-lang version 1.18==
 
-  * [https://login.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1v Install Managed Package (Production)]
-  * [https://login.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1q Install Unmanaged Package (Production)]
-  * [https://test.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1v Install Managed Package (Sandbox)]
-  * [https://test.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1q Install Unmanaged Package (Sandbox)]
+  * [https://login.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1q Install Managed Package (Production)]
+  * [https://login.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1v Install Unmanaged Package (Production)]
+  * [https://test.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1q Install Managed Package (Sandbox)]
+  * [https://test.salesforce.com/packaging/installPackage.apexp?p0=04t80000000jN1v Install Unmanaged Package (Sandbox)]
   * [http://apex-lang.googlecode.com/files/apex-lang-1.18.zip Download the source]
   * [http://code.google.com/p/apex-lang/source/browse/#svn/tags/1.18/src/classes Browse the code]
 
