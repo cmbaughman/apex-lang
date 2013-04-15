@@ -40,7 +40,7 @@ global class SoqlUtils {
         } else if(  value instanceOf Date){
             literal += Datetime.newInstance(((Date)value).year(), ((Date)value).month(), ((Date)value).day()).format('yyyy-MM-dd');
         } else if(  value instanceOf Datetime){
-            literal += ((Datetime) value).format('yyyy-MM-dd') + 'T' + ((Datetime) value).format('hh:mm:ss') + 'Z';
+            literal += ((Datetime) value).format('yyyy-MM-dd') + 'T' + ((Datetime) value).format('HH:mm:ss') + 'Z';
         } else {
             throw new IllegalArgumentException('invalid value; value must be null, a primitive type ' 
                 + '(String|ID|Boolean|Integer|Long|Double|Decimal|Date|Datetime), or implement Soqlable interface');
