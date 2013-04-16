@@ -115,7 +115,7 @@ private class FieldConditionTest {
     }
 
     private static testmethod void testDatetimeValue(){
-        System.assertEquals('createddate >= 2008-12-01T12:00:00Z',new FieldCondition('createddate',Operator.GREATER_THAN_OR_EQUAL_TO,Datetime.newInstance(2008, 12, 1)).toSoql());   
+        System.assertEquals('createddate >= 2008-12-01T00:00:00Z',new FieldCondition('createddate',Operator.GREATER_THAN_OR_EQUAL_TO,Datetime.newInstance(2008, 12, 1)).toSoql());   
     }
 
     private static testmethod void testOperatorMethod_equals(){
