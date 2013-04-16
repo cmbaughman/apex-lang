@@ -68,7 +68,14 @@ private class SoqlUtilsTest {
     }
 
     private static testmethod void testDatetimeValue(){
-        System.assertEquals('2008-12-01T12:00:00Z',SoqlUtils.toLiteral(Datetime.newInstance(2008, 12, 1)));   
+        Integer hours = RandomUtils.nextInteger(23);
+        Integer minutes = RandomUtils.nextInteger(59);
+        Integer seconds = RandomUtils.nextInteger(59); 
+        String expectedTimeString = StringUtils.leftPad(String.valueOf(hours), 2, '0') + ':' + 
+            StringUtils.leftPad(String.valueOf(minutes), 2, '0') + ':' +
+            StringUtils.leftPad(String.valueOf(seconds), 2, '0');
+        System.assertEquals('2008-12-01T'+ expectedTimeString + 'Z',
+            SoqlUtils.toLiteral(Datetime.newInstance(2008, 12, 1, hours, minutes, seconds)));   
     }
     
     private static testmethod void testPrimitivesToSoqlLiterals(){
