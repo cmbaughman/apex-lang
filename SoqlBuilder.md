@@ -1,0 +1,1 @@
+See http://richardvanhook.com/2010/04/11/soql-builder/
