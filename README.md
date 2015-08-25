@@ -4,7 +4,7 @@ A collection of convinience utility classes and others to make developing in Sal
 
 apex-lang was inspired by the Apache Commons Lang (http://commons.apache.org/lang/) project whose creators had a similar goal of addressing gaps in java's core API. Apex is fairly feature rich; however, let's face it, functionality in its core API is sorely lacking. And why shouldn't it? salesforce.com is in the "on-demand platform" business, not the API building business. On the other hand, apex-lang is very much in the API building (not for profit) business. So, its the intent of apex-lang to fill in the gaps in the core apex classes. And to fill them more quickly than salesforce can. Salesforce only has 3-4 releases a year; in contrast, apex-lang can be released as many times as needed during a single year.
 
-This project was forked from the now defunct Google Code https://code.google.com/p/apex-lang/ and has not been updated since 2012. I plan on maintaining for as long as I can and making adjustments, changes, and adding functionality where possible, and where it makes sense. 
+This project was forked from the now defunct Google Code https://code.google.com/p/apex-lang/ and has not been updated since 2012. I plan on maintaining for as long as I can and making adjustments, changes, and adding functionality where possible, and where it makes sense.
 
 Original Authors:
 	Richard.Vanhook (Salesforce)
@@ -135,4 +135,3 @@ UserUtils.cls
 UserUtilsTest.cls
 WordUtils.cls
 WordUtilsTest.cls
-  
