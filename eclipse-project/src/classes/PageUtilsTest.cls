@@ -1,17 +1,17 @@
 /* ============================================================
  * This code is part of the "apex-lang" open source project avaiable at:
- * 
+ *
  *      http://code.google.com/p/apex-lang/
  *
- * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a
  * copy of the License at:
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
 @IsTest
 private class PageUtilsTest {
- 
+
     private static testmethod void testAddConfirm(){
         //test: global static void addConfirm(String message){
         TestUtils.assertNoConfirmMessagesExist();
@@ -54,13 +54,13 @@ private class PageUtilsTest {
         System.assertEquals('/abc123',ref.getUrl());
         System.assertEquals(true,ref.getRedirect());
     }
-    
+
     private static testmethod void testParam(){
         //test: global static String param(String param){
         ApexPages.currentPage().getParameters().put('test1','value1');
         System.assertEquals('value1',PageUtils.param('test1'));
     }
-    
+
     private static testmethod void testMultipleParam(){
         //test: global static String param(String param){
         ApexPages.currentPage().getParameters().put('test1','value1');
@@ -77,66 +77,66 @@ private class PageUtilsTest {
         System.assert(retValue.containsKey('test4'));
         System.assert(retValue.containsKey('test5'));
     }
-    
+
     private static testmethod void testParamTwoArgs(){
         //test: global static String param(String param){
         System.assertEquals(null,ApexPages.currentPage().getParameters().get('test1'));
         System.assertEquals('value1',PageUtils.param('test1','value1'));
         System.assertEquals('value1',ApexPages.currentPage().getParameters().get('test1'));
     }
-    
+
     private static testmethod void testGetErrorMessages(){
         //test: global static ApexPages.Message[] getErrorMessages(){
         System.assertEquals(true,PageUtils.getErrorMessages().isEmpty());
-        PageUtils.addInfo('testb'); 
+        PageUtils.addInfo('testb');
         System.assertEquals(false,PageUtils.getErrorMessages().isEmpty());
-        PageUtils.addError('testa'); 
+        PageUtils.addError('testa');
         System.assertEquals(false,PageUtils.getErrorMessages().isEmpty());
     }
-    
+
     private static testmethod void testGetErrorMessagesOnly(){
         //test: global static ApexPages.Message[] getErrorMessagesOnly(){
-        PageUtils.addInfo('testb'); 
+        PageUtils.addInfo('testb');
         System.assertEquals(true,PageUtils.getErrorMessagesOnly().isEmpty());
-        PageUtils.addError('testa'); 
+        PageUtils.addError('testa');
         System.assertEquals(false,PageUtils.getErrorMessagesOnly().isEmpty());
     }
-    
+
     private static testmethod void testMessagesToStringNoArg(){
         //test: global static String messagesToString(){
         System.assertEquals('{empty}',
             PageUtils.messagesToString());
-        PageUtils.addInfo('testb'); 
-        System.assertEquals('{ApexPages.Message[0]: (summary=testb,componentLabel=null,severity=ApexPages.Severity.INFO,detail=testb)}',
+        PageUtils.addInfo('testb');
+        System.assertEquals('{ApexPages.Message[0]: (summary=testb,componentLabel=null,severity=INFO,detail=testb)}',
             PageUtils.messagesToString());
     }
-    
+
     private static testmethod void testMessagesToStringOneArg(){
         //test: global static String messagesToString(ApexPages.Message[] messages){
         System.assertEquals('null',PageUtils.messagesToString(null));
-        PageUtils.addError('testb'); 
-        PageUtils.addError('testc'); 
-        System.assertEquals('{ApexPages.Message[0]: (summary=testb,componentLabel=null,severity=ApexPages.Severity.ERROR,detail=testb); ApexPages.Message[1]: (summary=testc,componentLabel=null,severity=ApexPages.Severity.ERROR,detail=testc)}',
+        PageUtils.addError('testb');
+        PageUtils.addError('testc');
+        System.assertEquals('{ApexPages.Message[0]: (summary=testb,componentLabel=null,severity=ERROR,detail=testb); ApexPages.Message[1]: (summary=testc,componentLabel=null,severity=ERROR,detail=testc)}',
             PageUtils.messagesToString(PageUtils.getErrorMessages()));
     }
-    
+
     private static testmethod void testGetMessagesAtLevelScenario1(){
         //test: global static ApexPages.Message[] getMessagesAtLevel(ApexPages.Severity level,Boolean includeParents){
-        PageUtils.addInfo('testb'); 
+        PageUtils.addInfo('testb');
         System.assertEquals(true,PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR,false).isEmpty());
-        PageUtils.addError('testa'); 
+        PageUtils.addError('testa');
         System.assertEquals(false,PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR,false).isEmpty());
     }
 
     private static testmethod void testGetMessagesAtLevelScenario2(){
         //test: global static ApexPages.Message[] getMessagesAtLevel(ApexPages.Severity level,Boolean includeParents){
-        PageUtils.addInfo('testb'); 
+        PageUtils.addInfo('testb');
         System.assertEquals(true,PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR,false).isEmpty());
     }
 
     private static testmethod void testGetMessagesAtLevelScenario3(){
         //test: global static ApexPages.Message[] getMessagesAtLevel(ApexPages.Severity level,Boolean includeParents){
-        PageUtils.addInfo('testb'); 
+        PageUtils.addInfo('testb');
         System.assertEquals(false,PageUtils.getMessagesAtLevel(ApexPages.Severity.ERROR,true).isEmpty());
     }
 
@@ -151,8 +151,8 @@ private class PageUtilsTest {
         String actual = PageUtils.encodeVariable(variable);
         System.assert(actual==expected, 'PageUtils.encodeVariable(\'' + variable + '\') returned ' + actual + '; expected ' + expected);
     }
-    
-    
+
+
 
     private static testmethod void testIsMessageAtLevelOrHigher(){
         //test: global static Boolean isMessageAtLevelOrHigher(ApexPages.Message message, ApexPages.Severity level){
@@ -195,7 +195,7 @@ private class PageUtilsTest {
         Boolean actual = PageUtils.isMessageAtLevelOrHigher((messageLevel==null ? null : new ApexPages.message(messageLevel,'test')),level);
         System.assert(actual==expected,'PageUtils.isMessageAtLevelOrHigher(' + (messageLevel == null ? 'null' : ''+messageLevel) + ',' + level + ') returned ' + actual);
     }
-    
+
     private static testmethod void testHasErrorMessages(){
         //test: global static Boolean hasErrorMessages(){
         System.assertEquals(false,PageUtils.hasErrorMessages());
@@ -206,7 +206,7 @@ private class PageUtilsTest {
         PageUtils.addFatal('x');
         System.assertEquals(true,PageUtils.hasErrorMessages());
     }
-    
+
     private static testmethod void testHasErrorMessagesOnly(){
         //test: global static Boolean hasErrorMessagesOnly()
         System.assertEquals(false,PageUtils.hasErrorMessagesOnly());

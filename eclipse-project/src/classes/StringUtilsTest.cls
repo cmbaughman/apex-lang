@@ -1,11 +1,11 @@
 /* ============================================================
  * This code is part of the "apex-lang" open source project avaiable at:
- * 
+ *
  *      http://code.google.com/p/apex-lang/
  *
- * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a
  * copy of the License at:
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
@@ -20,9 +20,9 @@ private class StringUtilsTest {
         assertAbbreviateTwoArgs('abcdefg',     8,     'abcdefg',     false);
         assertAbbreviateTwoArgs('abcdefg',     4,     'a...',     false);
         assertAbbreviateTwoArgs('abcdefg',     3,     null,         true);
-    }    
-     
-    private static void assertAbbreviateTwoArgs(String str, Integer maxWidth, 
+    }
+
+    private static void assertAbbreviateTwoArgs(String str, Integer maxWidth,
         String expected, Boolean excepExpected){
 
         String actual = null;
@@ -35,16 +35,16 @@ private class StringUtilsTest {
         if(excepExpected && excepActual){
             return;
         }
-        System.assert(excepExpected == excepActual, 'StringUtils.abbreviate(\'' 
-            + str + '\',' + maxWidth + ') ' 
-            + (excepExpected ? 'did not throw' : 'unexpectedly threw') 
+        System.assert(excepExpected == excepActual, 'StringUtils.abbreviate(\''
+            + str + '\',' + maxWidth + ') '
+            + (excepExpected ? 'did not throw' : 'unexpectedly threw')
             + ' IllegalArgumentException');
         if(!excepExpected && !excepActual){
-            System.assert(actual==expected, 'StringUtils.abbreviate(\'' + str + '\',' 
+            System.assert(actual==expected, 'StringUtils.abbreviate(\'' + str + '\','
                 + maxWidth + ') returned ' + actual + '; expected ' + expected);
         }
     }
-    
+
     private static testmethod void testAbbreviateThreeArgs(){
         assertAbbreviateThreeArgs(null,                 -1,    -1,     null,             false);
         assertAbbreviateThreeArgs('',                     0,     4,         '',                false);
@@ -60,9 +60,9 @@ private class StringUtilsTest {
         assertAbbreviateThreeArgs('abcdefghijklmno',     20, 10,     '...ijklmno',    false);
         assertAbbreviateThreeArgs('abcdefghij',         0,     3,        null,            true);
         assertAbbreviateThreeArgs('abcdefghij',         5,     6,        null,            true);
-    }    
-    
-    private static void assertAbbreviateThreeArgs(String str, Integer offset, Integer maxWidth, 
+    }
+
+    private static void assertAbbreviateThreeArgs(String str, Integer offset, Integer maxWidth,
         String expected, Boolean excepExpected){
 
         String actual = null;
@@ -75,16 +75,16 @@ private class StringUtilsTest {
         if(excepExpected && excepActual){
             return;
         }
-        System.assert(excepExpected == excepActual, 'StringUtils.abbreviate(\'' 
-            + str + '\',' + offset + ',' + maxWidth + ') ' 
-            + (excepExpected ? 'did not throw' : 'unexpectedly threw') 
+        System.assert(excepExpected == excepActual, 'StringUtils.abbreviate(\''
+            + str + '\',' + offset + ',' + maxWidth + ') '
+            + (excepExpected ? 'did not throw' : 'unexpectedly threw')
             + ' IllegalArgumentException');
         if(!excepExpected && !excepActual){
-            System.assert(actual==expected, 'StringUtils.abbreviate(\'' + str + '\',' 
+            System.assert(actual==expected, 'StringUtils.abbreviate(\'' + str + '\','
                 + offset + ',' + maxWidth + ') returned ' + actual + '; expected ' + expected);
         }
     }
- 
+
     private static testmethod void testIndexOfAny(){
         //test: global static int indexOfAny(String str, String searchChars) {
         assertIndexOfAny(null, null, -1);
@@ -93,14 +93,14 @@ private class StringUtilsTest {
         assertIndexOfAny('zzabyycdxx', 'za', 0);
         assertIndexOfAny('zzabyycdxx', 'by', 3);
         assertIndexOfAny('aba','z', -1);
-    }    
-    
+    }
+
     private static void assertIndexOfAny(String str, String searchChars, Integer expected){
         Integer actual = StringUtils.indexOfAny(str,searchChars);
-        System.assert(actual==expected, 'StringUtils.indexOfAny(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.indexOfAny(\'' + str + '\','
             + searchChars + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
      private static testmethod void testLastIndexOfAny(){
         //test: global static Integer lastIndexOfAny(String str, String[] searchStrs) {
         assertLastIndexOfAny(null, null, -1);
@@ -114,13 +114,13 @@ private class StringUtilsTest {
         assertLastIndexOfAny('zzabyycdxx', new String[]{'mn','op'}, -1);
         assertLastIndexOfAny('zzabyycdxx', new String[]{'mn',''}, 10);
     }
-    
+
     private static void assertLastIndexOfAny(String str, String[] searchStrs, Integer expected){
         Integer actual = StringUtils.lastIndexOfAny(str,searchStrs);
-        System.assert(actual==expected, 'StringUtils.lastIndexOfAny(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.lastIndexOfAny(\'' + str + '\','
             + ArrayUtils.toString(searchStrs) + ') returned ' + actual + '; expected ' + expected);
     }
-    
+
     private static testmethod void testLastIndexOfTwoArgs(){
         //test: global static Integer lastIndexOf(String str, String searchStr) {
         assertLastIndexOfTwoArgs(null, '', -1);
@@ -130,14 +130,14 @@ private class StringUtilsTest {
         assertLastIndexOfTwoArgs('aabaabaa', 'b', 5);
         assertLastIndexOfTwoArgs('aabaabaa', 'ab', 4);
         assertLastIndexOfTwoArgs('aabaabaa', '', 8);
-    }    
-    
+    }
+
     private static void assertLastIndexOfTwoArgs(String str, String searchStr, Integer expected){
         Integer actual = StringUtils.lastIndexOf(str,searchStr);
-        System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\'' 
+        System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\''
             + searchStr + '\') returned ' + actual + '; expected ' + expected);
     }
-    
+
     private static testmethod void testLastIndexOfThreeArgs(){
         //test: global static Integer lastIndexOf(String str, String searchStr, Integer startPos) {
         assertLastIndexOfThreeArgs(null, null, -1, -1);
@@ -150,13 +150,13 @@ private class StringUtilsTest {
         assertLastIndexOfThreeArgs('aabaabaa', 'a', 0, 0);
         assertLastIndexOfThreeArgs('aabaabaa', 'b', 0, -1);
     }
-    
+
     private static void assertLastIndexOfThreeArgs(String str, String searchStr, Integer startPos, Integer expected){
         Integer actual = StringUtils.lastIndexOf(str,searchStr,startPos);
-        System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\'' 
+        System.assert(actual==expected, 'StringUtils.lastIndexOf(\'' + str + '\',\''
             + searchStr + '\',' + startPos + ') returned ' + actual + '; expected ' + expected);
     }
-    
+
     private static testmethod void testIndexOfAnyStringArray(){
         //test: global static Integer indexOfAny(String str, String[] searchStrs) {
         assertIndexOfAnyStringArray(null, null, -1);
@@ -169,11 +169,11 @@ private class StringUtilsTest {
         assertIndexOfAnyStringArray('zzabyycdxx', new String[]{''}, 0);
         assertIndexOfAnyStringArray('', new String[]{''}, 0);
         assertIndexOfAnyStringArray('', new String[]{'a'}, -1);
-    }    
-    
+    }
+
     private static void assertIndexOfAnyStringArray(String str, String[] searchStrs, Integer expected){
         Integer actual = StringUtils.indexOfAny(str,searchStrs);
-        System.assert(actual==expected, 'StringUtils.indexOfAny(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.indexOfAny(\'' + str + '\','
             + ArrayUtils.toString(searchStrs) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -184,14 +184,14 @@ private class StringUtilsTest {
         assertCenterTwoArgs('ab',     4,    ' ab ');
         assertCenterTwoArgs('abcd', 2,    'abcd');
         assertCenterTwoArgs('a',     4,    ' a  ');
-    }    
-    
+    }
+
     private static void assertCenterTwoArgs(String str, Integer size, String expected){
         String actual = StringUtils.center(str,size);
-        System.assert(actual==expected, 'StringUtils.center(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.center(\'' + str + '\','
             + size + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testChompOneArg(){
         assertChompOneArg(null,                null);
         assertChompOneArg('',                '');
@@ -205,14 +205,14 @@ private class StringUtilsTest {
         assertChompOneArg('\r',                '');
         assertChompOneArg('\n',                '');
         assertChompOneArg('\r\n',            '');
-    }    
-    
+    }
+
     private static void assertChompOneArg(String str, String expected){
         String actual = StringUtils.chomp(str);
-        System.assert(actual==expected, 'StringUtils.chomp(\'' + str + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.chomp(\'' + str + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testChompTwoArgs(){
         assertChompTwoArgs(null,         null,         null);
         assertChompTwoArgs('',             null,         '');
@@ -224,15 +224,15 @@ private class StringUtilsTest {
         assertChompTwoArgs('foo',         'foooo',     'foo');
         assertChompTwoArgs('foo',         '',         'foo');
         assertChompTwoArgs('foo',         null,         'foo');
-    }    
-    
+    }
+
     private static void assertChompTwoArgs(String str, String separator, String expected){
         String actual = StringUtils.chomp(str,separator);
-        System.assert(actual==expected, 'StringUtils.chomp(\'' + str + '\', \'' + separator + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.chomp(\'' + str + '\', \'' + separator + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
-    
+
+
     private static testmethod void testCenterThreeArgs(){
         assertCenterThreeArgs(null,     -1, null,     null);
         assertCenterThreeArgs('',         4,     ' ',     '    ');
@@ -243,14 +243,14 @@ private class StringUtilsTest {
         assertCenterThreeArgs('a',         4,     'yz',     'yayz');
         assertCenterThreeArgs('abc',     7,     null,     '  abc  ');
         assertCenterThreeArgs('abc',     7,     '',     '  abc  ');
-    }    
-    
+    }
+
     private static void assertCenterThreeArgs(String str, Integer size, String padStr, String expected){
         String actual = StringUtils.center(str,size, padStr);
-        System.assert(actual==expected, 'StringUtils.center(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.center(\'' + str + '\','
             + size + ',\'' + padStr + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testChop(){
         assertChop(null,        null);
         assertChop('',             '');
@@ -263,14 +263,14 @@ private class StringUtilsTest {
         assertChop('\r',         '');
         assertChop('\n',         '');
         assertChop('\r\n',         '');
-    }    
-    
+    }
+
     private static void assertChop(String str, String expected){
         String actual = StringUtils.chop(str);
-        System.assert(actual==expected, 'StringUtils.chop(\'' + str + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.chop(\'' + str + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testContainsAny(){
         assertContainsAny(null,         null,     false);
         assertContainsAny('',             null,     false);
@@ -279,15 +279,15 @@ private class StringUtilsTest {
         assertContainsAny('zzabyycdxx', 'za',     true);
         assertContainsAny('zzabyycdxx', 'by',     true);
         assertContainsAny('aba',        'z',     false);
-    }    
-    
+    }
+
     private static void assertContainsAny(String str, String searchChars, Boolean expected){
         Boolean actual = StringUtils.containsAny(str,searchChars);
-        System.assert(actual==expected, 'StringUtils.containsAny(\'' + str + '\',\'' + searchChars + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.containsAny(\'' + str + '\',\'' + searchChars + '\') returned '
             + actual);
     }
-    
-    
+
+
     private static testmethod void testContainsNone(){
         //test: global static boolean containsNone(String str, String invalidChars) {
         assertContainsNone(null,     null,     true);
@@ -297,14 +297,14 @@ private class StringUtilsTest {
         assertContainsNone('abab',     'xyz',     true);
         assertContainsNone('ab1',     'xyz',     true);
         assertContainsNone('abz',     'xyz',     false);
-    }    
-    
+    }
+
     private static void assertContainsNone(String str, String invalidChars, Boolean expected){
         Boolean actual = StringUtils.containsNone(str,invalidChars);
-        System.assert(actual==expected, 'StringUtils.containsNone(\'' + str + '\',\'' + invalidChars + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.containsNone(\'' + str + '\',\'' + invalidChars + '\') returned '
             + actual);
     }
-    
+
     private static testmethod void testContainsOnly(){
         //test: global static boolean containsOnly(String str, String valid) {
         assertContainsOnly(null,     null,    false);
@@ -315,14 +315,14 @@ private class StringUtilsTest {
         assertContainsOnly('abab',     'abc',    true);
         assertContainsOnly('ab1',     'abc',    false);
         assertContainsOnly('abz',     'abc',     false);
-    }    
-    
+    }
+
     private static void assertContainsOnly(String str, String valid, Boolean expected){
         Boolean actual = StringUtils.containsOnly(str,valid);
-        System.assert(actual==expected, 'StringUtils.containsOnly(\'' + str + '\',\'' + valid + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.containsOnly(\'' + str + '\',\'' + valid + '\') returned '
             + actual);
     }
-    
+
     private static testmethod void testCountMatches(){
         //test: global static Integer countMatches(String str, String sub) {
         assertCountMatches(null, null, 0);
@@ -332,11 +332,11 @@ private class StringUtilsTest {
         assertCountMatches('abba', 'a', 2);
         assertCountMatches('abba', 'ab', 1);
         assertCountMatches('abba', 'xxx', 0);
-    }    
-    
+    }
+
     private static void assertCountMatches(String str, String sub, Integer expected){
         Integer actual = StringUtils.countMatches(str,sub);
-        System.assert(actual==expected, 'StringUtils.countMatches(\'' + str + '\',\'' + sub + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.countMatches(\'' + str + '\',\'' + sub + '\') returned '
             + actual + '; expected ' + expected);
     }
 
@@ -345,40 +345,40 @@ private class StringUtilsTest {
         assertDefaultIfEmpty(null, 'NULL', 'NULL');
         assertDefaultIfEmpty('', 'NULL', 'NULL');
         assertDefaultIfEmpty('bat', 'NULL', 'bat');
-    }    
-    
+    }
+
     private static void assertDefaultIfEmpty(String str, String defaultStr, String expected){
         String actual = StringUtils.defaultIfEmpty(str,defaultStr);
-        System.assert(actual==expected, 'StringUtils.defaultIfEmpty(\'' + str + '\',\'' + defaultStr + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.defaultIfEmpty(\'' + str + '\',\'' + defaultStr + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testDefaultStringOneArg(){
         //test: global static String defaultString(String str) {
         assertDefaultStringOneArg(null, '');
         assertDefaultStringOneArg('', '');
         assertDefaultStringOneArg('bat', 'bat');
-    }    
-    
+    }
+
     private static void assertDefaultStringOneArg(String str, String expected){
         String actual = StringUtils.defaultString(str);
-        System.assert(actual==expected, 'StringUtils.defaultString(\'' + str + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.defaultString(\'' + str + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testDefaultStringTwoArgs(){
         //test: global static String defaultString(String str, String defaultStr) {
         assertDefaultStringTwoArgs(null, 'NULL', 'NULL');
         assertDefaultStringTwoArgs('', 'NULL', '');
         assertDefaultStringTwoArgs('bat', 'NULL', 'bat');
-    }    
-    
+    }
+
     private static void assertDefaultStringTwoArgs(String str, String defaultStr, String expected){
         String actual = StringUtils.defaultString(str,defaultStr);
-        System.assert(actual==expected, 'StringUtils.defaultString(\'' + str + '\',\'' + defaultStr + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.defaultString(\'' + str + '\',\'' + defaultStr + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
 
     private static testmethod void testDeleteWhitespace(){
         //test: global static String deleteWhitespace(String str) {
@@ -386,11 +386,11 @@ private class StringUtilsTest {
         assertDeleteWhitespace('',                 '');
         assertDeleteWhitespace('abc',             'abc');
         assertDeleteWhitespace('   ab  c  ',     'abc');
-    }    
-    
+    }
+
     private static void assertDeleteWhitespace(String str, String expected){
         String actual = StringUtils.deleteWhitespace(str);
-        System.assert(actual==expected, 'StringUtils.deleteWhitespace(\'' + str + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.deleteWhitespace(\'' + str + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -405,11 +405,11 @@ private class StringUtilsTest {
         assertDifference('ab',         'abxyz',     'xyz');
         assertDifference('abcde',     'abxyz',    'xyz');
         assertDifference('abcde',     'xyz',         'xyz');
-    }    
-    
+    }
+
     private static void assertDifference(String str1, String str2, String expected){
         String actual = StringUtils.difference(str1,str2);
-        System.assert(actual==expected, 'StringUtils.difference(\'' + str1 + '\',\'' + str2 + '\') returned \'' 
+        System.assert(actual==expected, 'StringUtils.difference(\'' + str1 + '\',\'' + str2 + '\') returned \''
             + actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -422,10 +422,10 @@ private class StringUtilsTest {
         assertEquals('abc', null,     false);
         assertEquals('abc', 'abc',     true);
         assertEquals('abc', 'ABC',     false);
-    }    
-    
+    }
+
     private static void assertEquals(String str1, String str2, Boolean expected){
-        Boolean actual = StringUtils.equals(str1,str2); 
+        Boolean actual = StringUtils.equals(str1,str2);
         System.assert(actual==expected, 'StringUtils.equals(\'' + str1 + '\',\'' + str2 + '\') returned ' + actual);
     }
 
@@ -436,8 +436,8 @@ private class StringUtilsTest {
         assertEqualsIgnoreCase('abc',     null,     false);
         assertEqualsIgnoreCase('abc',     'abc',     true);
         assertEqualsIgnoreCase('abc',     'ABC',     true);
-    }    
-    
+    }
+
     private static void assertEqualsIgnoreCase(String str1, String str2, Boolean expected){
         Boolean actual = StringUtils.equalsIgnoreCase(str1,str2);
         System.assert(actual==expected, 'StringUtils.equalsIgnoreCase(\'' + str1 + '\',\'' + str2 + '\') returned ' + actual);
@@ -449,11 +449,11 @@ private class StringUtilsTest {
         assertIndexOf('',             null,     -1);
         assertIndexOf('aabaabaa',     'a',     0);
         assertIndexOf('aabaabaa',     'b',    2);
-     }    
-    
+     }
+
     private static void assertIndexOf(String str1, String searchStr, Integer expected){
         Integer actual = StringUtils.indexOf(str1,searchStr);
-        System.assert(actual==expected, 'StringUtils.indexOf(\'' + str1 + '\',\'' + searchStr + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.indexOf(\'' + str1 + '\',\'' + searchStr + '\') returned '
             + actual + '; expected ' + expected);
     }
 
@@ -469,14 +469,14 @@ private class StringUtilsTest {
         assertIndexOfDifference('ab',         'abxyz',     2);
         assertIndexOfDifference('abcde',     'abxyz',     2);
         assertIndexOfDifference('abcde',     'xyz',         0);
-    }    
-    
+    }
+
     private static void assertIndexOfDifference(String str1, String str2, Integer expected){
         Integer actual = StringUtils.indexOfDifference(str1,str2);
-        System.assert(actual==expected, 'StringUtils.indexOfDifference(\'' + str1 + '\',\'' + str2 + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.indexOfDifference(\'' + str1 + '\',\'' + str2 + '\') returned '
             + actual + '; expected ' + expected);
     }
-    
+
     private static testmethod void testIndexOfAnyBut(){
         //test: global static int indexOfAnyBut(String str, String searchChars) {
         assertIndexOfAnyBut(null,             null,    -1);
@@ -486,94 +486,94 @@ private class StringUtilsTest {
         assertIndexOfAnyBut('zzabyycdxx',     'za',    3);
         assertIndexOfAnyBut('zzabyycdxx',     '',        0);
         assertIndexOfAnyBut('aba',            'ab',    -1);
-    }    
-    
+    }
+
     private static void assertIndexOfAnyBut(String str, String searchChars, Integer expected){
         Integer actual = StringUtils.indexOfAnyBut(str,searchChars);
-        System.assert(actual==expected, 'StringUtils.indexOfAnyBut(\'' + str + '\',\'' + searchChars + '\') returned ' 
+        System.assert(actual==expected, 'StringUtils.indexOfAnyBut(\'' + str + '\',\'' + searchChars + '\') returned '
             + actual + '; expected ' + expected);
     }
-    
+
     private static testmethod void testLowerCase(){
         assertLowerCase(null, null);
         assertLowerCase('ABC', 'abc');
         assertLowerCase('abc', 'abc');
         assertLowerCase('aBc', 'abc');
-    }    
-    
+    }
+
     private static void assertLowerCase(String str, String expected){
         String actual = StringUtils.lowerCase(str);
         System.assert(actual==expected, 'StringUtils.lowerCase(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testUpperCase(){
         assertUpperCase(null, null);
         assertUpperCase('ABC', 'ABC');
         assertUpperCase('abc', 'ABC');
         assertUpperCase('aBc', 'ABC');
-    }    
-    
+    }
+
     private static void assertUpperCase(String str, String expected){
         String actual = StringUtils.upperCase(str);
         System.assert(actual==expected, 'StringUtils.upperCase(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testCapitalize(){
         assertCapitalize(null, null);
         assertCapitalize('ABC', 'ABC');
         assertCapitalize('abc', 'Abc');
         assertCapitalize('aBc', 'ABc');
-    }    
-    
+    }
+
     private static void assertCapitalize(String str, String expected){
         String actual = StringUtils.capitalize(str);
         System.assert(actual==expected, 'StringUtils.capitalize(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testUncapitalize(){
         assertUncapitalize(null, null);
         assertUncapitalize('ABC', 'aBC');
         assertUncapitalize('abc', 'abc');
         assertUncapitalize('aBc', 'aBc');
-    }    
-    
+    }
+
     private static void assertUncapitalize(String str, String expected){
         String actual = StringUtils.uncapitalize(str);
         System.assert(actual==expected, 'StringUtils.uncapitalize(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testSwapCase(){
         assertSwapCase(null, null);
         assertSwapCase('', '');
         assertSwapCase('The dog has a BONE', 'tHE DOG HAS A bone');
-    }    
-    
+    }
+
     private static void assertSwapCase(String str, String expected){
         String actual = StringUtils.swapCase(str);
         System.assert(actual==expected, 'StringUtils.swapCase(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testIsEmpty(){
         assertIsEmpty(null,     true);
         assertIsEmpty('',        true);
         assertIsEmpty(' ',        false);
         assertIsEmpty('bob',    false);
         assertIsEmpty('  bob  ',false);
-    }    
-    
+    }
+
     private static void assertIsEmpty(String str, Boolean expected){
         Boolean actual = StringUtils.IsEmpty(str);
         System.assert(actual==expected, 'StringUtils.IsEmpty(\'' + str + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testIsNotEmpty(){
         assertIsNotEmpty(null,         false);
         assertIsNotEmpty('',        false);
         assertIsNotEmpty(' ',        true);
         assertIsNotEmpty('bob',        true);
         assertIsNotEmpty('  bob  ',    true);
-    }    
-    
+    }
+
     private static void assertIsNotEmpty(String str, Boolean expected){
         Boolean actual = StringUtils.IsNotEmpty(str);
         System.assert(actual==expected, 'StringUtils.IsNotEmpty(\'' + str + '\') returned ' + actual);
@@ -717,8 +717,8 @@ private class StringUtilsTest {
         assertLength(' ',        1);
         assertLength('bob',        3);
         assertLength('  bob  ',    7);
-    }    
-    
+    }
+
     private static void assertLength(String str, Integer expected){
         Integer actual = StringUtils.length(str);
         System.assert(actual==expected, 'StringUtils.length(\'' + str + '\') returned ' + actual);
@@ -733,7 +733,7 @@ private class StringUtilsTest {
         assertOnIsBlank(false, ' x');
         assertOnIsBlank(false, 'asdfasdfasdf ');
     }
-    
+
     private static void assertOnIsBlank(Boolean expectedReturnValue, String theString){
         System.assert(StringUtils.isBlank(theString)==expectedReturnValue,
             'StringUtils.isBlank(\'' + (theString == null ? 'null' : theString) + '\') returned ' + !expectedReturnValue);
@@ -748,12 +748,12 @@ private class StringUtilsTest {
         assertOnIsNotBlank(true, ' x');
         assertOnIsNotBlank(true, 'asdfasdfasdf ');
     }
-    
+
     private static void assertOnIsNotBlank(Boolean expectedReturnValue, String theString){
         System.assert(StringUtils.isNotBlank(theString)==expectedReturnValue,
             'StringUtils.isNotBlank(\'' + (theString == null ? 'null' : theString) + '\') returned ' + !expectedReturnValue);
     }
-    
+
     private static testmethod void testTrim(){
         assertTrim(null, null);
         assertTrim('', '');
@@ -761,14 +761,14 @@ private class StringUtilsTest {
         assertTrim('\n', '');
         assertTrim('   ', '');
     }
-    
+
     private static void assertTrim(String str, String expected){
         String actual = StringUtils.trim(str);
         System.assert(actual==expected, 'StringUtils.trim(\'' + str + '\') returned [' + actual + '], expected [' + expected + ']');
     }
-     
-    
-    
+
+
+
     private static testmethod void testJoinStrings(){
         assertJoinStrings(null, null, null);
         assertJoinStrings(new Set<String>(), ':', null);
@@ -785,11 +785,11 @@ private class StringUtilsTest {
         Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
         Set<String> expectedAsSet = new Set<String>(StringUtils.split(expectedReturnValue,separator));
         System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
-            'StringUtils.joinStrings(Set<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' + 
+            'StringUtils.joinStrings(Set<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' +
                 actual + '; expected: ' + expectedReturnValue);
     }
-    
-    
+
+
     private static testmethod void testJoinStringsList(){
         assertJoinStringsList(null, null, null);
         assertJoinStringsList(new List<String>(), ':', null);
@@ -806,10 +806,10 @@ private class StringUtilsTest {
         Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
         Set<String> expectedAsSet = new Set<String>(StringUtils.split(expectedReturnValue,separator));
         System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
-            'StringUtils.joinStrings(List<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' + 
+            'StringUtils.joinStrings(List<String>, \'' + (separator == null ? 'null' : separator) + '\') returned ' +
                 actual + '; expected: ' + expectedReturnValue);
     }
-    
+
     private static testmethod void testEndsWith(){
         assertEndsWith(null, null, true);
         assertEndsWith('abcdef', null, false);
@@ -825,13 +825,13 @@ private class StringUtilsTest {
         assertEndsWithIgnoreCase('abcdef', 'def', true);
         assertEndsWithIgnoreCase('ABCDEF', 'def', true);
         assertEndsWithIgnoreCase('ABCDEF', 'ABCDEFA', false);
-    }    
-    
+    }
+
     private static void assertEndsWith(String str, String suffix, Boolean expected){
         Boolean actual = StringUtils.endsWith(str,suffix);
         System.assert(actual==expected, 'StringUtils.endsWith(\'' + str + '\',\'' + suffix + '\') returned ' + actual);
     }
-    
+
     private static void assertEndsWithIgnoreCase(String str, String suffix, Boolean expected){
         Boolean actual = StringUtils.endsWithIgnoreCase(str,suffix);
         System.assert(actual==expected, 'StringUtils.endsWithIgnoreCase(\'' + str + '\',\'' + suffix + '\') returned ' + actual);
@@ -855,13 +855,13 @@ private class StringUtilsTest {
         assertContains('abcdef', 'xcde', false);
         assertContains('ABCDEF', 'CDE', true);
         assertContains('ABCDEF', 'CDe', false);
-    }    
-    
+    }
+
     private static void assertContains(String str, String searchStr, Boolean expected){
         Boolean actual = StringUtils.contains(str,searchStr);
         System.assert(actual==expected, 'StringUtils.contains(\'' + str + '\',\'' + searchStr + '\') returned ' + actual);
     }
-    
+
     private static testmethod void testContainsIgnoreCase(){
         assertContainsIgnoreCase(null, null, false);
         assertContainsIgnoreCase('abcdef', null, false);
@@ -870,8 +870,8 @@ private class StringUtilsTest {
         assertContainsIgnoreCase('abcdef', 'xab', false);
         assertContainsIgnoreCase('ABCDEF', 'AB', true);
         assertContainsIgnoreCase('ABCDEF', 'Ab', true);
-    }    
-    
+    }
+
     private static void assertContainsIgnoreCase(String str, String searchStr, Boolean expected){
         Boolean actual = StringUtils.containsIgnoreCase(str,searchStr);
         System.assert(actual==expected, 'StringUtils.containsIgnoreCase(\'' + str + '\',\'' + searchStr + '\') returned ' + actual);
@@ -883,8 +883,8 @@ private class StringUtilsTest {
         assertSplitOneArg('abc def',     new String[]{'abc','def'});
         assertSplitOneArg('abc  def',     new String[]{'abc','def'});
         assertSplitOneArg(' abc ',         new String[]{'abc'});
-    }    
-    
+    }
+
     private static void assertSplitOneArg(String str, String[] expected){
         String[] actual = StringUtils.split(str);
         if(actual == null){
@@ -895,7 +895,7 @@ private class StringUtilsTest {
             System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
-    
+
     private static testmethod void testSplitOneArgPreserveAllTokens(){
         assertSplitOneArgPreserveAllTokens(null,         null);
         assertSplitOneArgPreserveAllTokens('',             new String[]{''});
@@ -903,8 +903,8 @@ private class StringUtilsTest {
         assertSplitOneArgPreserveAllTokens('abc  def',     new String[]{'abc','','def'});
         assertSplitOneArgPreserveAllTokens(' abc ',     new String[]{'','abc',''});
         assertSplitOneArgPreserveAllTokens('a b c',     new String[]{'a','b','c'});
-    }    
-    
+    }
+
     private static void assertSplitOneArgPreserveAllTokens(String str, String[] expected){
         String[] actual = StringUtils.splitPreserveAllTokens(str);
         if(actual == null){
@@ -930,13 +930,13 @@ private class StringUtilsTest {
         assertCharAt('abcde', 5, null);
         assertCharAt('', 0, '');
         assertCharAt(' ', 0, ' ');
-    }    
-    
+    }
+
     private static void assertCharAt(String str, Integer index, String expected){
         String actual = StringUtils.charAt(str,index);
         System.assert(actual==expected, 'StringUtils.charAt(\'' + str + '\',' + index + ') returned ' + actual);
     }
-    
+
     private static testmethod void testSplitTwoArgs(){
         assertSplitTwoArgs(null,         null,     null);
         assertSplitTwoArgs('',             null,     new String[]{''});
@@ -946,7 +946,7 @@ private class StringUtilsTest {
         assertSplitTwoArgs('a..b..c',    '..',     new String[]{'a','b','c'});
         assertSplitTwoArgs('a:b:c',     '.',     new String[]{'a:b:c'});
         assertSplitTwoArgs('a b c',     ' ',     new String[]{'a','b','c'});
-    }    
+    }
 
     private static void assertSplitTwoArgs(String str, String separator, String[] expected){
         String[] actual = StringUtils.split(str,separator);
@@ -966,8 +966,8 @@ private class StringUtilsTest {
         assertSplitThreeArgs('ab   cd ef',     null,     0,     new String[]{'ab', 'cd', 'ef'});
         assertSplitThreeArgs('ab:cd:ef',     ':',     0,     new String[]{'ab', 'cd', 'ef'});
         assertSplitThreeArgs('ab:cd:ef',     ':',     2,     new String[]{'ab', 'cd:ef'});
-    }    
-    
+    }
+
     private static void assertSplitThreeArgs(String str, String separator, Integer max, String[] expected){
         String[] actual = StringUtils.split(str,separator,max);
         if(actual == null){
@@ -978,7 +978,7 @@ private class StringUtilsTest {
             System.assert(expected[i] == actual[i], 'StringUtils.split(\'' + str + '\',\'' + separator + '\',' + max + ') returned ' + ArrayUtils.toString(actual));
         }
     }
-    
+
     private static testmethod void testSplitByWholeSeparatorTwoArg(){
         assertSplitByWholeSeparatorTwoArg(null,             null,     null);
         assertSplitByWholeSeparatorTwoArg('',                 null,    new String[]{''});
@@ -987,8 +987,8 @@ private class StringUtilsTest {
         assertSplitByWholeSeparatorTwoArg('ab     cd ef',     null,    new String[]{'ab', 'cd', 'ef'});
         assertSplitByWholeSeparatorTwoArg('ab:cd:ef',         ':',    new String[]{'ab', 'cd', 'ef'});
         assertSplitByWholeSeparatorTwoArg('ab-!-cd-!-ef',     '-!-',    new String[]{'ab', 'cd', 'ef'});
-    }    
-    
+    }
+
     private static void assertSplitByWholeSeparatorTwoArg(String str, String separator, String[] expected){
         String[] actual = StringUtils.splitByWholeSeparator(str,separator);
         if(actual == null){
@@ -999,7 +999,7 @@ private class StringUtilsTest {
             System.assert(expected[i] == actual[i], 'StringUtils.splitByWholeSeparator(\'' + str + '\',\'' + separator + '\') returned ' + ArrayUtils.toString(actual));
         }
     }
-    
+
     private static testmethod void testSplitPreserveAllTokensTwoArg(){
         //test global static String[] splitPreserveAllTokens(String str, String separatorChars) {
         assertSplitPreserveAllTokensTwoArg(null,             null,    null);
@@ -1041,7 +1041,7 @@ private class StringUtilsTest {
         assertSplitPreserveAllTokensThreeArgs('ab   de fg', null,     4,    new String[]{'ab', '', '', 'de fg'});
     }
 
-    private static void assertSplitPreserveAllTokensThreeArgs(String str, String separatorChars, 
+    private static void assertSplitPreserveAllTokensThreeArgs(String str, String separatorChars,
         Integer max, String[] expected){
 
         String[] actual = StringUtils.splitPreserveAllTokens(str,separatorChars,max);
@@ -1056,7 +1056,7 @@ private class StringUtilsTest {
 
     private static testmethod void testSplitByWholeSeparatorThreeArgs(){
         //test global static String[] splitByWholeSeparator(String str, String separator, Integer max ) {
-        
+
         assertTestSplitByWholeSeparatorThreeArgs(null,             null,     0, null);
         assertTestSplitByWholeSeparatorThreeArgs('',                 null,    0, new String[]{''});
         assertTestSplitByWholeSeparatorThreeArgs('ab cd ef',         null,    0, new String[]{'ab', 'cd', 'ef'});
@@ -1068,7 +1068,7 @@ private class StringUtilsTest {
         assertTestSplitByWholeSeparatorThreeArgs('ab-!-cd-!-ef',     '-!-',    5, new String[]{'ab', 'cd', 'ef'});
         assertTestSplitByWholeSeparatorThreeArgs('ab-!-cd-!-ef',     '-!-',    2, new String[]{'ab', 'cd-!-ef'});
     }
-    private static void assertTestSplitByWholeSeparatorThreeArgs(String str, String separator, 
+    private static void assertTestSplitByWholeSeparatorThreeArgs(String str, String separator,
         Integer max, String[] expected){
 
         String[] actual = StringUtils.splitByWholeSeparator(str,separator,max);
@@ -1119,7 +1119,7 @@ private class StringUtilsTest {
         assertSplitByWholeSeparatorPreserveAllTokensThreeArgs('ab-!-cd-!-ef',     '-!-',    5, new String[]{'ab', 'cd', 'ef'});
         assertSplitByWholeSeparatorPreserveAllTokensThreeArgs('ab-!-cd-!-ef',     '-!-',    2, new String[]{'ab', 'cd-!-ef'});
     }
-    private static void assertSplitByWholeSeparatorPreserveAllTokensThreeArgs(String str, String separator, 
+    private static void assertSplitByWholeSeparatorPreserveAllTokensThreeArgs(String str, String separator,
         Integer max, String[] expected){
 
         String[] actual = StringUtils.splitByWholeSeparatorPreserveAllTokens(str,separator,max);
@@ -1140,18 +1140,18 @@ private class StringUtilsTest {
         assertLeftPadTwoArgs('bat', 5,     '  bat');
         assertLeftPadTwoArgs('bat', 1,    'bat');
         assertLeftPadTwoArgs('bat', -1,    'bat');
-    }    
-    
+    }
+
     private static void assertLeftPadTwoArgs(String str, Integer size, String expected){
         String actual = StringUtils.leftPad(str,size);
-        System.assert(actual==expected, 'StringUtils.leftPad(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.leftPad(\'' + str + '\','
             + size + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testLeftPadThreeArgs(){
         //test: global static String leftPad(String str, Integer size, String padStr) {
         assertLeftPadThreeArgs(null,     -1, null,     null);
-        assertLeftPadThreeArgs('',         3,     'z',     'zzz'); 
+        assertLeftPadThreeArgs('',         3,     'z',     'zzz');
         assertLeftPadThreeArgs('bat',     3,     'yz',     'bat');
         assertLeftPadThreeArgs('bat',     5,     'yz',     'yzbat');
         assertLeftPadThreeArgs('bat',     8,     'yz',     'yzyzybat');
@@ -1159,14 +1159,14 @@ private class StringUtilsTest {
         assertLeftPadThreeArgs('bat',     -1, 'yz',     'bat');
         assertLeftPadThreeArgs('bat',     5,     null,     '  bat');
         assertLeftPadThreeArgs('bat',     5,     '',     '  bat');
-    }    
+    }
 
     private static void assertLeftPadThreeArgs(String str, Integer size, String padStr, String expected){
         String actual = StringUtils.leftPad(str,size,padStr);
-        System.assert(actual==expected, 'StringUtils.leftPad(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.leftPad(\'' + str + '\','
             + size + ',\'' + padStr + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testRightPadTwoArgs(){
         //test: global static String rightPad(String str, Integer size) {
         assertRightPadTwoArgs(null,     -1, null);
@@ -1175,14 +1175,14 @@ private class StringUtilsTest {
         assertRightPadTwoArgs('bat',     5,     'bat  ');
         assertRightPadTwoArgs('bat',     1,     'bat');
         assertRightPadTwoArgs('bat',     -1, 'bat');
-    }    
-    
+    }
+
     private static void assertRightPadTwoArgs(String str, Integer size, String expected){
         String actual = StringUtils.rightPad(str,size);
-        System.assert(actual==expected, 'StringUtils.rightPad(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.rightPad(\'' + str + '\','
             + size + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testRightPadThreeArgs(){
         //test: global static String rightPad(String str, Integer size, String padStr) {
         assertRightPadThreeArgs(null,     -1, null,     null);
@@ -1193,11 +1193,11 @@ private class StringUtilsTest {
         assertRightPadThreeArgs('bat',     1,     'z',     'bat');
         assertRightPadThreeArgs('bat',     -1,    'z',     'bat');
         assertRightPadThreeArgs('bat',     6,    'abcd', 'batabc');
-    }    
-    
+    }
+
     private static void assertRightPadThreeArgs(String str, Integer size, String padStr, String expected){
         String actual = StringUtils.rightPad(str,size,padStr);
-        System.assert(actual==expected, 'StringUtils.rightPad(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.rightPad(\'' + str + '\','
             + size + ',\'' + padStr + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -1221,11 +1221,11 @@ private class StringUtilsTest {
         assertGetCommonPrefix(new String[] {'abcde', 'xyz'},                     '');
         assertGetCommonPrefix(new String[] {'xyz', 'abcde'},                     '');
         assertGetCommonPrefix(new String[] {'i am a machine', 'i am a robot'},     'i am a ');
-    }    
-    
+    }
+
     private static void assertGetCommonPrefix(String[] strs, String expected){
         String actual = StringUtils.getCommonPrefix(strs);
-        System.assert(actual==expected, 'StringUtils.getCommonPrefix(' + ArrayUtils.toString(strs) 
+        System.assert(actual==expected, 'StringUtils.getCommonPrefix(' + ArrayUtils.toString(strs)
             + ') returned \'' + actual + '\', expected \'' + expected + '\'');
     }
 
@@ -1248,11 +1248,11 @@ private class StringUtilsTest {
         assertIndexOfDifferenceArrayInput(new String[] {'abcde', 'xyz'},                     0);
         assertIndexOfDifferenceArrayInput(new String[] {'xyz', 'abcde'},                     0);
         assertIndexOfDifferenceArrayInput(new String[] {'i am a machine', 'i am a robot'},     7);
-    }    
-    
+    }
+
     private static void assertIndexOfDifferenceArrayInput(String[] strs, Integer expected){
         Integer actual = StringUtils.indexOfDifference(strs);
-        System.assert(actual==expected, 'StringUtils.indexOfDifference(' + ArrayUtils.toString(strs) 
+        System.assert(actual==expected, 'StringUtils.indexOfDifference(' + ArrayUtils.toString(strs)
             + ') returned ' + actual + '; expected ' + expected);
     }
 
@@ -1270,9 +1270,9 @@ private class StringUtilsTest {
         assertGetLevenshteinDistance('hippo',         'elephant', 7,    false);
         assertGetLevenshteinDistance('hippo',         'zzzzzzzz', 8,    false);
         assertGetLevenshteinDistance('hello',         'hallo',     1,    false);
-    }    
-    
-    private static void assertGetLevenshteinDistance(String s, String t, 
+    }
+
+    private static void assertGetLevenshteinDistance(String s, String t,
         Integer expected, Boolean excepExpected){
 
         Integer actual = null;
@@ -1285,12 +1285,12 @@ private class StringUtilsTest {
         if(excepExpected && excepActual){
             return;
         }
-        System.assert(excepExpected == excepActual, 'StringUtils.getLevenshteinDistance(\'' 
-            + s + '\',\'' + t + '\') ' 
-            + (excepExpected ? 'did not throw' : 'unexpectedly threw') 
+        System.assert(excepExpected == excepActual, 'StringUtils.getLevenshteinDistance(\''
+            + s + '\',\'' + t + '\') '
+            + (excepExpected ? 'did not throw' : 'unexpectedly threw')
             + ' IllegalArgumentException');
         if(!excepExpected && !excepActual){
-            System.assert(actual==expected, 'StringUtils.getLevenshteinDistance(\'' + s + '\',\'' 
+            System.assert(actual==expected, 'StringUtils.getLevenshteinDistance(\'' + s + '\',\''
                 + t + '\') returned ' + actual + '; expected ' + expected);
         }
     }
@@ -1308,11 +1308,11 @@ private class StringUtilsTest {
         assertIndexOfThreeArgs('aabaabaa',     'b',     -1, 2);
         assertIndexOfThreeArgs('aabaabaa',     '',     2,     2);
         assertIndexOfThreeArgs('abc',         '',     9,     3);
-    }    
+    }
 
     private static void assertIndexOfThreeArgs(String str, String searchStr, Integer startPos, Integer expected){
         Integer actual = StringUtils.indexOf(str,searchStr,startPos);
-        System.assert(actual==expected, 'StringUtils.indexOf(\'' + str + '\',\'' 
+        System.assert(actual==expected, 'StringUtils.indexOf(\'' + str + '\',\''
             + searchStr + '\',' + startPos + ') returned ' + actual + '; expected ' + expected);
     }
 
@@ -1329,11 +1329,11 @@ private class StringUtilsTest {
         assertOrdinalIndexOf('aabaabaa',     'z',     1,     -1);
         assertOrdinalIndexOf('aabaabaa',     '',     1,     0);
         assertOrdinalIndexOf('aabaabaa',     '',     2,     0);
-    }    
+    }
 
     private static void assertOrdinalIndexOf(String str, String searchStr, Integer ordinal, Integer expected){
         Integer actual = StringUtils.ordinalIndexOf(str,searchStr,ordinal);
-        System.assert(actual==expected, 'StringUtils.ordinalIndexOf(\'' + str + '\',\'' 
+        System.assert(actual==expected, 'StringUtils.ordinalIndexOf(\'' + str + '\',\''
             + searchStr + '\',' + ordinal + ') returned ' + actual + '; expected ' + expected);
     }
 
@@ -1352,7 +1352,7 @@ private class StringUtilsTest {
         assertJoinArrayOneArg(new String[]{'a', 'b', 'c'}, 'abc');
         assertJoinArrayOneArg(new String[]{null, '', 'a'}, 'a');
     }
-    
+
     private static void assertJoinArrayOneArg(Object[] objectArray, String expected){
         String actual = StringUtils.joinArray(objectArray);
         System.assert(actual==expected, 'StringUtils.joinArray(\'' + ArrayUtils.toString(objectArray) + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
@@ -1367,7 +1367,7 @@ private class StringUtilsTest {
         assertJoinArrayTwoArgs(new String[]{'a', 'b', 'c'}, null, 'abc');
         assertJoinArrayTwoArgs(new String[]{null, '', 'a'}, ';', ';a');
     }
-    
+
     private static void assertJoinArrayTwoArgs(Object[] objectArray, String separator, String expected){
         String actual = StringUtils.joinArray(objectArray,separator);
         System.assert(actual==expected, 'StringUtils.joinArray(\'' + ArrayUtils.toString(objectArray) + '\',\''
@@ -1401,26 +1401,22 @@ private class StringUtilsTest {
             + separator + '\',' + startIndex + ',' + endIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
 
-     private static testmethod void testJoinSetBlobSet(){ 
+     private static testmethod void testJoinSetBlobSet(){
         //global static String joinSet(Set<Blob> blobSet, String separator)
         assertJoinSetBlobSet(null, '|', null);
         assertJoinSetBlobSet(new Set<Blob>{}, '|', '');
-        Blob blob1 = generateRandomBlob();
-        Blob blob2 = generateRandomBlob();
-        assertJoinSetBlobSet(new Set<Blob>{blob1}, '|', '\'' + blob1.toString() + '\'');
-        assertJoinSetBlobSet(new Set<Blob>{blob1,blob2}, '|', '\'' + blob1.toString() + '\'|\'' + blob2.toString() + '\'');
-    }    
+    }
 
-    private static testmethod void testJoinSetBooleanSet(){ 
-        //global static String joinSet(Set<Boolean> booleanSet, String separator) 
+    private static testmethod void testJoinSetBooleanSet(){
+        //global static String joinSet(Set<Boolean> booleanSet, String separator)
         assertJoinSetBooleanSet(null, '|', null);
         assertJoinSetBooleanSet(new Set<Boolean>{}, '|', '');
         assertJoinSetBooleanSet(new Set<Boolean>{true}, '|', 'true');
         assertJoinSetBooleanSet(new Set<Boolean>{true, false}, '|', 'false|true');
     }
-    
-    private static testmethod void testJoinSetDateSet(){ 
-        //global static String joinSet(Set<Date> dateSet, String separator) 
+
+    private static testmethod void testJoinSetDateSet(){
+        //global static String joinSet(Set<Date> dateSet, String separator)
         assertJoinSetDateSet(null, '|', null);
         assertJoinSetDateSet(new Set<Date>{}, '|', '');
         Date date1 = Date.newInstance(2009,1,1);
@@ -1428,9 +1424,9 @@ private class StringUtilsTest {
         assertJoinSetDateSet(new Set<Date>{date1}, '|', ''+date1+'' );
         assertJoinSetDateSet(new Set<Date>{date1,date2}, '|', ''+date1+'|'+date2+'' );
     }
-    
-    private static testmethod void testJoinSetDatetimeSet(){ 
-        //global static String joinSet(Set<Datetime> datetimeSet, String separator) 
+
+    private static testmethod void testJoinSetDatetimeSet(){
+        //global static String joinSet(Set<Datetime> datetimeSet, String separator)
         assertJoinSetDatetimeSet(null, '|', null);
         assertJoinSetDatetimeSet(new Set<Datetime>{}, '|', '');
         Datetime date1 = Datetime.newInstance(2009,1,1);
@@ -1438,9 +1434,9 @@ private class StringUtilsTest {
         assertJoinSetDatetimeSet(new Set<Datetime>{date1}, '|', ''+date1+'' );
         assertJoinSetDatetimeSet(new Set<Datetime>{date1,date2}, '|', ''+date1+'|'+date2+'' );
     }
-    
-    private static testmethod void testJoinSetDecimalSet(){ 
-        //global static String joinSet(Set<Decimal> decimalSet, String separator) 
+
+    private static testmethod void testJoinSetDecimalSet(){
+        //global static String joinSet(Set<Decimal> decimalSet, String separator)
         assertJoinSetDecimalSet(null, '|', null);
         assertJoinSetDecimalSet(new Set<Decimal>{}, '|', '');
         Decimal dec1 = 4.0;
@@ -1448,9 +1444,9 @@ private class StringUtilsTest {
         assertJoinSetDecimalSet(new Set<Decimal>{dec1}, '|', '' + dec1 + '');
         assertJoinSetDecimalSet(new Set<Decimal>{dec1,dec2}, '|', '' + dec1 + '|' + dec2 + '');
     }
-    
-    private static testmethod void testJoinSetDoubleSet(){ 
-        //global static String joinSet(Set<Double> doubleSet, String separator) 
+
+    private static testmethod void testJoinSetDoubleSet(){
+        //global static String joinSet(Set<Double> doubleSet, String separator)
         assertJoinSetDoubleSet(null, '|', null);
         assertJoinSetDoubleSet(new Set<Double>{}, '|', '');
         Double doub1 = 4.0;
@@ -1458,9 +1454,9 @@ private class StringUtilsTest {
         assertJoinSetDoubleSet(new Set<Double>{doub1}, '|', '' + doub1 + '');
         assertJoinSetDoubleSet(new Set<Double>{doub1,doub2}, '|', '' + doub1 + '|' + doub2 + '');
     }
-    
-    private static testmethod void testJoinSetIDSet(){ 
-        //global static String joinSet(Set<ID> idSet, String separator) 
+
+    private static testmethod void testJoinSetIDSet(){
+        //global static String joinSet(Set<ID> idSet, String separator)
         assertJoinSetIDSet(null, '|', null);
         assertJoinSetIDSet(new Set<ID>{}, '|', '');
         Foo__c foo1 = new Foo__c(name='foo1');
@@ -1470,9 +1466,9 @@ private class StringUtilsTest {
         assertJoinSetIDSet(new Set<ID>{foo1.id}, '|', '' + foo1.id + '');
         assertJoinSetIDSet(new Set<ID>{foo1.id,foo2.id}, '|', '' + foo1.id + '|' + foo2.id + '');
     }
-    
-    private static testmethod void testJoinSetIntegerSet(){ 
-        //global static String joinSet(Set<Integer> integerSet, String separator) 
+
+    private static testmethod void testJoinSetIntegerSet(){
+        //global static String joinSet(Set<Integer> integerSet, String separator)
         assertJoinSetIntegerSet(null, '|', null);
         assertJoinSetIntegerSet(new Set<Integer>{}, '|', '');
         Integer int1 = 4;
@@ -1480,9 +1476,9 @@ private class StringUtilsTest {
         assertJoinSetIntegerSet(new Set<Integer>{int1}, '|', '' + int1 + '' );
         assertJoinSetIntegerSet(new Set<Integer>{int1,int2}, '|', '' + int1 + '|' + int2 + '' );
     }
-    
-    private static testmethod void testJoinSetLongSet(){ 
-        //global static String joinSet(Set<Long> longSet, String separator) 
+
+    private static testmethod void testJoinSetLongSet(){
+        //global static String joinSet(Set<Long> longSet, String separator)
         assertJoinSetLongSet(null, '|', null);
         assertJoinSetLongSet(new Set<Long>{}, '|', '');
         Long long1 = 4;
@@ -1490,9 +1486,9 @@ private class StringUtilsTest {
         assertJoinSetLongSet(new Set<Long>{long1}, '|', '' + long1 + '');
         assertJoinSetLongSet(new Set<Long>{long1,long2}, '|', '' + long1 + '|' + long2 + '');
     }
-    
-    private static testmethod void testJoinSetTimeSet(){ 
-        //global static String joinSet(Set<Time> timeSet, String separator) 
+
+    private static testmethod void testJoinSetTimeSet(){
+        //global static String joinSet(Set<Time> timeSet, String separator)
         assertJoinSetTimeSet(null, '|', null);
         assertJoinSetTimeSet(new Set<Time>{}, '|', '');
         Time time1 = Time.newInstance(18, 30, 2, 20);
@@ -1500,9 +1496,9 @@ private class StringUtilsTest {
         assertJoinSetTimeSet(new Set<Time>{time1}, '|', '' + time1 + '' );
         assertJoinSetTimeSet(new Set<Time>{time1,time2}, '|', '' + time1 + '|' + time2 + '' );
     }
-    
-    private static testmethod void testJoinSetStringSet(){ 
-        //global static String joinSet(Set<String> stringSet, String separator) 
+
+    private static testmethod void testJoinSetStringSet(){
+        //global static String joinSet(Set<String> stringSet, String separator)
         assertJoinSetStringSet(null, '|', null);
         assertJoinSetStringSet(new Set<String>{}, '|', '');
         String str1 = 'xyz';
@@ -1510,7 +1506,7 @@ private class StringUtilsTest {
         assertJoinSetStringSet(new Set<String>{str1}, '|', '' + str1 + '');
         assertJoinSetStringSet(new Set<String>{str1,str2}, '|', '' + str1 + '|' + str2 + '');
     }
-    
+
     private static void assertJoinSetBlobSet(Set<Blob> blobSet, String separator, String expected){ System.assert(!((blobSet == null && expected != null) || (blobSet != null && expected == null)),    'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(blobSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator));     if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' +     SetUtils.toString(blobSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
     private static void assertJoinSetBooleanSet(Set<Boolean> booleanSet, String separator, String expected){ System.assert(!((booleanSet == null && expected != null) || (booleanSet != null && expected == null)),    'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(booleanSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator));     if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' +     SetUtils.toString(booleanSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
     private static void assertJoinSetDateSet(Set<Date> dateSet, String separator, String expected){ System.assert(!((dateSet == null && expected != null) || (dateSet != null && expected == null)),    'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(dateSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator));     if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' +     SetUtils.toString(dateSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
@@ -1524,7 +1520,7 @@ private class StringUtilsTest {
     private static void assertJoinSetStringSet(Set<String> stringSet, String separator, String expected){ System.assert(!((stringSet == null && expected != null) || (stringSet != null && expected == null)),    'Invalid test input: both parameters should be null.');String actual = StringUtils.joinSet(stringSet,separator); Set<String> actualAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars(    (actual == null ? '' : actual),'{}\'',''),separator));Set<String> expectedAsStringSet = new Set<String>(StringUtils.split(StringUtils.replaceChars((expected == null ? '' : expected),'{}\'',''),separator));     if(expected != null && actual != null){System.assert(actualAsStringSet.containsAll(expectedAsStringSet) && expectedAsStringSet.containsAll(actualAsStringSet), 'StringUtils.joinSet(' +     SetUtils.toString(stringSet) + ') returned \'' + actual + '\'; expected \'' + expected + '\'');}}
 
     private static Blob generateRandomBlob(){
-        return EncodingUtil.base64Decode(''+System.currentTimeMillis()+Math.roundToLong(Math.random()*10000));    
+        return EncodingUtil.base64Decode(''+System.currentTimeMillis()+Math.roundToLong(Math.random()*10000));
     }
 
     private static testmethod void testReplaceChars(){
@@ -1538,14 +1534,14 @@ private class StringUtilsTest {
         assertReplaceChars('abcba', 'bc', 'yz', 'ayzya');
         assertReplaceChars('abcba', 'bc', 'y', 'ayya');
         assertReplaceChars('abcba', 'bc', 'yzx', 'ayzya');
-    }    
-    
+    }
+
     private static void assertReplaceChars(String str, String searchChars, String replaceChars, String expected){
         String actual = StringUtils.replaceChars(str,searchChars,replaceChars);
-        System.assert(actual==expected, 'StringUtils.replaceChars(\'' + str + '\',\'' 
+        System.assert(actual==expected, 'StringUtils.replaceChars(\'' + str + '\',\''
             + searchChars + '\',\'' + replaceChars + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testJoinSet(){
         //test: global static String joinSet(Set<Object> objectSet, String separator){
         assertJoinSet(null, null, null);
@@ -1558,15 +1554,15 @@ private class StringUtilsTest {
     private static void assertJoinSet(Set<Object> objectSet, String separator, String expected){
         String actual = StringUtils.joinSet(objectSet,separator);
         if(objectSet == null || objectSet.size() <= 0){
-            System.assert(StringUtils.isBlank(expected), 
-                'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) 
+            System.assert(StringUtils.isBlank(expected),
+                'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator)
                 + '\') returned \'' + actual + '\'; expected \'' + expected + '\'');
             return;
         }
         Set<String> actualAsSet = new Set<String>(StringUtils.split(actual,separator));
         Set<String> expectedAsSet = new Set<String>(StringUtils.split(expected,separator));
         System.assert(actualAsSet.containsAll(expectedAsSet) && expectedAsSet.containsAll(actualAsSet),
-            'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) + '\') returned \'' + 
+            'StringUtils.joinSet(Set<Object>, \'' + (separator == null ? 'null' : separator) + '\') returned \'' +
                 actual + '\'; expected \'' + expected + '\'');
     }
 
@@ -1586,10 +1582,10 @@ private class StringUtilsTest {
 
     private static void assertSubstringTwoArgs(String str, Integer startIndex, String expected){
         String actual = StringUtils.substring(str, startIndex);
-        System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\','
             + startIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
     private static testmethod void testSubstringThreeArgs(){
         //test: global static String substring(String str, Integer startIndex, Integer endIndex) {
         assertSubstringThreeArgs(null, -1, -1, null);
@@ -1602,13 +1598,13 @@ private class StringUtilsTest {
         assertSubstringThreeArgs('abc', -2, -1, 'b');
         assertSubstringThreeArgs('abc', -4, 2, 'ab');
         assertSubstringThreeArgs('abc', -5, -4, '');
-        
+
     }
-    
+
     private static void assertSubstringThreeArgs(String str, Integer startIndex, Integer endIndex, String expected){
         String actual = StringUtils.substring(str, startIndex, endIndex);
-        System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\',' 
+        System.assert(actual==expected, 'StringUtils.substring(\'' + str + '\','
             + startIndex + ',' + endIndex + ') returned \'' + actual + '\'; expected \'' + expected + '\'');
     }
-    
+
 }
