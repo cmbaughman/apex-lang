@@ -20,118 +20,118 @@ Originally donated by EDL Consulting.
 List of Classes:
 ---------------
 
-AndCondition.cls
-AndConditionTest.cls
-ArrayUtils.cls
-ArrayUtilsTest.cls
-BooleanUtils.cls
-BooleanUtilsTest.cls
-Character.cls
-CharacterTest.cls
-Condition.cls
-ConditionGroup.cls
-ConditionGroupTest.cls
-DatabaseUtils.cls
-DatabaseUtilsTest.cls
-DateFormula.cls
-DateFormulaTest.cls
-DecimalRange.cls
-DecimalRangeComparator.cls
-DecimalRangeComparatorTest.cls
-DecimalRangeTest.cls
-DoubleRange.cls
-DoubleRangeTest.cls
-EmailUtils.cls
-EmailUtilsTest.cls
-Field.cls
-FieldCondition.cls
-FieldConditionTest.cls
-FieldTest.cls
-GlobalVariable.cls
-GlobalVariableTest.cls
-HttpUtils.cls
-HttpUtilsTest.cls
-ISObjectComparator.cls
-IllegalArgumentException.cls
-IllegalStateException.cls
-IndexOutOfBoundsException.cls
-IntegerRange.cls
-IntegerRangeTest.cls
-InvalidCharacterStringException.cls
-JSONUtils.cls
-JSONUtilsTest.cls
-LanguageUtils.cls
-LanguageUtilsTest.cls
-LongRange.cls
-LongRangeTest.cls
-MapUtils.cls
-MapUtilsTest.cls
-NestableCondition.cls
-NotCondition.cls
-NotConditionTest.cls
-NumberFormatException.cls
-NumberUtils.cls
-NumberUtilsTest.cls
-ObjectComparator.cls
-ObjectPaginator.cls
-ObjectPaginatorListener.cls
-ObjectPaginatorListenerForTesting.cls
-ObjectPaginatorTest.cls
-Operator.cls
-OrCondition.cls
-OrConditionTest.cls
-OrderBy.cls
-OrderByTest.cls
-PageUtils.cls
-PageUtilsTest.cls
-PrimitiveComparator.cls
-PrimitiveComparatorTest.cls
-RandomStringUtils.cls
-RandomStringUtilsTest.cls
-RandomUtils.cls
-RandomUtilsTest.cls
-SObjectComparator.cls
-SObjectPaginator.cls
-SObjectPaginatorListener.cls
-SObjectPaginatorListenerForTesting.cls
-SObjectPaginatorTest.cls
-SObjectSortByFieldComparator.cls
-SObjectSortByFieldComparatorTest.cls
-SObjectSortByNameComparator.cls
-SObjectSortByNameComparatorTest.cls
-SObjectUtils.cls
-SObjectUtilsTest.cls
-SelectOptionComparator.cls
-SelectOptionComparatorTest.cls
-SelectOptionWrapper.cls
-SetCondition.cls
-SetConditionTest.cls
-SetUtils.cls
-SetUtilsTest.cls
-SoqlBuilder.cls
-SoqlBuilderTest.cls
-SoqlOptions.cls
-SoqlOptionsTest.cls
-SoqlUtils.cls
-SoqlUtilsTest.cls
-Soqlable.cls
-StickyParametersController.cls
-StickyParametersControllerTest.cls
-StopWatch.cls
-StopWatchTest.cls
-StringBuffer.cls
-StringBufferTest.cls
-StringUtils.cls
-StringUtils2Test.cls
-StringUtilsTest.cls
-SystemUtils.cls
-SystemUtilsTest.cls
-TestUtils.cls
-TestUtilsTest.cls
-UnitOfTime.cls
-UrlUtils.cls
-UrlUtilsTest.cls
-UserUtils.cls
-UserUtilsTest.cls
-WordUtils.cls
-WordUtilsTest.cls
+- AndCondition.cls
+- AndConditionTest.cls
+- ArrayUtils.cls
+- ArrayUtilsTest.cls
+- BooleanUtils.cls
+- BooleanUtilsTest.cls
+- Character.cls
+- CharacterTest.cls
+- Condition.cls
+- ConditionGroup.cls
+- ConditionGroupTest.cls
+- DatabaseUtils.cls
+- DatabaseUtilsTest.cls
+- DateFormula.cls
+- DateFormulaTest.cls
+- DecimalRange.cls
+- DecimalRangeComparator.cls
+- DecimalRangeComparatorTest.cls
+- DecimalRangeTest.cls
+- DoubleRange.cls
+- DoubleRangeTest.cls
+- EmailUtils.cls
+- EmailUtilsTest.cls
+- Field.cls
+- FieldCondition.cls
+- FieldConditionTest.cls
+- FieldTest.cls
+- GlobalVariable.cls
+- GlobalVariableTest.cls
+- HttpUtils.cls
+- HttpUtilsTest.cls
+- ISObjectComparator.cls
+- IllegalArgumentException.cls
+- IllegalStateException.cls
+- IndexOutOfBoundsException.cls
+- IntegerRange.cls
+- IntegerRangeTest.cls
+- InvalidCharacterStringException.cls
+- JSONUtils.cls
+- JSONUtilsTest.cls
+- LanguageUtils.cls
+- LanguageUtilsTest.cls
+- LongRange.cls
+- LongRangeTest.cls
+- MapUtils.cls
+- MapUtilsTest.cls
+- NestableCondition.cls
+- NotCondition.cls
+- NotConditionTest.cls
+- NumberFormatException.cls
+- NumberUtils.cls
+- NumberUtilsTest.cls
+- ObjectComparator.cls
+- ObjectPaginator.cls
+- ObjectPaginatorListener.cls
+- ObjectPaginatorListenerForTesting.cls
+- ObjectPaginatorTest.cls
+- Operator.cls
+- OrCondition.cls
+- OrConditionTest.cls
+- OrderBy.cls
+- OrderByTest.cls
+- PageUtils.cls
+- PageUtilsTest.cls
+- PrimitiveComparator.cls
+- PrimitiveComparatorTest.cls
+- RandomStringUtils.cls
+- RandomStringUtilsTest.cls
+- RandomUtils.cls
+- RandomUtilsTest.cls
+- SObjectComparator.cls
+- SObjectPaginator.cls
+- SObjectPaginatorListener.cls
+- SObjectPaginatorListenerForTesting.cls
+- SObjectPaginatorTest.cls
+- SObjectSortByFieldComparator.cls
+- SObjectSortByFieldComparatorTest.cls
+- SObjectSortByNameComparator.cls
+- SObjectSortByNameComparatorTest.cls
+- SObjectUtils.cls
+- SObjectUtilsTest.cls
+- SelectOptionComparator.cls
+- SelectOptionComparatorTest.cls
+- SelectOptionWrapper.cls
+- SetCondition.cls
+- SetConditionTest.cls
+- SetUtils.cls
+- SetUtilsTest.cls
+- SoqlBuilder.cls
+- SoqlBuilderTest.cls
+- SoqlOptions.cls
+- SoqlOptionsTest.cls
+- SoqlUtils.cls
+- SoqlUtilsTest.cls
+- Soqlable.cls
+- StickyParametersController.cls
+- StickyParametersControllerTest.cls
+- StopWatch.cls
+- StopWatchTest.cls
+- StringBuffer.cls
+- StringBufferTest.cls
+- StringUtils.cls
+- StringUtils2Test.cls
+- StringUtilsTest.cls
+- SystemUtils.cls
+- SystemUtilsTest.cls
+- TestUtils.cls
+- TestUtilsTest.cls
+- UnitOfTime.cls
+- UrlUtils.cls
+- UrlUtilsTest.cls
+- UserUtils.cls
+- UserUtilsTest.cls
+- WordUtils.cls
+- WordUtilsTest.cls
