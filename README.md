@@ -128,6 +128,7 @@ List of Classes:
 - SystemUtilsTest.cls
 - TestUtils.cls
 - TestUtilsTest.cls
+- TouchRecords.cls
 - UnitOfTime.cls
 - UrlUtils.cls
 - UrlUtilsTest.cls
