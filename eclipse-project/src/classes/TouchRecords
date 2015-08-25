@@ -1,0 +1,24 @@
+global class TouchRecords implements Database.Batchable<sObject> {
+	/*
+	 * USAGE: Put this in the console:
+	 *		Id batchInstanceId = Database.executeBatch(new TouchRecords('SELECT Id FROM Deployments__c'));
+	 */
+	private String query;
+
+	global TouchRecords(String query) {
+		this.query = query;
+	}
+
+	global Database.QueryLocator start(Database.BatchableContext BC) {
+		return Database.getQueryLocator(query);
+	}
+
+  global void execute(Database.BatchableContext BC, List<sObject> scope) {
+  	update scope;
+	}
+
+	global void finish(Database.BatchableContext BC) {
+		System.debug('All records are touched...');
+	}
+
+}
