@@ -1,11 +1,11 @@
 /* ============================================================
  * This code is part of the "apex-lang" open source project avaiable at:
- * 
+ *
  *      http://code.google.com/p/apex-lang/
  *
- * This code is licensed under the Apache License, Version 2.0.  You may obtain a 
+ * This code is licensed under the Apache License, Version 2.0.  You may obtain a
  * copy of the License at:
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  * ============================================================
  */
@@ -14,7 +14,7 @@ global class MapUtils {
     global static List<String> joinMap(Map<String,String> theMap, String keyValueSeparator){
         return joinx(theMap, keyValueSeparator);
     }
-    
+
     global static List<String> joinx(Map<String,String> theMap, String keyValueSeparator){
         List<String> returnValue = null;
         if(theMap != null){
@@ -34,7 +34,7 @@ global class MapUtils {
     global static String joinMap(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
         return joinx(theMap, keyValueSeparator, recordSeparator);
     }
-        
+
     global static String joinx(Map<String,String> theMap, String keyValueSeparator, String recordSeparator){
         String returnValue = null;
         if(theMap != null){
@@ -45,16 +45,16 @@ global class MapUtils {
         }
         return returnValue;
     }
-    
+
     global static String toString(Map<String,String> theMap){
         return '<Map#([' + joinMap(theMap,'=',';') + '])>';
     }
-    
+
     global static Boolean equals(Map<String,String> map1, Map<String,String> map2){
         if(map1 == null && map2 == null){
             return true;
         }
-        if((map1 != null && map2 == null) 
+        if((map1 != null && map2 == null)
             || (map1 == null && map2 != null)
             || (map1.size() != map2.size())){
             return false;
@@ -69,13 +69,13 @@ global class MapUtils {
         }
         return true;
     }
-    
+
     global static void assertEquals(Map<String,String> expected, Map<String,String> actual){
         System.assert(
              equals(expected,actual)
-            ,'Assertion failed, the following two maps are not equal.  Expected: ' 
-                + expected 
-                + ', Actual: ' 
+            ,'Assertion failed, the following two maps are not equal.  Expected: '
+                + expected
+                + ', Actual: '
                 + actual);
     }
 
@@ -118,7 +118,7 @@ global class MapUtils {
         return returnValue;
     }
 
-    
+
     global static Map<String,String> lowerCaseValues(Map<String,String> theMap){
         final Map<String,String> returnValue = null;
         if(theMap != null){
@@ -183,32 +183,4 @@ global class MapUtils {
         }
         return returnValue;
     }
-
-    /*
-    global static Map<Object,Object> indexObjectObject(
-         List<SObject> records
-        ,String        keyFieldName   //must be a string field
-        ,String        valueFieldName //must be a string field
-    ){
-        final Map<Object,Object> returnValue = null;
-        if(records != null){
-            returnValue = new Map<Object,Object>();
-            if(records.size() > 0){
-                Object key = null;
-                for(SObject record : records){
-                    if(record != null){
-                        key = record.get(keyFieldName);
-                        if(key != null){
-                            returnValue.put(
-                                 key
-                                ,record.get(valueFieldName)
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        return returnValue;
-    }
-    */
 }

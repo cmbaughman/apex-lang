@@ -1568,7 +1568,7 @@ global class StringUtils {
             return null;
         }
         if (str.length() == 0) {
-            return ArrayUtils.EMPTY_STRING_ARRAY;
+            return new String[]{};
         }
         List<String> aList = new List<String>();
         Integer tokenStart = 0;
