@@ -564,17 +564,17 @@ private class CharacterTest {
     private static testmethod void testIsAsciiControl(){
         //test: global static boolean isAsciiControl(String character) {
         for(Integer i = 0; i < CHARS_ASCII_CONTROL.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_CONTROL,i), true);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_CONTROL,i), true);        
         }
         for(Integer i = 0; i < CHARS_ASCII_PRINTABLE.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_PRINTABLE,i), false);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_PRINTABLE,i), false);        
         }
         for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_NON_ASCII,i), false);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_NON_ASCII,i), false);        
         }
     }     
 
-    private static void asertIsAsciiControl(String charactr, Boolean expected){
+    private static void assertIsAsciiControl(String charactr, Boolean expected){
         Boolean actual = Character.isAsciiControl(charactr); 
         System.assert(actual==expected, 'Character.isAsciiControl(\'' + charactr + '\') returned ' + actual);
     }
