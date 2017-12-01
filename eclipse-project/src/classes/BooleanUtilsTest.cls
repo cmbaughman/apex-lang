@@ -47,7 +47,7 @@ private class BooleanUtilsTest {
         System.assertEquals(BooleanUtils.negate(null),null);
     }
     
-    private static testmethod void testToBoolanDefaultIfNull()
+    private static testmethod void testToBooleanDefaultIfNull()
     {
         System.assertEquals(BooleanUtils.toBooleanDefaultIfNull(true,false),true);
         System.assertEquals(BooleanUtils.toBooleanDefaultIfNull(false,false),false);
