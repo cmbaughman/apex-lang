@@ -170,7 +170,7 @@ global class Character {
         
     global static void validateChar(String character){
         if(character != null && character.length() != 1){
-            throw new InvalidCharacterStringException('Invalid charcter string: ' + character);
+            throw new InvalidCharacterStringException('Invalid character string: ' + character);
         }
     }
 
