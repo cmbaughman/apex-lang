@@ -28,7 +28,7 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   `public String escapeMode {get; set;}`
 
-  The way to escape an occurance of the text qualifier inside qualified data. You can use [#ESCAPE_MODE_DOUBLED CSVParser.ESCAPE_MODE_DOUBLED] or [#ESCAPE_MODE_BACKSLASH CSVParser.ESCAPE_MODE_BACKSLASH].
+  The way to escape an occurrence of the text qualifier inside qualified data. You can use [#ESCAPE_MODE_DOUBLED CSVParser.ESCAPE_MODE_DOUBLED] or [#ESCAPE_MODE_BACKSLASH CSVParser.ESCAPE_MODE_BACKSLASH].
 
   Default value is [#ESCAPE_MODE_DOUBLED CSVParser.ESCAPE_MODE_DOUBLED].
 
@@ -45,13 +45,13 @@ To use the CSVParser, you need to new a CSVParser instance first. Then set the p
 
   `public static String ESCAPE_MODE_DOUBLED`
 
-  Double up the text qualifier to represent an occurance of the text qualifier.
+  Double up the text qualifier to represent an occurrence of the text qualifier.
   
   * ####ESCAPE_MODE_BACKSLASH
 
   `public static String ESCAPE_MODE_BACKSLASH`
 
-  Use a backslash character before the text qualifier to represent an occurance of the text qualifier.
+  Use a backslash character before the text qualifier to represent an occurrence of the text qualifier.
 
 ##Example
 
