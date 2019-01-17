@@ -1,5 +1,5 @@
 /* ============================================================
- * This code is part of the "apex-lang" open source project avaiable at:
+ * This code is part of the "apex-lang" open source project available at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
@@ -47,7 +47,7 @@ private class BooleanUtilsTest {
         System.assertEquals(BooleanUtils.negate(null),null);
     }
     
-    private static testmethod void testToBoolanDefaultIfNull()
+    private static testmethod void testToBooleanDefaultIfNull()
     {
         System.assertEquals(BooleanUtils.toBooleanDefaultIfNull(true,false),true);
         System.assertEquals(BooleanUtils.toBooleanDefaultIfNull(false,false),false);

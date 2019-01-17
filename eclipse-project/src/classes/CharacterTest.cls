@@ -1,5 +1,5 @@
 /* ============================================================
- * This code is part of the "apex-lang" open source project avaiable at:
+ * This code is part of the "apex-lang" open source project available at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
@@ -505,9 +505,9 @@ private class CharacterTest {
         }
     }
     
-    private static void assertToAscii(String charactr, Integer expected){
-        Integer actual = Character.toAscii(charactr); 
-        System.assert(actual==expected, 'Character.toAscii(' + charactr + ') returned \'' 
+    private static void assertToAscii(String character, Integer expected){
+        Integer actual = Character.toAscii(character); 
+        System.assert(actual==expected, 'Character.toAscii(' + character + ') returned \'' 
             + actual + '\'; expected \'' +expected + '\'');
     }
 
@@ -541,9 +541,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAscii(String charactr, Boolean expected){
-        Boolean actual = Character.isAscii(charactr); 
-        System.assert(actual==expected, 'Character.isAscii(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAscii(String character, Boolean expected){
+        Boolean actual = Character.isAscii(character); 
+        System.assert(actual==expected, 'Character.isAscii(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiPrintable(){
@@ -556,27 +556,27 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiPrintable(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiPrintable(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiPrintable(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiPrintable(String character, Boolean expected){
+        Boolean actual = Character.isAsciiPrintable(character); 
+        System.assert(actual==expected, 'Character.isAsciiPrintable(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiControl(){
         //test: global static boolean isAsciiControl(String character) {
         for(Integer i = 0; i < CHARS_ASCII_CONTROL.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_CONTROL,i), true);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_CONTROL,i), true);        
         }
         for(Integer i = 0; i < CHARS_ASCII_PRINTABLE.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_PRINTABLE,i), false);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_ASCII_PRINTABLE,i), false);        
         }
         for(Integer i = 0; i < CHARS_NON_ASCII.length(); i++){
-            asertIsAsciiControl(StringUtils.charAt(CHARS_NON_ASCII,i), false);        
+            assertIsAsciiControl(StringUtils.charAt(CHARS_NON_ASCII,i), false);        
         }
     }     
 
-    private static void asertIsAsciiControl(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiControl(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiControl(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiControl(String character, Boolean expected){
+        Boolean actual = Character.isAsciiControl(character); 
+        System.assert(actual==expected, 'Character.isAsciiControl(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiAlpha(){
@@ -595,9 +595,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiAlpha(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiAlpha(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiAlpha(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiAlpha(String character, Boolean expected){
+        Boolean actual = Character.isAsciiAlpha(character); 
+        System.assert(actual==expected, 'Character.isAsciiAlpha(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiAlphaUpper(){
@@ -616,9 +616,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiAlphaUpper(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiAlphaUpper(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiAlphaUpper(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiAlphaUpper(String character, Boolean expected){
+        Boolean actual = Character.isAsciiAlphaUpper(character); 
+        System.assert(actual==expected, 'Character.isAsciiAlphaUpper(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiAlphaLower(){
@@ -637,9 +637,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiAlphaLower(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiAlphaLower(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiAlphaLower(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiAlphaLower(String character, Boolean expected){
+        Boolean actual = Character.isAsciiAlphaLower(character); 
+        System.assert(actual==expected, 'Character.isAsciiAlphaLower(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiNumeric(){
@@ -658,9 +658,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiNumeric(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiNumeric(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiNumeric(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiNumeric(String character, Boolean expected){
+        Boolean actual = Character.isAsciiNumeric(character); 
+        System.assert(actual==expected, 'Character.isAsciiNumeric(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testIsAsciiAlphanumeric(){
@@ -679,9 +679,9 @@ private class CharacterTest {
         }
     }     
     
-    private static void assertIsAsciiAlphanumeric(String charactr, Boolean expected){
-        Boolean actual = Character.isAsciiAlphanumeric(charactr); 
-        System.assert(actual==expected, 'Character.isAsciiAlphanumeric(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiAlphanumeric(String character, Boolean expected){
+        Boolean actual = Character.isAsciiAlphanumeric(character); 
+        System.assert(actual==expected, 'Character.isAsciiAlphanumeric(\'' + character + '\') returned ' + actual);
     }
 
     private static testmethod void testIsDigit(){
@@ -700,9 +700,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsAsciiDigit(String charactr, Boolean expected){
-        Boolean actual = Character.isDigit(charactr); 
-        System.assert(actual==expected, 'Character.isDigit(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsAsciiDigit(String character, Boolean expected){
+        Boolean actual = Character.isDigit(character); 
+        System.assert(actual==expected, 'Character.isDigit(\'' + character + '\') returned ' + actual);
     }
 
     private static testmethod void testIsLetter(){
@@ -721,9 +721,9 @@ private class CharacterTest {
         }
     }     
 
-    private static void assertIsLetter(String charactr, Boolean expected){
-        Boolean actual = Character.isLetter(charactr); 
-        System.assert(actual==expected, 'Character.isLetter(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsLetter(String character, Boolean expected){
+        Boolean actual = Character.isLetter(character); 
+        System.assert(actual==expected, 'Character.isLetter(\'' + character + '\') returned ' + actual);
     }
 
     private static testmethod void testIsLetterOrDigit(){
@@ -742,9 +742,9 @@ private class CharacterTest {
         }
     }     
     
-    private static void assertIsLetterOrDigit(String charactr, Boolean expected){
-        Boolean actual = Character.isLetterOrDigit(charactr); 
-        System.assert(actual==expected, 'Character.isLetterOrDigit(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsLetterOrDigit(String character, Boolean expected){
+        Boolean actual = Character.isLetterOrDigit(character); 
+        System.assert(actual==expected, 'Character.isLetterOrDigit(\'' + character + '\') returned ' + actual);
     }
 
     private static testmethod void testIsWhitespace(){
@@ -766,9 +766,9 @@ private class CharacterTest {
         }
     }     
     
-    private static void assertIsWhitespace(String charactr, Boolean expected){
-        Boolean actual = Character.isWhitespace(charactr); 
-        System.assert(actual==expected, 'Character.isWhitespace(\'' + charactr + '\') returned ' + actual);
+    private static void assertIsWhitespace(String character, Boolean expected){
+        Boolean actual = Character.isWhitespace(character); 
+        System.assert(actual==expected, 'Character.isWhitespace(\'' + character + '\') returned ' + actual);
     }
             
     private static testmethod void testGetType(){
@@ -877,9 +877,9 @@ private class CharacterTest {
         assertGetType(Character.toChar(127), Character.CONTROL); 
     }     
     
-    private static void assertGetType(String charactr, Integer expected){
-        Integer actual = Character.getType(charactr); 
-        System.assert(actual==expected, 'Character.getType(\'' + charactr + '\') returned ' + actual
+    private static void assertGetType(String character, Integer expected){
+        Integer actual = Character.getType(character); 
+        System.assert(actual==expected, 'Character.getType(\'' + character + '\') returned ' + actual
             + ', expected ' + expected);
     }
             

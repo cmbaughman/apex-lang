@@ -1,5 +1,5 @@
 /* ============================================================
- * This code is part of the 'apex-lang' open source project avaiable at:
+ * This code is part of the 'apex-lang' open source project available at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
@@ -240,7 +240,7 @@ global class WordUtils {
         Integer index = StringUtils.indexOf(str, ' ', lower);
         if (index == -1) {
             result += str.substring(0, upper);
-            // only if abbreviation has occured do we append the appendToEnd value
+            // only if abbreviation has occurred do we append the appendToEnd value
             if (upper != str.length()) {
                 result += StringUtils.defaultString(appendToEnd);
             }

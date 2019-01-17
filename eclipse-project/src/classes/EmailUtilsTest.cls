@@ -1,7 +1,7 @@
 /* ============================================================
  * Contributor: Caleb Sidel
  * 
- * This code is part of the "apex-lang" open source project avaiable at:
+ * This code is part of the "apex-lang" open source project available at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
@@ -15,31 +15,31 @@
 private class EmailUtilsTest {
 
     static testMethod void testsendEmail_test() {
-        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
-        EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
-        EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+        List<String> recipients=new String[]{'test@test.com','test2@test.com'};
+        EmailUtils.sendTextEmail(recipients,'Test method', 'This is to test the sendTextNotificationEmail method');
+        EmailUtils.sendHTMLEmail(recipients,'Test method', 'This is to test the sendTextNotificationEmail method');
     } 
     
-    static testMethod void testsendEmailNoReceipients_test() {
-        List<String> recepients=null;
-        EmailUtils.sendTextEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+    static testMethod void testsendEmailNoRecipients_test() {
+        List<String> recipients=null;
+        EmailUtils.sendTextEmail(recipients,'Test method', 'This is to test the sendTextNotificationEmail method');
         
-        recepients=new List<String>();
-        EmailUtils.sendHTMLEmail(recepients,'Test method', 'This is to test the sendTextNotificationEmail method');
+        recipients=new List<String>();
+        EmailUtils.sendHTMLEmail(recipients,'Test method', 'This is to test the sendTextNotificationEmail method');
     }
     
     static testMethod void testsendEmailWithAttachment_test() {
-        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
+        List<String> recipients=new String[]{'test@test.com','test2@test.com'};
         List<Attachment> stdAttachments = new List<Attachment>();
         Attachment a = new Attachment();
         a.Name = 'Test';
         a.Body = EncodingUtil.base64Decode('Test Body');
         stdAttachments.add(a);
-        EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
+        EmailUtils.sendEmailWithStandardAttachments(recipients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
     }
     
     static testMethod void testsendEmailWithAttachmentIDs_test() {
-        List<String> recepients=new String[]{'test@test.com','test2@test.com'};
+        List<String> recipients=new String[]{'test@test.com','test2@test.com'};
         List<ID> stdAttachments = new List<ID>();
         
         Foo__c foo = new Foo__c(name='Test Foo__c');
@@ -51,7 +51,7 @@ private class EmailUtilsTest {
         a.Body = EncodingUtil.base64Decode('Test Body');
         insert a;
         stdAttachments.add(a.Id);
-        EmailUtils.sendEmailWithStandardAttachments(recepients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
+        EmailUtils.sendEmailWithStandardAttachments(recipients,'Test method', 'This is to test the sendTextNotificationEmail method',false,stdAttachments);
     }
 
     private static testmethod void testIsNotValidEmailAddress(){

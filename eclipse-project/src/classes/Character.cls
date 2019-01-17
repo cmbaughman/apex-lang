@@ -1,5 +1,5 @@
 /* ============================================================
- * This code is part of the "apex-lang" open source project avaiable at:
+ * This code is part of the "apex-lang" open source project available at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
@@ -170,7 +170,7 @@ global class Character {
         
     global static void validateChar(String character){
         if(character != null && character.length() != 1){
-            throw new InvalidCharacterStringException('Invalid charcter string: ' + character);
+            throw new InvalidCharacterStringException('Invalid character string: ' + character);
         }
     }
 
